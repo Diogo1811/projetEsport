@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{editor}}{% endblock %}
+
+{% block body %}
+    <h1>{{editor}}</h1>
+        
+    <p>Son siège sociale : <a href="{{ path('details_country', {'id': editor.country.id}) }}">{{ editor.country }}</a></p>
+
+    <a href="{{ path('edit_editor', {'id': editor.id}) }}" class="btn btn-warning">Modifier {{ editor }}</a>
+    <a href="{{ path('delete_editor', {'id': editor.id}) }}" class="btn btn-danger">Supprimer {{ editor }}</a>
+
+
+{% endblock %}

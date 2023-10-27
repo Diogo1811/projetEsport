@@ -29,9 +29,13 @@ class Editor
     #[ORM\OneToMany(mappedBy: 'editor', targetEntity: Game::class)]
     private Collection $games;
 
+    #[ORM\OneToMany(mappedBy: 'editor', targetEntity: SocialMediaAccount::class)]
+    private Collection $socialMediaAccounts;
+
     public function __construct()
     {
         $this->games = new ArrayCollection();
+        $this->socialMediaAccounts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -103,5 +107,41 @@ class Editor
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, SocialMediaAccount>
+     */
+    public function getSocialMediaAccounts(): Collection
+    {
+        return $this->socialMediaAccounts;
+    }
+
+    public function addSocialMediaAccount(SocialMediaAccount $socialMediaAccount): static
+    {
+        if (!$this->socialMediaAccounts->contains($socialMediaAccount)) {
+            $this->socialMediaAccounts->add($socialMediaAccount);
+            $socialMediaAccount->setEditor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSocialMediaAccount(SocialMediaAccount $socialMediaAccount): static
+    {
+        if ($this->socialMediaAccounts->removeElement($socialMediaAccount)) {
+            // set the owning side to null (unless already changed)
+            if ($socialMediaAccount->getEditor() === $this) {
+                $socialMediaAccount->setEditor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    //adding a  __tostring function
+    public function __toString()
+    {
+        return ucfirst($this->getName());
     }
 }

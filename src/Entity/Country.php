@@ -152,4 +152,10 @@ class Country
 
         return $this;
     }
+
+    //adding a  __tostring function
+    public function __toString()
+    {
+        return ucwords($this->name);
+    }
 }

@@ -53,9 +53,13 @@ class Team
     #[ORM\OneToMany(mappedBy: 'team', targetEntity: Roster::class, orphanRemoval: true)]
     private Collection $rosters;
 
+    #[ORM\OneToMany(mappedBy: 'team', targetEntity: SocialMediaAccount::class)]
+    private Collection $socialMediaAccounts;
+
     public function __construct()
     {
         $this->rosters = new ArrayCollection();
+        $this->socialMediaAccounts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -219,6 +223,36 @@ class Team
             // set the owning side to null (unless already changed)
             if ($roster->getTeam() === $this) {
                 $roster->setTeam(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SocialMediaAccount>
+     */
+    public function getSocialMediaAccounts(): Collection
+    {
+        return $this->socialMediaAccounts;
+    }
+
+    public function addSocialMediaAccount(SocialMediaAccount $socialMediaAccount): static
+    {
+        if (!$this->socialMediaAccounts->contains($socialMediaAccount)) {
+            $this->socialMediaAccounts->add($socialMediaAccount);
+            $socialMediaAccount->setTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSocialMediaAccount(SocialMediaAccount $socialMediaAccount): static
+    {
+        if ($this->socialMediaAccounts->removeElement($socialMediaAccount)) {
+            // set the owning side to null (unless already changed)
+            if ($socialMediaAccount->getTeam() === $this) {
+                $socialMediaAccount->setTeam(null);
             }
         }
 

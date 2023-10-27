@@ -1,0 +1,178 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+}
+
+/****************************************************** HEADER *****************************************************/
+#siteHeader{
+    width: 100%;
+    height: auto;
+    min-height: 10vh;
+    background-color: #92D2F1;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    
+}
+
+#siteHeader nav{
+    width: 70%;
+    height: 5vh;
+    background-color: #DBF0FA;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+#siteName{
+    margin: 0;
+}
+
+.navBar{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+#siteHeader ul li{
+    list-style: none;
+}
+
+#siteHeader a{
+    text-decoration: none;
+    font-size: large;
+    color: #333;
+}
+
+/* this is how the header's a will behave themselves when a user passes over it */
+#siteHeader a:hover{
+    color: blue;
+    font-size: larger;
+}
+
+.dropdown-menu{
+    background-color: #DBF0FA;
+    min-width: 9rem;
+}
+
+/****************************************** FOOTER *************************************************************/
+#siteFooter{
+    width: 100%;
+    height: auto;
+    min-height: 10vh;
+    background-color: #92D2F1;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#siteFooter p{
+    margin: 0;
+}
+
+.socialMedia{
+    width: 30%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.socialMedia a{
+    color: #131D74;
+}
+
+.socialMedia a i{
+    font-size: 3.5rem;
+}
+
+.socialMedia a:hover{
+    color: #5D628E;
+}
+
+/********************************************************* MAIN ************************************************/
+#siteMain{
+    width: 100%;
+    height: auto;
+    min-height: 80vh;
+    background-color: #92D2F1;
+}
+
+#container{
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+}
+
+h1{
+    width: 100%;
+    text-align: center;
+}
+
+/******************************************************* LIST COUNTRIES PAGE ***************************************/
+#countriesList{
+    margin-top: 30px;
+    margin-bottom: 0;
+    padding-left: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+#countriesList li{
+    width: 15%;
+}
+
+.countryContainer{
+    display: flex;
+    margin-bottom: 0;
+}
+
+.countryImage{
+    width: 60px;
+}
+
+.countryContainer figcaption{
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    font-size: 1.5rem;
+}
+
+.countryContainer figcaption a{
+    color: #333;
+    text-decoration: none;
+}
+
+.countryContainer figcaption a:Hover{
+    color: blue;
+    font-size: 1.7rem;
+}
+
+
+/******************************************************* DETAILS COUNTRY ***************************************/
+.countryFlag{
+    display: flex;
+    justify-content: center;
+}
+
+.countryFlag img{
+    width: 80px;
+    margin-right: 10px;
+}
+
+.countryFlag figcaption{
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+}

@@ -29,16 +29,16 @@ class Game
     #[ORM\JoinColumn(nullable: false)]
     private ?Editor $editor = null;
 
-    #[ORM\OneToMany(mappedBy: 'game', targetEntity: Roster::class, orphanRemoval: true)]
-    private Collection $rosters;
-
     #[ORM\OneToMany(mappedBy: 'game', targetEntity: Tournament::class)]
     private Collection $tournaments;
 
+    #[ORM\OneToMany(mappedBy: 'game', targetEntity: SocialMediaAccount::class)]
+    private Collection $socialMediaAccounts;
+
     public function __construct()
     {
-        $this->rosters = new ArrayCollection();
         $this->tournaments = new ArrayCollection();
+        $this->socialMediaAccounts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -95,36 +95,6 @@ class Game
     }
 
     /**
-     * @return Collection<int, Roster>
-     */
-    public function getRosters(): Collection
-    {
-        return $this->rosters;
-    }
-
-    public function addRoster(Roster $roster): static
-    {
-        if (!$this->rosters->contains($roster)) {
-            $this->rosters->add($roster);
-            $roster->setGame($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRoster(Roster $roster): static
-    {
-        if ($this->rosters->removeElement($roster)) {
-            // set the owning side to null (unless already changed)
-            if ($roster->getGame() === $this) {
-                $roster->setGame(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Tournament>
      */
     public function getTournaments(): Collection
@@ -152,5 +122,41 @@ class Game
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, SocialMediaAccount>
+     */
+    public function getSocialMediaAccounts(): Collection
+    {
+        return $this->socialMediaAccounts;
+    }
+
+    public function addSocialMediaAccount(SocialMediaAccount $socialMediaAccount): static
+    {
+        if (!$this->socialMediaAccounts->contains($socialMediaAccount)) {
+            $this->socialMediaAccounts->add($socialMediaAccount);
+            $socialMediaAccount->setGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSocialMediaAccount(SocialMediaAccount $socialMediaAccount): static
+    {
+        if ($this->socialMediaAccounts->removeElement($socialMediaAccount)) {
+            // set the owning side to null (unless already changed)
+            if ($socialMediaAccount->getGame() === $this) {
+                $socialMediaAccount->setGame(null);
+            }
+        }
+
+        return $this;
+    }
+
+    //adding a  __tostring function
+    public function __toString()
+    {
+        return ucfirst($this->getName());
     }
 }

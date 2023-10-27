@@ -26,10 +26,6 @@ class Roster
     #[ORM\JoinColumn(nullable: false)]
     private ?Team $team = null;
 
-    #[ORM\ManyToOne(inversedBy: 'rosters')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Game $game = null;
-
     #[ORM\OneToMany(mappedBy: 'roster', targetEntity: TournamentResult::class)]
     private Collection $tournamentResults;
 
@@ -83,18 +79,6 @@ class Roster
     public function setTeam(?Team $team): static
     {
         $this->team = $team;
-
-        return $this;
-    }
-
-    public function getGame(): ?Game
-    {
-        return $this->game;
-    }
-
-    public function setGame(?Game $game): static
-    {
-        $this->game = $game;
 
         return $this;
     }

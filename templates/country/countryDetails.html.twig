@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{country}}{% endblock %}
+
+{% block body %}
+
+    {# This figure contains the flag of the country and the title of the page which is the country's name #}
+    <figure class="countryFlag">
+        <img src="{{country.flag}}" alt="Drapeau {{ country }}">
+        <figcaption>
+            <h1>{{country}}</h1>
+        </figcaption>
+    </figure>
+
+    <article class="countryEditors">
+        <h2>Liste des éditeurs de jeux</h2>
+        <ul>
+            {% if country.editors %}
+                {% for editor in country.editors %}
+                    <li><a href="{{ path('details_editor', {'id': editor.id}) }}">{{ editor }}</a></li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </article>
+
+    <a href="{{ path('edit_country', {'id': country.id}) }}" class="btn btn-warning">Modifier {{ country }}</a>
+    <a href="{{ path('delete_country', {'id': country.id}) }}" class="btn btn-danger">Supprimer {{ country }}</a>
+
+
+{% endblock %}

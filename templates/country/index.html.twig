@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Pays ayant des équipes d'esport !{% endblock %}
+
+{% block body %}
+
+    <h1>Liste des Pays ayant des équipes d'esport participant à des tournois officiels !</h1>
+
+    <ul id="countriesList">
+        {% for country in countries %}
+            <li>
+                <figure class="countryContainer">
+                    <img src="{{ country.flag }}" class="countryImage" alt="Drapeau {{ country }}">
+                    <figcaption>
+                        <a href="{{ path('details_country', {'id': country.id}) }}">{{ country }}</a>
+                    </figcaption>
+                </figure>
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des éditeurs de jeux qui offrent à des équipes d'esport la possibilité de participer à des tournois officiels !{% endblock %}
+
+{% block body %}
+
+    <h1>Liste des éditeurs de jeux !</h1>
+
+    <ul id="editorsList">
+        {% for editor in editors %}
+            <li>
+                <a href="{{ path('details_editor', {'id': editor.id}) }}">{{ editor }}</a>
+                <a target="_blank" href="{{editor.linkToOfficialPage}}" class="linkToEditor">lien vers la page officielle</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajoutez un Pays !{% endblock %}
+
+{% block body %}
+        
+    {# if the var edit is set it means we are in a modify form not in an add one so we adjust the title #}
+    {% if edit %}
+        <h1>Modifier {{ edit }}</h1>
+    {% else %}
+        <h1>Ajouter un Pays !</h1>
+    {% endif %}
+        
+    {# First form is the FUNCTION the second one is the var creates in the controller #}
+    {{ form(form) }}
+   
+{% endblock %}

@@ -2,15 +2,98 @@
 <html>
     <head>
         <meta charset="UTF-8">
+
+        {# link for fontAwesome #}
+        <script src="https://kit.fontawesome.com/d08e193109.js" crossorigin="anonymous"></script>
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+
         {% block stylesheets %}
+            
+
+            {# Link for bootstrap's css #}
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+            {# Link for my own css #}
+            <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         {% endblock %}
 
-        {% block javascripts %}
-        {% endblock %}
+        
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <header id="siteHeader">
+            <h2 id="siteName">Nom du Site</h2>
+
+            <nav>
+                <ul class="navBar">
+                    {# link to homePage #}
+                    <li><a href="{{ path('app_home') }}">Accueil</a></li>
+
+                    {# link to LoginPage #}
+                    <li><a href="#">Connexion</a></li>
+
+                    {# link to list of games #}
+                    <li><a href="#">Jeux</a></li>
+
+                    {# link to list of editors #}
+                    <li><a href="{{ path('app_editor') }}">Editeurs</a></li>
+
+                    {# link to list of teams #}
+                    <li><a href="#">Equipes</a></li>
+
+                    {# link to list of players #}
+                    <li><a href="#">Joueurs</a></li>
+
+                    {# link to list of countries #}
+                    <li><a href="{{ path('app_country') }}">Pays</a></li>
+
+                    {# link to list of tournaments #}
+                    <li><a href="#">Tournois</a></li>
+
+                    {# Bootstrap's way to do a dropdown menu #}
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Ajouter
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" class="dropdown-item">Jeu</a></li>
+                            <li><a href="{{ path('new_country') }}" class="dropdown-item">Pays</a></li>
+                            <li><a href="#" class="dropdown-item">Match</a></li>
+                            <li><a href="#" class="dropdown-item">Equipe</a></li>
+                            <li><a href="#" class="dropdown-item">Joueur</a></li>
+                            <li><a href="{{ path('new_editor') }}" class="dropdown-item">Editeur</a></li>
+                            <li><a href="#" class="dropdown-item">Tournoi</a></li>
+                            <li><a href="#" class="dropdown-item">Réseau Social</a></li>
+                        </ul>
+                    </div>
+                </ul>
+            </nav>
+        </header>
+
+        <main id="siteMain">
+
+            <section id="container">
+                {% block body %}{% endblock %}
+            </section>
+
+        </main>
+
+        <footer id="siteFooter">
+            <div class="socialMedia">
+                <a target="_blank" href="#"><i class="fa-brands fa-facebook"></i></a>
+                <a target="_blank" href="#"><i class="fa-brands fa-x-twitter"></i></a>
+                <a target="_blank" href="#"><i class="fa-brands fa-linkedin"></i></a>
+                <a target="_blank" href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a target="_blank" href="#"><i class="fa-brands fa-snapchat"></i></a> 
+                <a target="_blank" href="#"><i class="fa-brands fa-github"></i></a> 
+              </div>
+  
+              <p>&copy; 2023 - Nom du site - <a href="#">Règlement</a> - <a href="#">Mentions légales</a></p>
+        </footer>
+        {% block javascripts %}
+
+            {# Link to bootstrap's js #}
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        {% endblock %}
     </body>
 </html>

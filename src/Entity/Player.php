@@ -43,10 +43,14 @@ class Player
     #[ORM\OneToMany(mappedBy: 'player', targetEntity: PlayerRoster::class)]
     private Collection $playerRosters;
 
+    #[ORM\OneToMany(mappedBy: 'player', targetEntity: SocialMediaAccount::class)]
+    private Collection $socialMediaAccounts;
+
     public function __construct()
     {
         $this->countrys = new ArrayCollection();
         $this->playerRosters = new ArrayCollection();
+        $this->socialMediaAccounts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -186,6 +190,36 @@ class Player
             // set the owning side to null (unless already changed)
             if ($playerRoster->getPlayer() === $this) {
                 $playerRoster->setPlayer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SocialMediaAccount>
+     */
+    public function getSocialMediaAccounts(): Collection
+    {
+        return $this->socialMediaAccounts;
+    }
+
+    public function addSocialMediaAccount(SocialMediaAccount $socialMediaAccount): static
+    {
+        if (!$this->socialMediaAccounts->contains($socialMediaAccount)) {
+            $this->socialMediaAccounts->add($socialMediaAccount);
+            $socialMediaAccount->setPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSocialMediaAccount(SocialMediaAccount $socialMediaAccount): static
+    {
+        if ($this->socialMediaAccounts->removeElement($socialMediaAccount)) {
+            // set the owning side to null (unless already changed)
+            if ($socialMediaAccount->getPlayer() === $this) {
+                $socialMediaAccount->setPlayer(null);
             }
         }
 
