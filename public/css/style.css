@@ -14,7 +14,6 @@ body{
     width: 100%;
     height: auto;
     min-height: 10vh;
-    background-color: #92D2F1;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -69,7 +68,6 @@ body{
     width: 100%;
     height: auto;
     min-height: 10vh;
-    background-color: #92D2F1;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -103,7 +101,6 @@ body{
     width: 100%;
     height: auto;
     min-height: 80vh;
-    background-color: #92D2F1;
 }
 
 #container{
@@ -140,6 +137,7 @@ h1{
 
 .countryImage{
     width: 60px;
+    height: 40px;
 }
 
 .countryContainer figcaption{
