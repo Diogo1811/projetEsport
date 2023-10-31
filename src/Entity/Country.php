@@ -156,6 +156,6 @@ class Country
     //adding a  __tostring function
     public function __toString()
     {
-        return ucfirst($this->name);
+        return ucwords($this->name);
     }
 }

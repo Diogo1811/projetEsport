@@ -32,6 +32,12 @@ class Editor
     #[ORM\OneToMany(mappedBy: 'editor', targetEntity: SocialMediaAccount::class)]
     private Collection $socialMediaAccounts;
 
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $creationDate = null;
+
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $city = null;
+
     public function __construct()
     {
         $this->games = new ArrayCollection();
@@ -143,5 +149,29 @@ class Editor
     public function __toString()
     {
         return ucfirst($this->getName());
+    }
+
+    public function getCreationDate(): ?\DateTimeInterface
+    {
+        return $this->creationDate;
+    }
+
+    public function setCreationDate(\DateTimeInterface $creationDate): static
+    {
+        $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(?string $city): static
+    {
+        $this->city = $city;
+
+        return $this;
     }
 }

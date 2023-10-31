@@ -9,15 +9,22 @@ body{
     padding: 0;
 }
 
+.logoSite{
+    margin: 0;
+}
+
+.logoSite img{
+    width: 95.5px;
+}
+
 /****************************************************** HEADER *****************************************************/
 #siteHeader{
     width: 100%;
     height: auto;
     min-height: 10vh;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    
 }
 
 #siteHeader nav{
@@ -26,6 +33,7 @@ body{
     background-color: #DBF0FA;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    margin-right: 5px;
 }
 
 #siteName{
@@ -69,7 +77,7 @@ body{
     height: auto;
     min-height: 10vh;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -133,11 +141,6 @@ h1{
 .countryContainer{
     display: flex;
     margin-bottom: 0;
-}
-
-.countryImage{
-    width: 60px;
-    height: 40px;
 }
 
 .countryContainer figcaption{
