@@ -71,6 +71,15 @@ body{
     min-width: 9rem;
 }
 
+.userProfilePicture{
+    margin: 0;
+}
+
+.userProfilePicture img{
+    width: 35px;
+    border-radius: 50%;
+}
+
 /****************************************** FOOTER *************************************************************/
 #siteFooter{
     width: 100%;
@@ -120,6 +129,7 @@ body{
 h1{
     width: 100%;
     text-align: center;
+    margin: 0;
 }
 
 /******************************************************* LIST COUNTRIES PAGE ***************************************/
@@ -176,4 +186,29 @@ h1{
     display: flex;
     align-items: center;
     text-transform: uppercase;
+}
+
+/************************************************************ USER PROFILE *****************************************/
+.profilePicture{
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profilePicture img{
+    width: 100px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+/************************************************************* REGISTRATION FORM ***********************************/
+.formRowPassword{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.formRowPassword div{
+    width: 45%;
 }

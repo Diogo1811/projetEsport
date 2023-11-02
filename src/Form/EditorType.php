@@ -20,14 +20,14 @@ class EditorType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            //input to add/modify the editor's name on the data base
+            //input to add/modify the editor's name in the data base
             ->add('name', TextType::class, [
                 'label' => "Nom de l'éditeur",
                 'attr' => [
                     'class' => 'form-control'
                 ]
             ])
-            //input to add/modify the game's release date on the data base
+            //input to add/modify the game's release date in the data base
             ->add('creationDate', DateType::class, [
                 'label' => 'Date de création',
                 'widget' => 'single_text',
@@ -35,14 +35,14 @@ class EditorType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
-            //input to add/modify the editor's city on the data base
+            //input to add/modify the editor's city in the data base
             ->add('city', TextType::class, [
                 'label' => "Ville de l'éditeur",
                 'attr' => [
                     'class' => 'form-control'
                 ]
             ])
-            //input to add/modify the editor's country on the data base
+            //input to add/modify the editor's country in the data base
             ->add('country', EntityType::class, [
                 'class' => Country::class,
                 'label' => 'Pays',
@@ -57,7 +57,7 @@ class EditorType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
-            //input to add/modify the editor's link to web site on the data base
+            //input to add/modify the editor's link to web site in the data base
             ->add('linkToOfficialPage', TextareaType::class, [
                 'label' => 'Lien vers la page officielle',
                 'attr' => [

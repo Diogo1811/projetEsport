@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{user}}{% endblock %}
+
+{% block body %}
+    <figure class="profilePicture">
+        <img src="{{ asset('upload/avatar/' ~ user.profilePicture) }}" alt="photo de profil de {{user}}">
+        <figcaption>
+            <h1>{{user}}</h1>
+        </figcaption>
+    </figure>
+
+
+
+
+
+
+{% endblock %}

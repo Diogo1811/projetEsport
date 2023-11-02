@@ -15,14 +15,14 @@ class CountryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            //input to add/modify the country's name on the data base
+            //input to add/modify the country's name in the data base
             ->add('name', TextType::class, [
                 'label' => 'Nom du Pays',
                 'attr' => [
                     'class' => 'form-control'
                 ]
             ])
-            //input to add/modify the country's flag on the data base
+            //input to add/modify the country's flag in the data base
             ->add('flag', TextareaType::class, [
                 'label' => 'Drapeau',
                 'attr' => [

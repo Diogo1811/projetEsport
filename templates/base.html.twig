@@ -36,26 +36,48 @@
                     {# link to homePage #}
                     <li><a href="{{ path('app_home') }}">Accueil</a></li>
 
-                    {# link to LoginPage #}
-                    <li><a href="#">Connexion</a></li>
-
                     {# link to list of games #}
-                    <li><a href="#">Jeux</a></li>
+                    <li><a href="{{ path('app_home') }}">Jeux</a></li>
 
                     {# link to list of editors #}
                     <li><a href="{{ path('app_editor') }}">Editeurs</a></li>
 
                     {# link to list of teams #}
-                    <li><a href="#">Equipes</a></li>
+                    <li><a href="{{ path('app_home') }}">Equipes</a></li>
 
                     {# link to list of players #}
-                    <li><a href="#">Joueurs</a></li>
+                    <li><a href="{{ path('app_home') }}">Joueurs</a></li>
 
                     {# link to list of countries #}
                     <li><a href="{{ path('app_country') }}">Pays</a></li>
 
                     {# link to list of tournaments #}
-                    <li><a href="#">Tournois</a></li>
+                    <li><a href="{{ path('app_home') }}">Tournois</a></li>
+
+                    {% if app.user %}
+
+                        {# logOut #}
+                        <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
+                        
+                        {# account #}
+                        <li>
+                            <figure class="userProfilePicture">
+                                <a href="{{ path('app_user', {'id': app.user.id}) }}">
+                                    <img src="{{ asset('upload/avatar/' ~ app.user.profilePicture) }}" alt="votre photo de profile">
+                                </a>
+                            </figure>
+                        </li>
+
+                        {# display user's coins #}
+                        <li>{{ app.user.siteCoins }}  <i class="fa-solid fa-coins" style="color: #f2d40d;"></i></li>
+
+                    {% else %}
+
+                        {# link to LoginPage #}
+                        <li><a href="{{ path('app_login') }}">Connexion</a></li>
+
+                    {% endif %}
+                    
 
                     {# Bootstrap's way to do a dropdown menu #}
                     <div class="dropdown">
@@ -69,28 +91,28 @@
                         <ul class="dropdown-menu">
 
                             {# Link to create a new game #}
-                            <li><a href="#" class="dropdown-item">Jeu</a></li>
+                            <li><a href="{{ path('app_home') }}" class="dropdown-item">Jeu</a></li>
 
                             {# Link to create a new country #}
                             <li><a href="{{ path('new_country') }}" class="dropdown-item">Pays</a></li>
 
                             {# Link to create a new match #}
-                            <li><a href="#" class="dropdown-item">Match</a></li>
+                            <li><a href="{{ path('app_home') }}" class="dropdown-item">Match</a></li>
 
                             {# Link to create a new team #}
-                            <li><a href="#" class="dropdown-item">Equipe</a></li>
+                            <li><a href="{{ path('app_home') }}" class="dropdown-item">Equipe</a></li>
 
                             {# Link to create a new player #}
-                            <li><a href="#" class="dropdown-item">Joueur</a></li>
+                            <li><a href="{{ path('app_home') }}" class="dropdown-item">Joueur</a></li>
 
                             {# Link to create a new editor #}
                             <li><a href="{{ path('new_editor') }}" class="dropdown-item">Editeur</a></li>
 
                             {# Link to create a new tournament #}
-                            <li><a href="#" class="dropdown-item">Tournoi</a></li>
+                            <li><a href="{{ path('app_home') }}" class="dropdown-item">Tournoi</a></li>
 
                             {# Link to create a new social media #}
-                            <li><a href="#" class="dropdown-item">Réseau Social</a></li>
+                            <li><a href="{{ path('app_home') }}" class="dropdown-item">Réseau Social</a></li>
                         </ul>
                     </div>
                 </ul>
@@ -136,3 +158,11 @@
         {% endblock %}
     </body>
 </html>
+
+
+{# password tests #}
+{# martin : Martinmartin123! #}
+{# martine : Martinemartine123! #}
+{# frfrfrfrf : Azertyuiop123! #}
+{# bruce : Azertyuiop123! #}
+{# mnop : Azertyuiop123! #}

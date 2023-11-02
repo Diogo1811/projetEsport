@@ -18,14 +18,14 @@ class GameType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            //input to add/modify the game's name on the data base
+            //input to add/modify the game's name in the data base
             ->add('name', TextType::class, [
                 'label' => "Nom du jeu",
                 'attr' => [
                     'class' => 'form-control'
                 ]
             ])
-            //input to add/modify the game's release date on the data base
+            //input to add/modify the game's release date in the data base
             ->add('releaseDate', DateType::class, [
                 'label' => 'Date de sortie',
                 'widget' => 'single_text',
@@ -33,14 +33,14 @@ class GameType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
-            //input to add/modify the game's link to purchese it on the data base
+            //input to add/modify the game's link to purchese it in the data base
             ->add('linkToPurchase', TextareaType::class, [
                 'label' => "Lien officiel pour l'achat du jeu",
                 'attr' => [
                     'class' => 'form-control'
                 ]
             ])
-            //input to add/modify the game's editor on the data base
+            //input to add/modify the game's editor in the data base
             ->add('editor', EntityType::class, [
                 'class' => Editor::class,
                 'label' => 'Editeur',
