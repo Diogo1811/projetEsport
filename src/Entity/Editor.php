@@ -51,7 +51,7 @@ class Editor
 
     public function getName(): ?string
     {
-        return $this->name;
+        return ucfirst($this->name);
     }
 
     public function setName(string $name): static
@@ -145,12 +145,6 @@ class Editor
         return $this;
     }
 
-    //adding a  __tostring function
-    public function __toString()
-    {
-        return ucfirst($this->getName());
-    }
-
     public function getCreationDate(): ?\DateTimeInterface
     {
         return $this->creationDate;
@@ -174,4 +168,10 @@ class Editor
 
         return $this;
     }
+
+     //adding a  __tostring function
+     public function __toString()
+     {
+         return $this->name;
+     }
 }

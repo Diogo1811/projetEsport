@@ -44,10 +44,10 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
 
         $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $username);
 
-        if (!$user->isVerified()) {
-            $response = new RedirectResponse($this->urlGenerator->generate('app_home'));
-            $request->setResponse($response);
-        }
+        // if (!$user->isVerified()) {
+        //     $response = new RedirectResponse($this->urlGenerator->generate('app_home'));
+        //     $request->setResponse($response);
+        // }
 
         return new Passport(
             new UserBadge($username),
