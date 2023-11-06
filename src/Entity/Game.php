@@ -19,11 +19,11 @@ class Game
     #[ORM\Column(length: 200)]
     private ?string $name = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $releaseDate = null;
+    // #[ORM\Column(type: Types::DATE_MUTABLE)]
+    // private ?\DateTimeInterface $releaseDate = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $linkToPurchase = null;
+    // #[ORM\Column(type: Types::TEXT, nullable: true)]
+    // private ?string $linkToPurchase = null;
 
     #[ORM\ManyToOne(inversedBy: 'games')]
     #[ORM\JoinColumn(nullable: false)]
@@ -58,29 +58,29 @@ class Game
         return $this;
     }
 
-    public function getReleaseDate(): ?\DateTimeInterface
-    {
-        return $this->releaseDate;
-    }
+    // public function getReleaseDate(): ?\DateTimeInterface
+    // {
+    //     return $this->releaseDate;
+    // }
 
-    public function setReleaseDate(\DateTimeInterface $releaseDate): static
-    {
-        $this->releaseDate = $releaseDate;
+    // public function setReleaseDate(\DateTimeInterface $releaseDate): static
+    // {
+    //     $this->releaseDate = $releaseDate;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    public function getLinkToPurchase(): ?string
-    {
-        return $this->linkToPurchase;
-    }
+    // public function getLinkToPurchase(): ?string
+    // {
+    //     return $this->linkToPurchase;
+    // }
 
-    public function setLinkToPurchase(?string $linkToPurchase): static
-    {
-        $this->linkToPurchase = $linkToPurchase;
+    // public function setLinkToPurchase(?string $linkToPurchase): static
+    // {
+    //     $this->linkToPurchase = $linkToPurchase;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function getEditor(): ?Editor
     {

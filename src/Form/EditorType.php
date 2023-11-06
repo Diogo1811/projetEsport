@@ -46,7 +46,7 @@ class EditorType extends AbstractType
             ->add('country', EntityType::class, [
                 'class' => Country::class,
                 'label' => 'Pays',
-                'choice_label' => 'name',
+                'choice_label' => ucwords('name'),
                 // this query_builder allows me to choose in which order i would like the country to be in the select
                 // en dql on recupere un object (instance de classe)
                 'query_builder' => function (EntityRepository $er): QueryBuilder {
