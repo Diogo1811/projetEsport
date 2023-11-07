@@ -212,3 +212,31 @@ h1{
 .formRowPassword div{
     width: 45%;
 }
+
+
+/******************************************************* DETAILS GAME ***************************************/
+.gameCover{
+    display: flex;
+    justify-content: center;
+}
+
+.gameCover img{
+    width: 80px;
+    margin-right: 10px;
+}
+
+.gameCover figcaption{
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+}
+
+.screenshots{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.screenshots img{
+    width: 16%;
+}

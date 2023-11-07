@@ -31,7 +31,7 @@ class GameController extends AbstractController
    public function newEditGame(Game $game = null, Request $request, EntityManagerInterface $entityManager): Response
    {
        if (!$game) {
-           $game = new game();
+           $game = new Game();
            $edit = "";
        }else {
            $edit = $game;

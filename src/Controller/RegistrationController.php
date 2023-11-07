@@ -5,6 +5,7 @@ namespace App\Controller;
 use DateTime;
 use DateTimeZone;
 use App\Entity\User;
+use App\Form\ModifyUserType;
 use App\Service\FileUploader;
 use App\Security\EmailVerifier;
 use App\Form\RegistrationFormType;
@@ -142,4 +143,57 @@ class RegistrationController extends AbstractController
 
         return $this->redirectToRoute('app_register');
     }
+
+    // #[Route('/user/{id}/edituser', name: 'edit_user')]
+    // public function editUser(User $user, Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, AppAuthenticator $authenticator, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
+    // {
+
+    //     //create the form for the user
+    //     $form = $this->createForm(ModifyUserType::class, $user);
+
+    //     // check if the form is valid
+    //     $form->handleRequest($request);
+
+    //     //hash the entred old password to see if it's a match with the user old password
+        
+        
+    //     // condition to check if the form is submitted and if it's valid
+    //     if ($form->isSubmitted() && $form->isValid() && $form->get('oldPassword')->getData() == $user->getPassword()) {
+    //         // dd($form->get('oldPassword')->getData(), $user->getPassword());
+    //         if ($form->get('plainPassword')->getData()) {
+
+    //             // encode the plain password
+    //             $user->setPassword(
+    //                 $userPasswordHasher->hashPassword(
+    //                     $user,
+    //                     $form->get('plainPassword')->getData()
+    //                 )
+    //             );
+    //         }
+
+    //         // set the var picture
+    //         $profilePicture = $form->get('profilePicture')->getData(); 
+
+    //         // condition to check if the user entered a profile picture
+    //         if ($profilePicture) {
+
+    //             // we upload the picture
+    //             $profilePictureName = $fileUploader->upload($profilePicture);
+
+    //             //and we set the picture for the user
+    //             $user->setprofilePicture($profilePictureName);
+
+    //         }
+
+    //         // add the data to the newly created user
+    //         $entityManager->persist($user);
+    //         $entityManager->flush();
+
+    //         return $this->redirectToRoute('app_login');
+    //     }
+
+    //     return $this->render('registration/modifyUser.html.twig', [
+    //         'modifyUserForm' => $form->createView(),
+    //     ]);
+    // }
 }

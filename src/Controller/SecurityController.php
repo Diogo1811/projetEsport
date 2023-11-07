@@ -39,4 +39,5 @@ class SecurityController extends AbstractController
            'user' => $user,
        ]);
    }
+
 }
