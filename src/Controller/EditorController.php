@@ -25,9 +25,9 @@ class EditorController extends AbstractController
     }
 
     //add a editor in the data base
-    #[Route('/editor/neweditor', name: 'new_editor')]
+    #[Route('/moderator/editor/neweditor', name: 'new_editor')]
     //modify a editor in the data base
-    #[Route('/editor/{id}/editeditor', name: 'edit_editor')]
+    #[Route('/moderator/editor/{id}/editeditor', name: 'edit_editor')]
     public function newEditEditor(Editor $editor = null, Request $request, EntityManagerInterface $entityManager): Response
     {
         if (!$editor) {
@@ -61,7 +61,7 @@ class EditorController extends AbstractController
     }
 
     //function to delete a editor
-    #[Route('/editor/{id}/deleteEditor', name: 'delete_editor')]
+    #[Route('/moderator/editor/{id}/deleteEditor', name: 'delete_editor')]
     public function editorDelete(Editor $editor, EntityManagerInterface $entityManager): Response
     {
         $entityManager->remove($editor);

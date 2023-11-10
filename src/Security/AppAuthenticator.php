@@ -5,6 +5,7 @@ namespace App\Security;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Exception\AuthenticationDenied;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -44,10 +45,19 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
 
         $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $username);
 
-        // if (!$user->isVerified()) {
-        //     $response = new RedirectResponse($this->urlGenerator->generate('app_home'));
-        //     $request->setResponse($response);
-        // }
+        // Check if the user is banned
+        if ($user && $user->isIsBanned()) {
+
+            // if the user is actualy banned I deny him access
+            throw new AuthenticationDenied('Vous avez été banni !');
+        }
+
+        // Check if the user is verified
+        if ($user && !$user->isVerified()) {
+
+            // if the user hasn't verified I deny him access
+            throw new AuthenticationDenied('Verifiez votre compte pour pouvoir vous connecter.');
+        }
 
         return new Passport(
             new UserBadge($username),

@@ -2,13 +2,16 @@
 
 namespace App\Entity;
 
-use App\Repository\TeamRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\TeamRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: TeamRepository::class)]
+#[UniqueEntity(fields: ['name'], message: 'Cette équipe déjà été ajouté à la base de données')]
+#[UniqueEntity(fields: ['logo'], message: 'Ce logo a déjà été ajouté à la base de données')]
 class Team
 {
     #[ORM\Id]
@@ -257,5 +260,11 @@ class Team
         }
 
         return $this;
+    }
+
+    //adding a  __tostring function
+    public function __toString()
+    {
+        return ucfirst($this->getName());
     }
 }

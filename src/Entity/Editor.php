@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\EditorRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\EditorRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: EditorRepository::class)]
+#[UniqueEntity(fields: ['name'], message: 'Cet éditeur a déjà été inscrit dans la base de données')]
 class Editor
 {
     #[ORM\Id]

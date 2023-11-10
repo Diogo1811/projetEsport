@@ -20,7 +20,7 @@ security:
             logout:
                 path: app_logout
                 # where to redirect after logout
-                target: app_home
+                target: app_login
 
             remember_me:
                 secret: '%kernel.secret%'
@@ -33,12 +33,17 @@ security:
 
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
-
+    # Hierarchy of roles which will allow me to put less is granted for exemple an is_granted in which i would like to authorize moderator and admin would have to be written like this : {% is_granted('ROLE_MODERATOR') || is_granted('ROLE_ADMIN') %} now if i only write the moderator part the admin will be able to access it too. 
+    role_hierarchy:
+        ROLE_USER:      []
+        ROLE_MODERATOR: [ROLE_USER]
+        ROLE_ADMIN:     [ROLE_MODERATOR]
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/moderator, roles: ROLE_MODERATOR }
+        - { path: ^/user, roles: ROLE_USER }
 
 when@test:
     security:

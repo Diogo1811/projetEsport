@@ -24,21 +24,21 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            //input to add/modify the username in the data base
+            //input to add the username in the data base
             ->add('username', TextType::class, [
                 'label' => "Pseudo",
                 'attr' => [
                     'class' => 'form-control'
                 ]
             ])
-            //input to add/modify the email in the data base
+            //input to add the email in the data base
             ->add('email', TextType::class, [
                 'label' => "E-mail",
                 'attr' => [
                     'class' => 'form-control'
                 ]
             ])
-            //input to add/modify the password in the data base
+            //input to add the password in the data base
             ->add('plainPassword', RepeatedType::class, [
                 'mapped' => false,
                 'type' => PasswordType::class,
@@ -53,7 +53,7 @@ class RegistrationFormType extends AbstractType
                 'first_options'  => ['label' => 'Mot de passe'],
                 'second_options' => ['label' => 'Répétez le mot de passe'],
             ])
-            //input to add/modify the profilPicture in the data base
+            //input to add the profilPicture in the data base
             ->add('profilePicture', FileType::class, [
                 'label' => "Votre photo de profil (champ non obligatoire)",
                 // unmapped means that this field is not associated to any entity property

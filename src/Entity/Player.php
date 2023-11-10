@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\PlayerRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PlayerRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: PlayerRepository::class)]
+// #[UniqueEntity(fields: ['name'], message: 'Ce pays a déjà été crée')]
 class Player
 {
     #[ORM\Id]
@@ -34,21 +36,21 @@ class Player
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $birthDate = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 11, scale: 2)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 11, scale: 2, nullable: true)]
     private ?string $earning = null;
 
     #[ORM\ManyToMany(targetEntity: Country::class, inversedBy: 'players')]
-    private Collection $countrys;
+    private Collection $countries;
 
     #[ORM\OneToMany(mappedBy: 'player', targetEntity: PlayerRoster::class)]
     private Collection $playerRosters;
 
-    #[ORM\OneToMany(mappedBy: 'player', targetEntity: SocialMediaAccount::class)]
+    #[ORM\OneToMany(mappedBy: 'player', cascade: ["persist"], targetEntity: SocialMediaAccount::class)]
     private Collection $socialMediaAccounts;
 
     public function __construct()
     {
-        $this->countrys = new ArrayCollection();
+        $this->countries = new ArrayCollection();
         $this->playerRosters = new ArrayCollection();
         $this->socialMediaAccounts = new ArrayCollection();
     }
@@ -145,15 +147,15 @@ class Player
     /**
      * @return Collection<int, Country>
      */
-    public function getCountrys(): Collection
+    public function getCountries(): Collection
     {
-        return $this->countrys;
+        return $this->countries;
     }
 
     public function addCountry(Country $country): static
     {
-        if (!$this->countrys->contains($country)) {
-            $this->countrys->add($country);
+        if (!$this->countries->contains($country)) {
+            $this->countries->add($country);
         }
 
         return $this;
@@ -161,7 +163,7 @@ class Player
 
     public function removeCountry(Country $country): static
     {
-        $this->countrys->removeElement($country);
+        $this->countries->removeElement($country);
 
         return $this;
     }
@@ -224,5 +226,11 @@ class Player
         }
 
         return $this;
+    }
+
+    //adding a  __tostring function
+    public function __toString()
+    {
+        return ucfirst($this->getNickname());
     }
 }

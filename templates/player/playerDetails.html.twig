@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{player}}{% endblock %}
+
+{% block body %}
+
+    <h1>{{player}}</h1>
+
+    {# This article presents the player nationality and his real name #}
+    <article class="playerNationalitySentence">
+
+        {# Begining of the sentence where we use the player nickname firstname and lastname #} 
+        {{ player }} (de son vrai nom {{ player.firstname }} {{ player.lastname }}, {{ player.gender == 'Homme' ? ' né ' : ' née' }}  le {{ player.birthDate|date_fr('d F Y') }}) est 
+
+            {# Ternary operator : inline if that allows me to ask if the player is male or female to modify the sentence in consequence #}
+            {{ player.gender == 'Homme' ? ' un joueur ' : ' une joueuse ' }} 
+
+            {# loop to get the player countries #}
+            {% for country in player.countries %}
+                
+                {# link to the country's details #}
+                <a href="{{ path('details_country', {'id': country.id}) }}">
+
+                    {# figure that will allow me to add the country's flag #}
+                    <figure class="playerNationality">
+
+                        {# link to the country flag #}
+                        <img src="{{ country.flag }}" alt="Drapeau {{ country.nationalityNameMale }}">
+
+                        {# in the figcaption I will put the nationality's adjective to continue the sentence #}
+                        <figcaption>
+
+                            {# another ternary operator here it's again to modify the sentence if the player is male or female #}
+                            {{ player.gender == 'Homme' ? country.nationalityNameMale|lower : country.nationalityNameFemale|lower }}
+
+                        </figcaption>
+
+                    </figure>
+
+                </a>
+                {#  #}
+                {{ not loop.last ? ' et ' : '.' }}
+
+            {% endfor %}
+    </article>
+
+    <article>
+
+        <h4>Réseaux sociaux</h4>
+
+        {% for socialMediaAccount in player.socialMediaAccounts %}
+
+            {# This is a condition for the font awesome because the twitter logo isn't written the same maner as the other ones  #}
+            {% if socialMediaAccount == 'X' or socialMediaAccount == 'Twitter' %}
+
+            <li><a target="_blank" href="{{ socialMediaAccount.linktoSocialMedia }}"><i class="fa-brands fa-x-twitter"></i></a></li> 
+
+            {% else %}
+
+                <li><a target="_blank" href="{{ socialMediaAccount.linktoSocialMedia }}"><i class="fa-brands fa-{{socialMediaAccount|lower}}"></i></a></li>  
+
+            {% endif %}
+            
+        {% endfor %}
+    </article>
+            
+
+    {% if is_granted('ROLE_MODERATOR') %}    
+        <a href="{{ path('edit_player', {'id': player.id}) }}" class="btn btn-warning">Modifier {{ player }}</a>
+        {# <a href="{{ path('delete_player', {'id': player.id}) }}" class="btn btn-danger">Supprimer {{ player }}</a> #}
+    {% endif %}
+
+
+{% endblock %}

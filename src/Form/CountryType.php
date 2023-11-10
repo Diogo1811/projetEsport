@@ -29,6 +29,20 @@ class CountryType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
+            //input to add/modify the country's name in the data base
+            ->add('nationalityNameMale', TextType::class, [
+                'label' => 'Comment appelle-t-on son habitant ?',
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            //input to add/modify the country's name in the data base
+            ->add('nationalityNameFemale', TextType::class, [
+                'label' => 'Comment appelle-t-on son habitante ?',
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
             //input to validate the form and submit it
             ->add('Valider', SubmitType::class, [
                 'attr' => [

@@ -14,7 +14,14 @@
             {# Link for bootstrap's css #}
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
-            {# Link for my own css #}
+            {# Links for my own css files #}
+            <link rel="stylesheet" href="{{ asset('css/game.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/team.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/user.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/editor.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/country.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/player.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/home.css') }}">
             <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         {% endblock %}
 
@@ -43,10 +50,10 @@
                     <li><a href="{{ path('app_editor') }}">Editeurs</a></li>
 
                     {# link to list of teams #}
-                    <li><a href="{{ path('app_home') }}">Equipes</a></li>
+                    <li><a href="{{ path('app_team') }}">Equipes</a></li>
 
                     {# link to list of players #}
-                    <li><a href="{{ path('app_home') }}">Joueurs</a></li>
+                    <li><a href="{{ path('app_player') }}">Joueurs</a></li>
 
                     {# link to list of countries #}
                     <li><a href="{{ path('app_country') }}">Pays</a></li>
@@ -78,43 +85,48 @@
 
                     {% endif %}
                     
+                    {% if is_granted('ROLE_MODERATOR') %}
 
-                    {# Bootstrap's way to do a dropdown menu #}
-                    <div class="dropdown">
+                        <li><a href="{{ path('app_users') }}">Liste des utilisateurs</a></li>
 
-                        {# Button to toggle the hide class in the ul #}
-                        <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Ajouter
-                        </a>
+                        {# Bootstrap's way to do a dropdown menu #}
+                        <div class="dropdown">
 
-                        {# where the hide class will be toggled #}
-                        <ul class="dropdown-menu">
+                            {# Button to toggle the hide class in the ul #}
+                            <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Ajouter
+                            </a>
 
-                            {# Link to create a new game #}
-                            <li><a href="{{ path('new_game') }}" class="dropdown-item">Jeu</a></li>
+                            {# where the hide class will be toggled #}
+                            <ul class="dropdown-menu">
 
-                            {# Link to create a new country #}
-                            <li><a href="{{ path('new_country') }}" class="dropdown-item">Pays</a></li>
+                                {# Link to create a new game #}
+                                <li><a href="{{ path('new_game') }}" class="dropdown-item">Jeu</a></li>
 
-                            {# Link to create a new match #}
-                            <li><a href="{{ path('app_home') }}" class="dropdown-item">Match</a></li>
+                                {# Link to create a new country #}
+                                <li><a href="{{ path('new_country') }}" class="dropdown-item">Pays</a></li>
 
-                            {# Link to create a new team #}
-                            <li><a href="{{ path('app_home') }}" class="dropdown-item">Equipe</a></li>
+                                {# Link to create a new match #}
+                                <li><a href="{{ path('app_home') }}" class="dropdown-item">Match</a></li>
 
-                            {# Link to create a new player #}
-                            <li><a href="{{ path('app_home') }}" class="dropdown-item">Joueur</a></li>
+                                {# Link to create a new team #}
+                                <li><a href="{{ path('new_team') }}" class="dropdown-item">Equipe</a></li>
 
-                            {# Link to create a new editor #}
-                            <li><a href="{{ path('new_editor') }}" class="dropdown-item">Editeur</a></li>
+                                {# Link to create a new player #}
+                                <li><a href="{{ path('new_player') }}" class="dropdown-item">Joueur</a></li>
 
-                            {# Link to create a new tournament #}
-                            <li><a href="{{ path('app_home') }}" class="dropdown-item">Tournoi</a></li>
+                                {# Link to create a new editor #}
+                                <li><a href="{{ path('new_editor') }}" class="dropdown-item">Editeur</a></li>
 
-                            {# Link to create a new social media #}
-                            <li><a href="{{ path('app_home') }}" class="dropdown-item">Réseau Social</a></li>
-                        </ul>
-                    </div>
+                                {# Link to create a new tournament #}
+                                <li><a href="{{ path('app_home') }}" class="dropdown-item">Tournoi</a></li>
+
+                                {# Link to create a new social media #}
+                                <li><a href="{{ path('app_home') }}" class="dropdown-item">Réseau Social</a></li>
+                            </ul>
+                        </div>
+                    {% endif %}
+                    
                 </ul>
             </nav>
         </header>
@@ -150,11 +162,23 @@
         </footer>
         {% block javascripts %}
 
+            
+
             {# script for axios // this is a library that allows me to make http requests this is usually use to communicate with an api #}
             <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
             {# Link to bootstrap's js #}
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+            {# Script for jquery #}
+            <script
+                src="https://code.jquery.com/jquery-3.4.1.min.js"
+                integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+                crossorigin="anonymous">
+            </script>
+
+            {# link to collectionType for social medias js #}
+            <script src="{{ asset('js/collectionTypeSocialMedia.js') }}"></script>
 
             {# link to api games js #}
             <script src="{{ asset('js/apiGames.js') }}"></script>
@@ -164,7 +188,8 @@
 
 
 {# password tests #}
-{# martin : Martinmartin123! #}
+{# martin : Martinmartin123! Ancien !!!!!! #}
+{# martin : Azertyuiop123! Nouveau !!!!!! #}
 {# martine : Martinemartine123! #}
 {# frfrfrfrf : Azertyuiop123! #}
 {# bruce : Azertyuiop123! #}

@@ -1,0 +1,55 @@
+/******************************************************* LIST COUNTRIES PAGE ***************************************/
+#countriesList{
+    margin-top: 30px;
+    margin-bottom: 0;
+    padding-left: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+#countriesList li{
+    width: 15%;
+}
+
+.countryContainer{
+    display: flex;
+    margin-bottom: 0;
+}
+
+.countryContainer figcaption{
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    font-size: 1.5rem;
+}
+
+.countryContainer figcaption a{
+    color: #333;
+    text-decoration: none;
+}
+
+.countryContainer figcaption a:Hover{
+    color: blue;
+    font-size: 1.7rem;
+}
+
+
+/******************************************************* DETAILS COUNTRY ***************************************/
+.countryFlag{
+    display: flex;
+    justify-content: center;
+}
+
+.countryFlag img{
+    width: 80px;
+    margin-right: 10px;
+}
+
+.countryFlag figcaption{
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+}

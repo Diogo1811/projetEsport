@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello GameController!{% endblock %}
+{% block title %}Esport Xpertise - liste des jeux ayant une competition d'esport{% endblock %}
 
 {% block body %}
-    <h1>List of Games</h1>
+    <h1>Liste de jeux</h1>
 
         <ul>
             {% for game in games %}
                 <li>
-                    <a href="{{ path('app_api', {'name': game.name}) }}">{{ game.name }}</a>
+                    <a href="{{ path('app_api', {'name': game}) }}">{{ game }}</a>
 
                 </li>
             {% endfor %}

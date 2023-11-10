@@ -1,0 +1,28 @@
+/******************************************************* DETAILS GAME ***************************************/
+.gameCover{
+    display: flex;
+    justify-content: center;
+}
+
+.gameCover img{
+    width: 80px;
+    margin-right: 10px;
+}
+
+.gameCover figcaption{
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+}
+
+.screenshots{
+    width: 100%;
+    display: flex;
+    /* gap: 10px; */
+    justify-content: space-between;
+    /* flex-wrap: wrap; */
+}
+
+.screenshots img{
+    width: 16%;
+}

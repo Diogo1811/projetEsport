@@ -6,8 +6,11 @@ use App\Repository\CountryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: CountryRepository::class)]
+#[UniqueEntity(fields: ['name'], message: 'Ce pays a déjà été crée')]
+#[UniqueEntity(fields: ['flag'], message: 'Ce drapeau à déjà été utilisé !')]
 class Country
 {
     #[ORM\Id]
@@ -15,6 +18,7 @@ class Country
     #[ORM\Column]
     private ?int $id = null;
 
+    
     #[ORM\Column(length: 100)]
     private ?string $name = null;
 
@@ -27,8 +31,14 @@ class Country
     #[ORM\OneToMany(mappedBy: 'country', targetEntity: Team::class)]
     private Collection $teams;
 
-    #[ORM\ManyToMany(targetEntity: Player::class, mappedBy: 'countrys')]
+    #[ORM\ManyToMany(targetEntity: Player::class, mappedBy: 'countries')]
     private Collection $players;
+
+    #[ORM\Column(length: 150)]
+    private ?string $NationalityNameMale = null;
+
+    #[ORM\Column(length: 150)]
+    private ?string $NationalityNameFemale = null;
 
     public function __construct()
     {
@@ -149,6 +159,30 @@ class Country
         if ($this->players->removeElement($player)) {
             $player->removeCountry($this);
         }
+
+        return $this;
+    }
+
+    public function getNationalityNameMale(): ?string
+    {
+        return $this->NationalityNameMale;
+    }
+
+    public function setNationalityNameMale(string $NationalityNameMale): static
+    {
+        $this->NationalityNameMale = $NationalityNameMale;
+
+        return $this;
+    }
+
+    public function getNationalityNameFemale(): ?string
+    {
+        return $this->NationalityNameFemale;
+    }
+
+    public function setNationalityNameFemale(string $NationalityNameFemale): static
+    {
+        $this->NationalityNameFemale = $NationalityNameFemale;
 
         return $this;
     }

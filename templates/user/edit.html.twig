@@ -5,6 +5,13 @@
 {% block body %}
     <h1>Formulaire de modification de l'utilisateur</h1>
 
+    {# this is the error message #}
+    {% for message in app.flashes('warning') %}
+        <p>
+            {{message}}
+        </p>
+    {% endfor %}
+
     {{form(form)}}
 
 

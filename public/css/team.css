@@ -1,0 +1,18 @@
+/************************************************ LIST OF TEAMS ****************************************************/
+#teamsList{
+    list-style: none;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    gap: 10px;
+}
+
+.teamLogo{
+    margin: 0;
+}
+
+.teamLogo img{
+    width: 50px;
+}

@@ -1,6 +1,6 @@
 // // // Set const for Twitch API credentials
 // const clientId = '8sfdd3sko2vfcpqfg5dfhpsogvnj3b';
-// const clientSecret = 'qzwix8527fb8tdsp0bj6qn3811mij7';
+// const clientSecret = 'vom6l47mrtaubqfdo6tngjtupntumu';
 
 // // Make the POST request to obtain an access token
 // axios.post('https://id.twitch.tv/oauth2/token', null, {
@@ -12,6 +12,7 @@
 // })
 // .then(response => {
 //   const accessToken = "Bearer " + response.data.access_token;
+//   console.log(accessToken);
 
 //   // Your JavaScript code in your frontend
 

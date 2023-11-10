@@ -3,6 +3,13 @@
 {% block title %}{{user}}{% endblock %}
 
 {% block body %}
+    {# this is the message send by the controller #}
+    {% for message in app.flashes('success') %}
+        <p>
+            {{message}}
+        </p>
+    {% endfor %}
+
     <figure class="profilePicture">
         <img src="{{ asset('upload/avatar/' ~ user.profilePicture) }}" alt="photo de profil de {{user}}">
         <figcaption>
@@ -11,7 +18,7 @@
     </figure>
 
 
-    <a href="{{ path('edit_user', {'id': user.id}) }}"><input type="button" value="Modifier le compte"></a>
+    <a href="{{ path('edit_user', {'id': user.id}) }}"><input type="button" class="btn btn-warning" value="Modifier le compte"></a>
 
 
 

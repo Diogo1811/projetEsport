@@ -4,149 +4,158 @@
 
 {% block body %}
     
-    <figure class="gameCover">
+    {% if infos is defined %}   
+        <figure class="gameCover">
 
-        {# link to the cover of the game the image is in the api#}
-        <img src="{{ urlCover }}" alt="Affiche du jeu {{ game }} ">
+            {# link to the cover of the game the image is in the api#}
+            <img src="{{ urlCover }}" alt="Affiche du jeu {{ game }} ">
 
-        <figcaption>
+            <figcaption>
 
-            <h1>{{game}}</h1>
+                <h1>{{game}}</h1>
 
-        </figcaption>
+            </figcaption>
 
-    </figure>
+        </figure>
 
-    <figure class="screenshots">
+        <figure class="screenshots">
 
-        {# loop to search all the sceenshots on the api database for the game #}
-        {% for urlScreenshot in urlScreenshots %}
+            {# loop to search all the sceenshots on the api database for the game #}
+            {% for urlScreenshot in urlScreenshots|slice(0, 6) %}
 
-            {# display of all the scrennshots in the database #}
-            <img src="{{ urlScreenshot }}" alt="image du jeu {{ game }}">
+                {# display of all the scrennshots in the database #}
+                <img src="{{ urlScreenshot }}" alt="image du jeu {{ game }}">
 
-        {% endfor %}
+            {% endfor %}
 
-    </figure>
+        </figure>
 
-    {# display of the game's release date. date_fr is a personal function implemented in twig by a filter who allows me to transform a date on a french version it means that the day and month are in french and the date is in 'l d F Y' type #}
-    <p>Le jeu est sorti le {{ infos.0.release_dates.0.date | date_fr}}</p>
+        {# display of the game's release date. date_fr is a personal function implemented in twig by a filter who allows me to transform a date on a french version it means that the day and month are in french and the date is in 'l d F Y' type #}
+        <p>Le jeu est sorti le {{ infos.0.release_dates.0.date | date_fr('l d F Y')}}</p>
 
-    <p>Ce jeu est du type 
+        <p>Ce jeu est du type 
 
-        {# We set a variable to the length of the array and for each loop we subtract him 1 to find when its value is 2 the genre just before the last one wich allow me to build a sentence correctly #}
-        {% set beforeLast = infos.0.genres|length %}
+            {# We set a variable to the length of the array and for each loop we subtract him 1 to find when its value is 2 the genre just before the last one wich allow me to build a sentence correctly #}
+            {% set beforeLast = infos.0.genres|length %}
 
-        {# loop to search all the genres of the game #}
-        {% for genre in infos.0.genres %}
-                
-            {# loop.last is the to check if an element is the last in the array #}
-            {% if loop.last %}
-                {{ genre.name }}.
+            {# loop to search all the genres of the game #}
+            {% for genre in infos.0.genres %}
                     
-            {# beforeLast is the to check if an element is the one before the last in the array #}
-            {% elseif beforeLast == 2 %}
-                {{ genre.name }} et
+                {# loop.last is the to check if an element is the last in the array #}
+                {% if loop.last %}
+                    {{ genre.name }}.
+                        
+                {# beforeLast is the to check if an element is the one before the last in the array #}
+                {% elseif beforeLast == 2 %}
+                    {{ genre.name }} et
 
-            {# those are the elements who are neither the last oe the before last #}
-            {% else %}
-                {{ genre.name }},
-                
-            {% endif %}
+                {# those are the elements who are neither the last oe the before last #}
+                {% else %}
+                    {{ genre.name }},
+                    
+                {% endif %}
 
-            {# beforeLast loose 1 every time we end a loop in the for. This is here to allow me to check if later on the genre is the one before the last or not #}
-            {% set beforeLast = beforeLast - 1 %}
+                {# beforeLast loose 1 every time we end a loop in the for. This is here to allow me to check if later on the genre is the one before the last or not #}
+                {% set beforeLast = beforeLast - 1 %}
 
-        {% endfor %}
+            {% endfor %}
 
-    </p>
-    
-    {# set a var to only show the links to purchase the game #}
-    {% set purchaseLinks = {'13' : 'steam',
-                            '16' : 'epicgames',
-                            '17' : 'gog'
-                            } 
-    %}
+        </p>
+        
+        {# set a var to only show the links to purchase the game #}
+        {% set purchaseLinks = {'13' : 'steam',
+                                '16' : 'epicgames',
+                                '17' : 'gog'
+                                } 
+        %}
 
-    {# set a var to only show the links to purchase the social medias of the game #}
-    {% set socialMediaLinks = {'4' : 'facebook',
-                            '5' : 'X',
-                            '6' : 'twitch',
-                            '8' : 'instagram',
-                            '9' : 'youtube',
-                            } 
-    %}
+        {# set a var to only show the links to purchase the social medias of the game #}
+        {% set socialMediaLinks = {'4' : 'facebook',
+                                '5' : 'X',
+                                '6' : 'twitch',
+                                '8' : 'instagram',
+                                '9' : 'youtube',
+                                } 
+        %}
 
-    {# Link to official web page #}
-    {% for website in infos.0.websites %}
+        {# Link to official web page #}
+        {% for website in infos.0.websites %}
 
-        {# In the api the link to the official page has an id of 1 so we take the category 1 to display the link to the official page #}
-        {% if website.category == 1 %}
-            <p><a target="_blank" href="{{ website.url }}">lien vers le site officiel </a></p>                
-        {% endif %}
-
-    {% endfor %}
-
-    {# Links to purchase the game #}
-    <h3>Liens vers les sites qui proposent ce jeu :</h3>
-
-    {# loop to search all the links to websites in the api database #}
-    {% for website in infos.0.websites %}
-
-        {# loop to search all the links where games could be purchase in the api database  #}
-        {% for key, linkName in purchaseLinks %}
-
-            {# We check if the website is listed as a link to purchase and if the api finds him trustable #}
-            {% if website.category == key and website.trusted %}
-
-                {# display of the link after they passed the conditions  #}
-                <p><a target="_blank" href="{{ website.url }}"> {{ linkName|capitalize }} </a></p>
-
+            {# In the api the link to the official page has an id of 1 so we take the category 1 to display the link to the official page #}
+            {% if website.category == 1 %}
+                <p><a target="_blank" href="{{ website.url }}">lien vers le site officiel </a></p>                
             {% endif %}
 
         {% endfor %}
 
-    {% endfor %}
+        {# Links to purchase the game #}
+        <h3>Liens vers les sites qui proposent ce jeu :</h3>
 
-    {# link to the game's social medias #}
-    <div class="socialMediaGame">
+        {# loop to search all the links to websites in the api database #}
+        {% for website in infos.0.websites %}
 
-        <h3>liens vers les réseaux sociaux :</h3>
+            {# loop to search all the links where games could be purchase in the api database  #}
+            {% for key, linkName in purchaseLinks %}
 
-        <ul>
+                {# We check if the website is listed as a link to purchase and if the api finds him trustable #}
+                {% if website.category == key and website.trusted %}
 
-            {# loop to search all the links to websites in the api database #}
-            {% for website in infos.0.websites %}
+                    {# display of the link after they passed the conditions  #}
+                    <p><a target="_blank" href="{{ website.url }}"> {{ linkName|capitalize }} </a></p>
 
-                {# loop to search all the links of the game's social medias in the api database #}
-                {% for key, linkName in socialMediaLinks %}
+                {% endif %}
 
-                     {# We check if the website is listed as a link to a social media and if the api finds him trustable #}
-                    {% if website.category == key and website.trusted %}
+            {% endfor %}
 
-                        {# This is a condition for the font awesome because the twitter logo isnt written the same maner as the other ones  #}
-                        {% if linkName == 'X' %}
+        {% endfor %}
 
-                            <li><a target="_blank" href="{{ website.url }}"><i class="fa-brands fa-x-twitter"></i></a></li> 
+        {# link to the game's social medias #}
+        <div class="socialMediaGame">
 
-                        {% else %}
+            <h3>liens vers les réseaux sociaux :</h3>
 
-                            <li><a target="_blank" href="{{ website.url }}"><i class="fa-brands fa-{{linkName}}"></i></a></li>  
+            <ul>
+
+                {# loop to search all the links to websites in the api database #}
+                {% for website in infos.0.websites %}
+
+                    {# loop to search all the links of the game's social medias in the api database #}
+                    {% for key, linkName in socialMediaLinks %}
+
+                        {# We check if the website is listed as a link to a social media and if the api finds him trustable #}
+                        {% if website.category == key and website.trusted %}
+
+                            {# This is a condition for the font awesome because the twitter logo isn't written the same maner as the other ones  #}
+                            {% if linkName == 'X' %}
+
+                                <li><a target="_blank" href="{{ website.url }}"><i class="fa-brands fa-x-twitter"></i></a></li> 
+
+                            {% else %}
+
+                                <li><a target="_blank" href="{{ website.url }}"><i class="fa-brands fa-{{linkName}}"></i></a></li>  
+
+                            {% endif %}
 
                         {% endif %}
 
-                    {% endif %}
+                    {% endfor %} 
 
-                {% endfor %} 
-
-            {% endfor %}
-        </ul>
-    </div>
+                {% endfor %}
+            </ul>
+        </div>
+    {% else %}
+        <h1>Le jeu n'as pas été trouvé veuillez le modifier il se peut que les minuscules et majuscules y soient pour quelque chose</h1>
+    {% endif %}
+    
 
         
 
-    <a href="{{ path('edit_game', {'id': game.id}) }}" class="btn btn-warning">Modifier {{ game }}</a>
-    <a href="{{ path('delete_game', {'id': game.id}) }}" class="btn btn-danger">Supprimer {{ game }}</a>
+    {# Delete and modify the database is only allowed to moderators or admin #}
+    {% if is_granted('ROLE_MODERATOR') %}
+        <a href="{{ path('edit_game', {'id': game.id}) }}" class="btn btn-warning">Modifier {{ game }}</a>
+        <a href="{{ path('delete_game', {'id': game.id}) }}" class="btn btn-danger">Supprimer {{ game }}</a>
+    {% endif %}
+    
 
 
 {% endblock %}

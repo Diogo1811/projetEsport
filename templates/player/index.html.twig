@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Esport Xpertise - liste des joueurs participant à des tournois d'esport{% endblock %}
+
+{% block body %}
+    <h1>Liste joueurs</h1>
+
+        <ul id="playersList">
+            {% for player in players %}
+                <li> 
+                    <a href="{{ path('details_player', {'id': player.id}) }}">{{ player }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+{% endblock %}

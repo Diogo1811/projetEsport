@@ -25,9 +25,9 @@ class CountryController extends AbstractController
     }
 
     //add a country in the data base
-    #[Route('/country/newcountry', name: 'new_country')]
+    #[Route('/moderator/country/newcountry', name: 'new_country')]
     //modify a country in the data base
-    #[Route('/country/{id}/editcountry', name: 'edit_country')]
+    #[Route('/moderator/country/{id}/editcountry', name: 'edit_country')]
     public function newEditCountry(Country $country = null, Request $request, EntityManagerInterface $entityManager): Response
     {
         if (!$country) {
@@ -42,6 +42,7 @@ class CountryController extends AbstractController
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
+
             $country = $form->getData();
 
             // tell Doctrine you want to (eventually) save the country (no queries yet)
@@ -61,7 +62,7 @@ class CountryController extends AbstractController
     }
 
     //function to delete a country
-    #[Route('/country/{id}/deleteCountry', name: 'delete_country')]
+    #[Route('/moderator/country/{id}/deleteCountry', name: 'delete_country')]
     public function countryDelete(Country $country, EntityManagerInterface $entityManager): Response
     {
         $entityManager->remove($country);

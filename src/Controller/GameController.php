@@ -25,9 +25,9 @@ class GameController extends AbstractController
    }
 
    //add a game in the data base
-   #[Route('/game/newgame', name: 'new_game')]
+   #[Route('/moderator/game/newgame', name: 'new_game')]
    //modify a game in the data base
-   #[Route('/game/{id}/editgame', name: 'edit_game')]
+   #[Route('/moderator/game/{id}/editgame', name: 'edit_game')]
    public function newEditGame(Game $game = null, Request $request, EntityManagerInterface $entityManager): Response
    {
        if (!$game) {
@@ -42,6 +42,9 @@ class GameController extends AbstractController
        $form->handleRequest($request);
        
        if ($form->isSubmitted() && $form->isValid()) {
+
+
+        
            $game = $form->getData();
 
            // tell Doctrine you want to (eventually) save the game (no queries yet)
@@ -61,7 +64,7 @@ class GameController extends AbstractController
    }
 
    //function to delete a game
-   #[Route('/game/{id}/deletegame', name: 'delete_game')]
+   #[Route('/moderator/game/{id}/deletegame', name: 'delete_game')]
    public function gameDelete(Game $game, EntityManagerInterface $entityManager): Response
    {
        $entityManager->remove($game);

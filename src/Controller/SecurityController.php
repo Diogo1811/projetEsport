@@ -19,6 +19,7 @@ class SecurityController extends AbstractController
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
+
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
@@ -32,12 +33,20 @@ class SecurityController extends AbstractController
     }
 
     //function to show the details of an user
-   #[Route('/user/{id}', name: 'app_user')]
-   public function userDetails(User $user): Response
-   {
-       return $this->render('security/userProfile.html.twig', [
+    #[Route('/user/{id}', name: 'app_user')]
+    public function userDetails(User $user): Response
+    {
+        // dd($this->getUser()->getRoles());
+        // if the one trying to acces the page isn't the user or a moderator/admin we send him back home
+        if ($this->getUser() != $user && !in_array('ROLE_MODERATOR', $this->getUser()->getRoles()) && !in_array('ROLE_ADMIN', $this->getUser()->getRoles())) {
+
+            $this->addFlash('warning', 'Bien essayé mais non !');
+            return $this->redirectToRoute('app_home');
+        }
+
+        return $this->render('security/userProfile.html.twig', [
            'user' => $user,
-       ]);
-   }
+        ]);
+    }
 
 }

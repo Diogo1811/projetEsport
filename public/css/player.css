@@ -1,0 +1,23 @@
+/********************************************** PLAYER'S DETAILS ******************************************************/
+.playerNationalitySentence{
+    display: flex;
+    width: 100%;
+}
+
+.playerNationalitySentence a{
+    margin-left: 5px;
+}
+
+.playerNationalitySentence a:first-child figcaption{
+    margin-right: 5px;
+}
+
+.playerNationality{
+    display: flex;
+    margin: 0;
+    gap: 5px;
+}
+
+.playerNationality img{
+    width: 20px;
+}

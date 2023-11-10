@@ -24,6 +24,12 @@ services:
     # please note that last definitions always *replace* previous ones
 
     # Service for FileUploader class
-    App\Service\FileUploader:
+    # This one is for the user's profile picture
+    App\Service\FileUploaderAvatar:
         arguments:
             $targetDirectory: 'upload/avatar'
+    
+    # This one is for the team's logo
+    App\Service\FileUploaderLogo:
+        arguments:
+            $targetDirectory: 'upload/logo'

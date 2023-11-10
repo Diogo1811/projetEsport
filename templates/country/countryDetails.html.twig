@@ -23,8 +23,33 @@
         </ul>
     </article>
 
-    <a href="{{ path('edit_country', {'id': country.id}) }}" class="btn btn-warning">Modifier {{ country }}</a>
-    <a href="{{ path('delete_country', {'id': country.id}) }}" class="btn btn-danger">Supprimer {{ country }}</a>
+    <article class="countryTeams">
+        <h2>Liste des équipes</h2>
+        <ul>
+            {% if country.teams %}
+                {% for team in country.teams %}
+                    <li><a href="{{ path('details_team', {'id': team.id}) }}">{{ team }}</a></li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </article>
+    
+    <article class="countryPlayers">
+        <h2>Liste des joueurs</h2>
+        <ul>
+            {% if country.players %}
+                {% for player in country.players %}
+                    <li><a href="{{ path('details_player', {'id': player.id}) }}">{{ player }}</a></li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </article>
+
+    {# Delete and modify the database is only allowed to moderators or admin #}
+    {% if is_granted('ROLE_MODERATOR') %}
+        <a href="{{ path('edit_country', {'id': country.id}) }}" class="btn btn-warning">Modifier {{ country }}</a>
+        <a href="{{ path('delete_country', {'id': country.id}) }}" class="btn btn-danger">Supprimer {{ country }}</a>
+    {% endif %}
 
 
 {% endblock %}

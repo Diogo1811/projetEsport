@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% if edit %}
+        Modifier {{ edit }}
+    {% else %}
+        Ajouter un nouveau joueur!
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    {# this is the message send by the controller #}
+    {% for message in app.flashes('warning') %}
+    <p>
+        {{message}}
+    </p>
+    {% endfor %}
+
+    {# if the var edit is set it means we are in a modify form not in an add one so we adjust the title #}
+    {% if edit %}
+        <h1>Modifier {{ edit }}</h1>
+    {% else %}
+        <h1>Ajouter un nouveau joueur!</h1>
+    {% endif %}
+        
+    {# First form is the FUNCTION the second one is the var creates in the controller #}
+    {{ form_start(form) }}
+
+        <article>
+            {{ form_row(form.lastName) }}
+            {{ form_row(form.firstname) }}
+            {{ form_row(form.nickname) }}
+            {{ form_row(form.gender) }}
+            {{ form_row(form.biography) }}
+            {{ form_row(form.birthDate) }}
+            {{ form_row(form.earning) }}
+        </article>
+
+        <div class="form-group row ">
+
+
+            <div class="col-form-label col-sm-2">&nbsp;</div>
+
+            <div id="socialMediaAccount-fields-list" class="col-sm-10 remove-collection-widget"
+
+                data-prototype="{{ form_widget(form.socialMediaAccounts.vars.prototype)|e }}"
+
+                data-player="{{playerId}}"
+
+                data-widget-tags="{{ '<p></p>'|e }}"
+
+                data-widget-counter="{{ form.socialMediaAccounts|length }}">
+
+            {% for socialMediaAccountField in form.socialMediaAccounts %}
+
+                <p>
+
+                    {{ form_errors(socialMediaAccountField) }}
+
+                    {{ form_widget(socialMediaAccountField, {'attr': {'class': 'borders'}}) }}
+                </p>
+
+            {% endfor %}
+
+            </div>
+
+            <div class="borders remove-collection-widget"></div>
+
+        </div>
+        <div class="form-group row flex-action">
+
+            <button type="button" 
+
+                class="add-another-collection-widget button btn btn-success"
+                data-list-selector="#socialMediaAccount-fields-list">Ajouter un nouveau réseau social
+                
+            </button>
+
+        </div>
+
+    {{ form_end(form) }}
+
+{% endblock %}

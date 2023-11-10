@@ -2,9 +2,27 @@
 
 {% block title %}HomeController!{% endblock %}
 
-    {# {% for game in games %}
-        <li>{{ game.name }}</li>
-    {% endfor %} #}
+    
 {% block body %}
+    {# this is the error message #}
+    {% for message in app.flashes('warning') %}
+    <p>
+        {{message}}
+    </p>
+    {% endfor %}
+    <aside>
+        <ol>
+            {% for user in users %}
+                <li>
+                    {{ user }}
+                    {{ user.siteCoins }} <i class="fa-solid fa-coins" style="color: #f2d40d;"></i>
+                </li>
+            {% endfor %}
 
+        </ol>
+    </aside>
+    {% if is_granted('ROLE_MODERATOR') %}
+        <h1>tu es l'admin</h1>
+        
+    {% endif %}
 {% endblock %}

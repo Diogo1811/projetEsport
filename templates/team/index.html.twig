@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Esport Xpertise - liste des équipes participant à des tournois d'esport{% endblock %}
+
+{% block body %}
+    <h1>Liste d'équipes</h1>
+
+        <ul id="teamsList">
+            {% for team in teams %}
+                <li>
+                    <figure class="teamLogo">
+                        <img src="{{ asset('upload/logo/' ~ team.logo) }}" alt="Logo de {{ team }}">
+                        <figcaption>
+                            <a href="{{ path('details_team', {'id': team.id}) }}">{{ team }}</a>
+                        </figcaption>
+                    </figure>
+
+                </li>
+            {% endfor %}
+        </ul>
+{% endblock %}
+

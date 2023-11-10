@@ -7,8 +7,12 @@
         
     <p>Son siège sociale : <a href="{{ path('details_country', {'id': editor.country.id}) }}">{{ editor.country }}</a></p>
 
-    <a href="{{ path('edit_editor', {'id': editor.id}) }}" class="btn btn-warning">Modifier {{ editor }}</a>
-    <a href="{{ path('delete_editor', {'id': editor.id}) }}" class="btn btn-danger">Supprimer {{ editor }}</a>
+    {# Delete and modify the database is only allowed to moderators or admin #}
+    {% if is_granted('ROLE_MODERATOR') %}
+        <a href="{{ path('edit_editor', {'id': editor.id}) }}" class="btn btn-warning">Modifier {{ editor }}</a>
+        <a href="{{ path('delete_editor', {'id': editor.id}) }}" class="btn btn-danger">Supprimer {{ editor }}</a>
+    {% endif %}
+    
 
 
 {% endblock %}

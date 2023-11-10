@@ -37,7 +37,8 @@ class EditorType extends AbstractType
             ])
             //input to add/modify the editor's city in the data base
             ->add('city', TextType::class, [
-                'label' => "Ville de l'éditeur",
+                'label' => "Ville de l'éditeur (champ non obligatoire)",
+                'required' => false,
                 'attr' => [
                     'class' => 'form-control'
                 ]
