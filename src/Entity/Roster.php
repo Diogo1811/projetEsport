@@ -32,14 +32,14 @@ class Roster
     #[ORM\OneToMany(mappedBy: 'roster', targetEntity: EncounterResult::class)]
     private Collection $encounterResults;
 
-    #[ORM\OneToMany(mappedBy: 'roster', targetEntity: PlayerRoster::class)]
-    private Collection $playerRoster;
+    #[ORM\OneToMany(mappedBy: 'roster', cascade: ['persist', 'remove'], targetEntity: PlayerRoster::class)]
+    private Collection $playerRosters;
 
     public function __construct()
     {
         $this->tournamentResults = new ArrayCollection();
         $this->encounterResults = new ArrayCollection();
-        $this->playerRoster = new ArrayCollection();
+        $this->playerRosters = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -144,29 +144,29 @@ class Roster
     }
 
     /**
-     * @return Collection<int, PlayerRoster>
+     * @return Collection<int, PlayerRosters>
      */
-    public function getPlayerRoster(): Collection
+    public function getPlayerRosters(): Collection
     {
-        return $this->playerRoster;
+        return $this->playerRosters;
     }
 
-    public function addPlayerRoster(PlayerRoster $playerRoster): static
+    public function addPlayerRoster(PlayerRoster $playerRosters): static
     {
-        if (!$this->playerRoster->contains($playerRoster)) {
-            $this->playerRoster->add($playerRoster);
-            $playerRoster->setRoster($this);
+        if (!$this->playerRosters->contains($playerRosters)) {
+            $this->playerRosters->add($playerRosters);
+            $playerRosters->setRoster($this);
         }
 
         return $this;
     }
 
-    public function removePlayerRoster(PlayerRoster $playerRoster): static
+    public function removePlayerRoster(PlayerRoster $playerRosters): static
     {
-        if ($this->playerRoster->removeElement($playerRoster)) {
+        if ($this->playerRosters->removeElement($playerRosters)) {
             // set the owning side to null (unless already changed)
-            if ($playerRoster->getRoster() === $this) {
-                $playerRoster->setRoster(null);
+            if ($playerRosters->getRoster() === $this) {
+                $playerRosters->setRoster(null);
             }
         }
 

@@ -35,34 +35,35 @@ class TeamController extends AbstractController
             $edit = "";
         }else {
             $edit = $team;
+
         }
 
+      
         $form = $this->createForm(TeamType::class, $team);
 
-        // $form->handleRequest($request);
-        dd($form->handleRequest($request));
+        $form->handleRequest($request);
+        
         
         if ($form->isSubmitted() && $form->isValid()) {
 
             // set the var picture
-            $logo = $form->get('logo')->getData();  
+            $logo = $form->get('logo')->getData(); 
             
-            
-            // condition to check if a logo was added
-            if ($logo && $team->getLogo() != $logo) {
-
+            if ($logo) {
+    
                 // we upload the picture
                 $logoName = $fileUploader->upload($logo);
-
+    
                 //and we set the picture for the team
                 $team->setlogo($logoName);
-
+    
             }else{
-                
-                // if there's no logo added we insert our own basic logo
-                $team->setLogo("defaultlogo.jpg");  
-
+    
+                $team->setLogo('defaultlogo.jpg');
             }
+
+
+            
             
 
             // tell Doctrine you want to (eventually) save the team (no queries yet)

@@ -11,7 +11,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: TeamRepository::class)]
 #[UniqueEntity(fields: ['name'], message: 'Cette équipe déjà été ajouté à la base de données')]
-#[UniqueEntity(fields: ['logo'], message: 'Ce logo a déjà été ajouté à la base de données')]
 class Team
 {
     #[ORM\Id]

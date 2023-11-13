@@ -8,6 +8,12 @@
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
+    {% for message in app.flashes('success') %}
+        <p>
+            {{message}}
+        </p>
+    {% endfor %}
+
     <h1>Veuillez vous identifier</h1>
     <label for="inputUsername">Pseudo</label>
     <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>

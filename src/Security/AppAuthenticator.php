@@ -13,6 +13,8 @@ use Symfony\Component\Security\Http\SecurityRequestAttributes;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
+use Symfony\Component\Security\Http\Authentication\CustomAuthenticationFailureHandler;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
 use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
@@ -49,14 +51,14 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
         if ($user && $user->isIsBanned()) {
 
             // if the user is actualy banned I deny him access
-            throw new AuthenticationDenied('Vous avez été banni !');
+            throw new CustomUserMessageAuthenticationException('Vous avez été banni !');
         }
 
         // Check if the user is verified
         if ($user && !$user->isVerified()) {
 
             // if the user hasn't verified I deny him access
-            throw new AuthenticationDenied('Verifiez votre compte pour pouvoir vous connecter.');
+            throw new CustomUserMessageAuthenticationException('Verifiez votre compte pour pouvoir vous connecter.');
         }
 
         return new Passport(
