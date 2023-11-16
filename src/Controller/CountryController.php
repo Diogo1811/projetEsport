@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use GuzzleHttp\Client;
 use App\Entity\Country;
 use App\Form\CountryType;
 use App\Repository\CountryRepository;
@@ -17,10 +18,20 @@ class CountryController extends AbstractController
     #[Route('/country', name: 'app_country')]
     public function index(CountryRepository $countryRepository): Response
     {
+        $apiCountries = 'https://restcountries.com/v3.1/all';
 
-        $countries = $countryRepository->findBy([], ['name' => 'ASC']);
+        // Create a Guzzle client
+        $client = new Client();
+
+        // Api 4 games call 
+        $response = $client->request('GET', $apiCountries);
+
+        $data = json_decode($response->getBody(), true);
+
+        // dd($data[0]['translations']);
+
         return $this->render('country/index.html.twig', [
-            'countries' => $countries,
+            'countries' => $data,
         ]);
     }
 

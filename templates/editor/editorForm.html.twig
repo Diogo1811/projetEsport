@@ -12,6 +12,25 @@
     {% endif %}
         
     {# First form is the FUNCTION the second one is the var creates in the controller #}
-    {{ form(form) }}
+    {{ form_start(form) }}
+
+        {{ form_row(form.name) }}
+        {{ form_row(form.creationDate) }}
+        {{ form_row(form.city) }}
+
+        <label for="searchInput">Dans quel pays est situé le siège social de l'éditeur ?</label>
+        <input id="searchInput" class="form-control" type="search" placeholder="Rechercher un pays">
+
+        <label for="textHint">Selectionner le pays</label>
+        <select id="textHint" name="country" class="hide form-control">
+
+        </select>
+
+
+        {{ form_row(form.linkToOfficialPage) }}
+
+
+
+    {{ form_end(form) }}
    
 {% endblock %}

@@ -4,15 +4,31 @@
 
 {% block body %}
 
+    {# title of the list countries page #}
     <h1>Liste des Pays ayant des équipes d'esport participant à des tournois officiels !</h1>
 
+    {# satrt of the list #}
     <ul id="countriesList">
-        {% for country in countries %}
+
+        {# loop to search each country in the api. sort to display them by their name and the replace to allow the countries who start with an Î or an É to be displayed next to the countries who start with an I or an E #}
+        {% for country in countries|sort((a, b) => a.translations.fra.common|replace({'Î': 'I', 'É': "E"}) <=> b.translations.fra.common|replace({'Î': 'I', 'É': "E"})) %}
+
+            {# Element of the list #}
             <li>
+
+                {# Figure to contain the flag's image #}
                 <figure class="countryContainer">
-                    <img src="{{ country.flag }}" class="countryImage" alt="Drapeau {{ country }}">
+
+                    {# Country's flag #}
+                    <img src="{{ country.flags.png }}" class="countryImage" alt="Drapeau {{ country.name.official }}">
+                    
+                    {#  #}
                     <figcaption>
-                        <a href="{{ path('details_country', {'id': country.id}) }}">{{ country }}</a>
+
+                        {# Futur link to the country's detail #}
+                        <a href="#">{{ country.translations.fra.common }}</a>
+                        
+                        {# <a href="{{ path('details_country', {'id': country.id}) }}">{{ country.name.official }}</a> #}
                     </figcaption>
                 </figure>
             </li>

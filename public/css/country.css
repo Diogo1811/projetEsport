@@ -11,12 +11,18 @@
 }
 
 #countriesList li{
-    width: 15%;
+    width: 35%;
 }
 
 .countryContainer{
     display: flex;
     margin-bottom: 0;
+}
+
+.countryContainer img{
+    width: 15%;
+    height: 64px;
+    border: solid 1px #333;
 }
 
 .countryContainer figcaption{

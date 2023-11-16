@@ -1,14 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
 
         {# link for fontAwesome #}
         <script src="https://kit.fontawesome.com/d08e193109.js" crossorigin="anonymous"></script>
+
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
 
         {% block stylesheets %}
+
+            {# Link for Swiper's CSS #}
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
             
 
             {# Link for bootstrap's css #}
@@ -40,6 +44,7 @@
 
             <nav>
                 <ul class="navBar">
+
                     {# link to homePage #}
                     <li><a href="{{ path('app_home') }}">Accueil</a></li>
 
@@ -59,7 +64,7 @@
                     <li><a href="{{ path('app_country') }}">Pays</a></li>
 
                     {# link to list of tournaments #}
-                    <li><a href="{{ path('app_home') }}">Tournois</a></li>
+                    <li><a href="{{ path('app_tournament') }}">Tournois</a></li>
 
                     {% if app.user %}
 
@@ -70,7 +75,7 @@
                         <li>
                             <figure class="userProfilePicture">
                                 <a href="{{ path('app_user', {'id': app.user.id}) }}">
-                                    <img src="{{ asset('upload/avatar/' ~ app.user.profilePicture) }}" alt="votre photo de profile">
+                                    <img src="{{ asset('upload/avatar/' ~ app.user.profilePicture) }}" alt="votre photo de profil">
                                 </a>
                             </figure>
                         </li>
@@ -119,7 +124,7 @@
                                 <li><a href="{{ path('new_editor') }}" class="dropdown-item">Editeur</a></li>
 
                                 {# Link to create a new tournament #}
-                                <li><a href="{{ path('app_home') }}" class="dropdown-item">Tournoi</a></li>
+                                <li><a href="{{ path('new_tournament') }}" class="dropdown-item">Tournoi</a></li>
 
                                 {# Link to create a new social media #}
                                 <li><a href="{{ path('app_home') }}" class="dropdown-item">Réseau Social</a></li>
@@ -162,7 +167,8 @@
         </footer>
         {% block javascripts %}
 
-            
+            {# Link js for swiper #}
+            <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
             {# script for axios // this is a library that allows me to make http requests this is usually use to communicate with an api #}
             <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -177,12 +183,25 @@
                 crossorigin="anonymous">
             </script>
 
+            
+            {# links to my js files #}
+            
+            {# link to searchBars js #}
+            <script src="{{ asset('js/searchBars.js') }}"></script>
+
+            {# link to favorite js #}
+            <script src="{{ asset('js/favorite.js') }}"></script>
+
+            {# link to gameDetails js #}
+            <script src="{{ asset('js/gameDetails.js') }}"></script>
+
             {# link to collectionType for social medias js #}
             <script src="{{ asset('js/collectionTypeSocialMedia.js') }}"></script>
 
             {# link to api games js #}
             <script src="{{ asset('js/apiGames.js') }}"></script>
         {% endblock %}
+
     </body>
 </html>
 

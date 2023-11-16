@@ -58,10 +58,14 @@ class Team
     #[ORM\OneToMany(mappedBy: 'team', targetEntity: SocialMediaAccount::class)]
     private Collection $socialMediaAccounts;
 
+    #[ORM\OneToMany(mappedBy: 'team', targetEntity: User::class)]
+    private Collection $users;
+
     public function __construct()
     {
         $this->rosters = new ArrayCollection();
         $this->socialMediaAccounts = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -265,5 +269,35 @@ class Team
     public function __toString()
     {
         return ucfirst($this->getName());
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->setTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getTeam() === $this) {
+                $user->setTeam(null);
+            }
+        }
+
+        return $this;
     }
 }

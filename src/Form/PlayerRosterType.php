@@ -2,13 +2,16 @@
 
 namespace App\Form;
 
+use App\Entity\Player;
 use App\Entity\PlayerRoster;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class PlayerRosterType extends AbstractType
 {
@@ -17,9 +20,9 @@ class PlayerRosterType extends AbstractType
         $builder
             ->add('player', EntityType::class, [
                 'label' => 'Joueur',
-                'class' => Unit::class,
+                'class' => Player::class,
                 'choice_label' => 'nickname',
-                //show the unit by alphabetical order
+                //show the player by nickname's alphabetical order
                 'query_builder' => function (EntityRepository $er): QueryBuilder {
                     return $er->createQueryBuilder('p')
                         ->orderBy('p.nickname', 'ASC');
@@ -31,7 +34,6 @@ class PlayerRosterType extends AbstractType
             ->add('playingStartDate', DateType::class, [
                 'label' => 'Date de début',
                 'widget' => 'single_text',
-                'required' => false,
                 'attr' => [
                     'class' => 'form-control'
                 ]
@@ -44,7 +46,12 @@ class PlayerRosterType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
-            ->add('role')
+            ->add('role', TextType::class, [
+                'label' => "Rôle",
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
         ;
     }
 

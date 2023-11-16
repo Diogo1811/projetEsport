@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Editor;
+use GuzzleHttp\Client;
 use App\Form\EditorType;
 use App\Repository\EditorRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -43,6 +44,10 @@ class EditorController extends AbstractController
         
         if ($form->isSubmitted() && $form->isValid()) {
             $editor = $form->getData();
+
+            $country = $request->request->get('country');
+
+            $editor->setCountry($country);
 
             // tell Doctrine you want to (eventually) save the editor (no queries yet)
             $entityManager->persist($editor);

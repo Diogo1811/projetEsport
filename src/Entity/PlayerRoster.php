@@ -27,7 +27,7 @@ class PlayerRoster
     #[ORM\JoinColumn(nullable: false)]
     private ?Player $player = null;
 
-    #[ORM\ManyToOne(inversedBy: 'playerRoster')]
+    #[ORM\ManyToOne(inversedBy: 'playerRosters')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Roster $roster = null;
 

@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\TournamentRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\TournamentRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: TournamentRepository::class)]
+#[UniqueEntity(fields: ['name'], message: 'Ce tournoi déjà été ajouté à la base de données')]
 class Tournament
 {
     #[ORM\Id]
@@ -182,5 +184,11 @@ class Tournament
         }
 
         return $this;
+    }
+
+    //adding a  __tostring function
+    public function __toString()
+    {
+        return ucfirst($this->getName());
     }
 }

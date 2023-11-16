@@ -4,16 +4,56 @@
 
 {% block body %}
 
-    <h1>{{team}}</h1>
+    <div class="title">
+
+        <h1>{{team}}</h1>
+        {% if is_granted('ROLE_USER') %}
+            {% if app.user.team and app.user.team.id == team.id %}
+                <a href= "{{ path('add_team', {'id': team.id}) }}" class="starContainer">
+                    <i class='fa-solid fa-star favTeam'></i>
+                </a>
+            {% else %}
+                <a href= "{{ path('add_team', {'id': team.id}) }}" class="starContainer">
+                    <i class='fa-regular fa-star favTeam'></i>
+                </a>
+            {% endif %}
+            
+        {% endif %}
+        
+    </div>
+    {#  #}
+    {% for flash_error in app.flashes('error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+    {% for flash_success in app.flashes('success') %}
+        <div class="alert alert-danger" role="alert">{{ flash_success }}</div>
+    {% endfor %}
             
     <p>Son siège sociale : <a href="{{ path('details_country', {'id': team.country.id}) }}">{{ team.country }}</a></p>
+    <p>Date de création : {{ team.creationDate|date_fr('d F Y')}}</p>
+
+    {% for roster in team.rosters %}
+        <h6>roster pour (nom du jeu) :</h6>
+        <ul>
+            {% for playerRoster in roster.playerRosters %}
+                <li>
+                    {{playerRoster.player}} est un joueur {{team}} pour le jeu (nom du jeu) il a rejoint l'équipe le {{playerRoster.playingStartDate|date_fr('d F Y')}}. Son rôle est {{ playerRoster.role }}
+                </li>
+            {# {{ dump(player) }} #}
+            {% endfor %}
+
+        </ul>
+
+        {# link to modify a roster #}
+        <a href="{{ path('edit_roster', {'idRoster': roster.id, 'id': team.id}) }}" class="btn btn-warning">Modifier un roster</a>
+    {% endfor %}
 
 
     {# Allowing modifications only to moderators and admin #}
     {% if is_granted("ROLE_MODERATOR") %}
 
         {# link to add a new roster #}
-        <a href="#" class="btn btn-warning">Ajouter un roster</a>
+        <a href="{{ path('new_roster', {'id': team.id}) }}" class="btn btn-warning">Ajouter un roster</a>
         
         {# link to modify a team #}
         <a href="{{ path('edit_team', {'id': team.id}) }}" class="btn btn-warning">Modifier {{ team }}</a>
