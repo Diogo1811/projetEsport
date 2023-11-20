@@ -47,7 +47,9 @@ class EditorController extends AbstractController
 
             $country = $request->request->get('country');
 
-            $editor->setCountry($country);
+            if ($country) {
+                $editor->setCountry($country);
+            }
 
             // tell Doctrine you want to (eventually) save the editor (no queries yet)
             $entityManager->persist($editor);

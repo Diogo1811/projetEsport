@@ -1,26 +1,33 @@
 // This tells the js to wait for the page to be load before starting the js
 window.addEventListener("load", (event) => {
         
-    // The select that will contain every country in an option 
+    // The select that will contain every country in differents options
     const textHint = document.getElementById("textHint");
+    
+    // The select that will contain every country in differents options
+    const labelForResult = document.getElementById("labelSelectCountry");
 
-
+    // Option to put all the search results in option elements to choose the one we want in the select
     const optionResult = document.createElement("option");
+    
 
 
 
 
-    // la function est appelé avec comme parametre le contenu de la search bar
+    // Function that will show the search responses
     async function showHint(srch) {
-        
+    
         while(textHint.childNodes.length > 0) {
             textHint.classList.remove('hide');
+            labelForResult.classList.remove('hide');
             textHint.removeChild(child[0]);
         }  
+
         // appel asynchrone
         const response = await fetch(
             "https://restcountries.com/v3.1/translation/" + srch
         );
+
         console.log("response = ", response);
 
         const data = await response.json();
@@ -33,14 +40,14 @@ window.addEventListener("load", (event) => {
                 const newOptionResult = optionResult.cloneNode();
                 
                 newOptionResult.textContent = info['translations']['fra']['common'];
-                newOptionResult.value = info;
+                newOptionResult.value = info['cca2'];
 
                 textHint.appendChild(newOptionResult);
         
             });
 
         } else {
-                
+            textHint.classList.add('hide') 
         }
 
     }
@@ -54,6 +61,9 @@ window.addEventListener("load", (event) => {
         if (searchBar.value.length > 3) {
             
             showHint(searchBar.value)
+        }else{
+            textHint.classList.add('hide');
+            labelForResult.classList.add('hide');
         }
 
     });

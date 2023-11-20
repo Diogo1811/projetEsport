@@ -21,3 +21,21 @@
 .playerNationality img{
     width: 20px;
 }
+
+/********************************************* FORM ****************************************************/
+.selected{
+    display: flex;
+}
+
+#countryBoxes{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#countryBoxes input{
+    margin-right: 5px;
+}
+
+#countryBoxes label{
+    margin-right: 20px;
+}

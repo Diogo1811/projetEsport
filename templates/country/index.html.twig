@@ -4,34 +4,101 @@
 
 {% block body %}
 
+    {% set countryEntered = [] %}
+
     {# title of the list countries page #}
     <h1>Liste des Pays ayant des équipes d'esport participant à des tournois officiels !</h1>
 
     {# satrt of the list #}
     <ul id="countriesList">
-
+        
         {# loop to search each country in the api. sort to display them by their name and the replace to allow the countries who start with an Î or an É to be displayed next to the countries who start with an I or an E #}
         {% for country in countries|sort((a, b) => a.translations.fra.common|replace({'Î': 'I', 'É': "E"}) <=> b.translations.fra.common|replace({'Î': 'I', 'É': "E"})) %}
+            
+            {% if country.cca2 not in countryEntered %}
+                {# {% set countryEntered = countryEntered|merge([country.cca2]) %} #}
+                {% for editor in editors %}
+    
+                    {% if country.cca2 == editor.country and editor.country not in countryEntered %}
+                        {% set countryEntered = countryEntered|merge([editor.country]) %} 
+                        {# Element of the list #}
+                        <li>
+    
+                            {# Figure to contain the flag's image #}
+                            <figure class="countryContainer">
+    
+                                {# Country's flag #}
+                                <img src="{{ country.flags.png }}" class="countryImage" alt="Drapeau {{ country.name.official }}">
+                                
+                                {#  #}
+                                <figcaption>
+    
+                                    {# Futur link to the country's detail #}
+                                    <a href="{{ path('details_country', {'id': country.cca2}) }}">{{ country.translations.fra.common }}</a>
+    
+                                    {# <a href="{{ path('details_country', {'id': country.id}) }}">{{ country.name.official }}</a> #}
+                                </figcaption>
+                            </figure>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+    
+                {% for team in teams %}
+                    {% if country.cca2 == team.country and team.country not in countryEntered %}
+                        {% set countryEntered = countryEntered|merge([team.country]) %} 
+                        {# Element of the list #}
+                        <li>
+    
+                            {# Figure to contain the flag's image #}
+                            <figure class="countryContainer">
+    
+                                {# Country's flag #}
+                                <img src="{{ country.flags.png }}" class="countryImage" alt="Drapeau {{ country.name.official }}">
+                                
+                                {#  #}
+                                <figcaption>
+    
+                                    {# Futur link to the country's detail #}
+                                    <a href="{{ path('details_country', {'id': country.cca2}) }}">{{ country.translations.fra.common }}</a>
+    
+                                    {# <a href="{{ path('details_country', {'id': country.id}) }}">{{ country.name.official }}</a> #}
+                                </figcaption>
+                            </figure>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+    
+                {% for player in players %}
+    
+                    {% if country.cca2 == player.country and player.country not in countryEntered %}
 
-            {# Element of the list #}
-            <li>
+                        {% set countryEntered = countryEntered|merge([player.country]) %}
 
-                {# Figure to contain the flag's image #}
-                <figure class="countryContainer">
+                        {# Element of the list #}
+                        <li>
 
-                    {# Country's flag #}
-                    <img src="{{ country.flags.png }}" class="countryImage" alt="Drapeau {{ country.name.official }}">
-                    
-                    {#  #}
-                    <figcaption>
+                            {# Figure to contain the flag's image #}
+                            <figure class="countryContainer">
 
-                        {# Futur link to the country's detail #}
-                        <a href="#">{{ country.translations.fra.common }}</a>
-                        
-                        {# <a href="{{ path('details_country', {'id': country.id}) }}">{{ country.name.official }}</a> #}
-                    </figcaption>
-                </figure>
-            </li>
+                                {# Country's flag #}
+                                <img src="{{ country.flags.png }}" class="countryImage" alt="Drapeau {{ country.name.official }}">
+                                
+                                {#  #}
+                                <figcaption>
+
+                                    {# Futur link to the country's detail #}
+                                    <a href="{{ path('details_country', {'id': country.cca2}) }}">{{ country.translations.fra.common }}</a>
+
+                                    {# <a href="{{ path('details_country', {'id': country.id}) }}">{{ country.name.official }}</a> #}
+                                </figcaption>
+                            </figure>
+                        </li>
+                    {% endif %} 
+        
+                {% endfor %}            
+                                
+            {% endif %}
+    
         {% endfor %}
     </ul>
 

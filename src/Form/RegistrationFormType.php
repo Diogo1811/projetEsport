@@ -77,10 +77,21 @@ class RegistrationFormType extends AbstractType
             ])
             //checkbox for the web site terms agreement
             ->add('agreeTerms', CheckboxType::class, [
+                'label' => "Acceptez-vous les conditions d'utilisation ?",
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
                         'message' => "Pour pouvoir s'inscire votre accord est nécéssaire.",
+                    ]),
+                ],
+            ])
+            //checkbox for age verification
+            ->add('isOfLegalAge', CheckboxType::class, [
+                'label' => "Avez-vous, d'après les lois de votre pays, la majorité ?",
+                'mapped' => false,
+                'constraints' => [
+                    new IsTrue([
+                        'message' => "Malheureusement ce site contient du pari et même s'il est fictif la majoritée est nécessaire.",
                     ]),
                 ],
             ])

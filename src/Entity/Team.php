@@ -18,6 +18,9 @@ class Team
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column(length: 2)]
+    private ?string $country = null;
+
     #[ORM\Column(length: 50)]
     private ?string $name = null;
 
@@ -47,10 +50,6 @@ class Team
 
     #[ORM\Column(type: Types::DECIMAL, precision: 11, scale: 2, nullable: true)]
     private ?string $earning = null;
-
-    #[ORM\ManyToOne(inversedBy: 'teams')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Country $country = null;
 
     #[ORM\OneToMany(mappedBy: 'team', targetEntity: Roster::class, orphanRemoval: true)]
     private Collection $rosters;
@@ -193,12 +192,12 @@ class Team
         return $this;
     }
 
-    public function getCountry(): ?Country
+    public function getCountry(): ?string
     {
         return $this->country;
     }
 
-    public function setCountry(?Country $country): static
+    public function setCountry($country): static
     {
         $this->country = $country;
 

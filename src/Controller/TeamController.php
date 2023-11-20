@@ -81,6 +81,16 @@ class TeamController extends AbstractController
                 $team->setLogo('defaultlogo.jpg');
             }
 
+            // we set country with the value of the input 'country'
+            $country = $request->request->get('country');
+
+            // if country is set
+            if ($country) {
+
+                // we set the country as the team's country
+                $team->setCountry($country);
+            }
+
             // prepare the request
             $entityManager->persist($team);
 

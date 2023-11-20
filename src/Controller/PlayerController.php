@@ -47,6 +47,12 @@ class PlayerController extends AbstractController
             
             $player = $form->getData();
 
+            $country = $request->request->get('country');
+
+            if ($country) {
+                $player->setCountry($country);
+            }
+
             // tell Doctrine you want to (eventually) save the player (no queries yet)
             $entityManager->persist($player);
 

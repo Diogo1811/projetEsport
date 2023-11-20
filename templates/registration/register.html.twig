@@ -21,7 +21,16 @@
         </div>
         {{ form_row(registrationForm.profilePicture) }}
 
+        <label>Êtes-vous un utilisateur ou une équipe ?</label>
+
+        <label for="userRole">Utilisateur</label>
+        <input type="radio" id="userRole" name="userOrTeam" value="user" checked>
+
+        <label for="teamRole">Équipe</label>
+        <input type="radio" id="teamRole" name="userOrTeam" value="team">
+    
         {{ form_row(registrationForm.agreeTerms) }}
+        {{ form_row(registrationForm.isOfLegalAge) }}
 
     {{ form_end(registrationForm) }}
 {% endblock %}

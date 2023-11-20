@@ -91,22 +91,6 @@ class PlayerType extends AbstractType
                 'by_reference' => false,
                 'label' => false,
             ])
-            // ->add('countries', EntityType::class, [
-            //     'class' => Country::class,
-            //     'label' => 'Nationalité(s)',
-            //     'choice_label' => 'name',
-            //     // this query_builder allows me to choose in which order i would like the country to be in the select
-            //     // en dql on recupere un object (instance de classe)
-            //     'query_builder' => function (EntityRepository $er): QueryBuilder {
-            //         return $er->createQueryBuilder('c')
-            //         ->orderBy('c.name', 'ASC');
-            //     },
-            //     'multiple' => true,
-            //     'expanded' => true,
-            //     'attr' => [
-            //         'class' => 'form-control country-selected'
-            //     ]
-            // ])
             //input to validate the form and submit it
             ->add('Valider', SubmitType::class, [
                 'attr' => [

@@ -29,7 +29,7 @@
         <div class="alert alert-danger" role="alert">{{ flash_success }}</div>
     {% endfor %}
             
-    <p>Son siège sociale : <a href="{{ path('details_country', {'id': team.country.id}) }}">{{ team.country }}</a></p>
+    {# <p>Son siège sociale : <a href="{{ path('details_country', {'id': team.country.id}) }}">{{ team.country }}</a></p> #}
     <p>Date de création : {{ team.creationDate|date_fr('d F Y')}}</p>
 
     {% for roster in team.rosters %}

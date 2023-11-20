@@ -18,15 +18,14 @@ class Editor
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column(length: 2)]
+    private ?string $country = null;
+
     #[ORM\Column(length: 100)]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $linkToOfficialPage = null;
-
-    #[ORM\ManyToOne(inversedBy: 'editors')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Country $country = null;
 
     #[ORM\OneToMany(mappedBy: 'editor', targetEntity: Game::class)]
     private Collection $games;
@@ -75,12 +74,12 @@ class Editor
         return $this;
     }
 
-    public function getCountry(): ?Country
+    public function getCountry(): ?string
     {
         return $this->country;
     }
 
-    public function setCountry(?Country $country): static
+    public function setCountry(?string $country): static
     {
         $this->country = $country;
 

@@ -36,6 +36,7 @@ security:
     # Hierarchy of roles which will allow me to put less is granted for exemple an is_granted in which i would like to authorize moderator and admin would have to be written like this : {% is_granted('ROLE_MODERATOR') || is_granted('ROLE_ADMIN') %} now if i only write the moderator part the admin will be able to access it too. 
     role_hierarchy:
         ROLE_USER:      []
+        ROLE_TEAM: [ROLE_USER]
         ROLE_MODERATOR: [ROLE_USER]
         ROLE_ADMIN:     [ROLE_MODERATOR]
     # Easy way to control access for large sections of your site

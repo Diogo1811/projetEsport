@@ -34,8 +34,21 @@
             {{ form_row(form.biography) }}
             {{ form_row(form.birthDate) }}
             {{ form_row(form.earning) }}
+
+            
+            {# add player's nationality #}
+            <label for="searchInput">Quelle est la nationalité sportive du joueur ?</label>
+            {% include "searchBar.html.twig" %}
+
+
         </article>
 
+
+
+
+
+
+        {# Button to add the differents social medias #}
         <div class="form-group row ">
 
 
@@ -77,6 +90,8 @@
             </button>
 
         </div>
+
+
 
     {{ form_end(form) }}
 

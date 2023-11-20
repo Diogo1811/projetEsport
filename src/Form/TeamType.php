@@ -98,22 +98,9 @@ class TeamType extends AbstractType
                 ]
             ])
             ->add('earning', NumberType::class, [
-                'label' => "Gains totaux de l'équipe (champ non obligatoire)",
+                'label' => "Gains totaux de l'équipe (champ non obligatoire mais attention pas d'espaces autorisée et valeure en euro demandée)",
                 'required' => false,
-                'attr' => [
-                    'class' => 'form-control'
-                ]
-            ])
-            ->add('country', EntityType::class, [
-                'class' => Country::class,
-                'label' => 'Pays',
-                'choice_label' => ucwords('name'),
-                // this query_builder allows me to choose in which order i would like the country to be in the select
-                // en dql on recupere un object (instance de classe)
-                'query_builder' => function (EntityRepository $er): QueryBuilder {
-                    return $er->createQueryBuilder('c')
-                    ->orderBy('c.name', 'ASC');
-                },
+                'scale' => 2,
                 'attr' => [
                     'class' => 'form-control'
                 ]

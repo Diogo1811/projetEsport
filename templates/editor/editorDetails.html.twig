@@ -5,7 +5,7 @@
 {% block body %}
     <h1>{{editor}}</h1>
         
-    <p>Son siège sociale : <a href="{{ path('details_country', {'id': editor.country.id}) }}">{{ editor.country }}</a></p>
+    {# <p>Son siège sociale : <a href="{{ path('details_country', {'id': editor.country.id}) }}">{{ editor.country }}</a></p> #}
 
     {# Delete and modify the database is only allowed to moderators or admin #}
     {% if is_granted('ROLE_MODERATOR') %}

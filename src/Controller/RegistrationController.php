@@ -69,6 +69,14 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            $additionalRole = $request->request->get('userOrTeam');
+            if ($additionalRole == "team") {
+                $user->setRoles(['ROLE_TEAM']);
+            }else{
+                // give the user the role user at the registration
+                $user->setRoles(['ROLE_USER']);
+            }
+
             // set the var picture
             $profilePicture = $form->get('profilePicture')->getData(); 
 
@@ -100,6 +108,10 @@ class RegistrationController extends AbstractController
 
             // set site coins to the welcoming points
             $user->setSiteCoins(100);
+            
+            // set site coins to the welcoming points
+            $user->setIsOfLegalAge(1);
+            
 
             // add the data to the newly created user
             $entityManager->persist($user);

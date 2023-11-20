@@ -48,6 +48,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
+    
+    #[ORM\Column(type: 'boolean')]
+    private $isOfLegalAge = false;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Team $team = null;
@@ -190,6 +193,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+    
+    public function isOfLegalAge(): bool
+    {
+        return $this->isOfLegalAge;
+    }
+
+    public function setisOfLegalAge(bool $isOfLegalAge): static
+    {
+        $this->isOfLegalAge = $isOfLegalAge;
 
         return $this;
     }

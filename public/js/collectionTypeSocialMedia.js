@@ -1,16 +1,18 @@
-// This tells the js to wait for the page to be load before starting the js
-window.addEventListener("load", (event) => {
-
 /*********************************************** SEARCH BAR FOR A FORM ********************************************/
 
     // This tells the js to wait for the page to be load before starting the js
     window.addEventListener("load", (event) => {
+
+        console.log("tu est ici");
     
         // Scripts jQuery / JavaScript généraux
         $(document).ready(function() { // Une fois que le document (base.html.twig) HTML/CSS a bien été complètement chargé...
             
             // add-collection-widget.js : fonction permettant d'ajouter un nouveau bloc "socialMediaAccount" au sein d'une player (pour agrandir la collection)
             $('.add-another-collection-widget').click(function (e) {
+
+                var counting = counting + 1
+                console.log("1 = ${counting}" );
                 
                 var list = $($(this).attr('data-list-selector'))
                 
@@ -131,24 +133,23 @@ window.addEventListener("load", (event) => {
     
     
         // Function to limit the checked box to two
-        $(document).ready(function () {
+        // $(document).ready(function () {
     
-            // we take the checkboxes of the class country-selected 
-            $('.country-selected :checkbox').on('change', function () {
+        //     // we take the checkboxes of the class country-selected 
+        //     $('.country-selected :checkbox').on('change', function () {
     
-                // Count the number of selected options
-                var selectedCount = $('.country-selected :checkbox:checked').length;
+        //         // Count the number of selected options
+        //         var selectedCount = $('.country-selected :checkbox:checked').length;
     
-                console.log(selectedCount);
+        //         console.log(selectedCount);
     
-                // If the limit is reached, uncheck the last selected option
-                if (selectedCount > 2) {
+        //         // If the limit is reached, uncheck the last selected option
+        //         if (selectedCount > 2) {
     
-                    $(this).prop('checked', false);
+        //             $(this).prop('checked', false);
     
-                }
-            });
-        });
+        //         }
+        //     });
+        // });
     
     });
-});

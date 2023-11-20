@@ -18,6 +18,9 @@ class Player
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column(length: 2)]
+    private ?string $country = null;
+
     #[ORM\Column(length: 100)]
     private ?string $lastName = null;
 
@@ -39,8 +42,6 @@ class Player
     #[ORM\Column(type: Types::DECIMAL, precision: 11, scale: 2, nullable: true)]
     private ?string $earning = null;
 
-    #[ORM\ManyToMany(targetEntity: Country::class, inversedBy: 'players')]
-    private Collection $countries;
 
     #[ORM\OneToMany(mappedBy: 'player', targetEntity: PlayerRoster::class)]
     private Collection $playerRosters;
@@ -50,7 +51,6 @@ class Player
 
     public function __construct()
     {
-        $this->countries = new ArrayCollection();
         $this->playerRosters = new ArrayCollection();
         $this->socialMediaAccounts = new ArrayCollection();
     }
@@ -144,26 +144,14 @@ class Player
         return $this;
     }
 
-    /**
-     * @return Collection<int, Country>
-     */
-    public function getCountries(): Collection
+    public function getCountry(): ?string
     {
-        return $this->countries;
+        return $this->country;
     }
 
-    public function addCountry(Country $country): static
+    public function setCountry($country): static
     {
-        if (!$this->countries->contains($country)) {
-            $this->countries->add($country);
-        }
-
-        return $this;
-    }
-
-    public function removeCountry(Country $country): static
-    {
-        $this->countries->removeElement($country);
+        $this->country = $country;
 
         return $this;
     }
