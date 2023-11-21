@@ -24,16 +24,14 @@ class RosterController extends AbstractController
     }
 
     //add a roster in the data base
-    #[Route('/moderator/roster/{id}/newroster', name: 'new_roster')]
+    #[Route('/userTeam/roster/{id}/newroster', name: 'new_roster')]
     //edit a roster in the data base
-    #[Route('/moderator/roster/{idRoster}/{id}/editroster', name: 'edit_roster')]
+    #[Route('/userTeam/roster/{idRoster}/{id}/editroster', name: 'edit_roster')]
     public function newEditRoster(Team $team, Roster $roster = null, Request $request, EntityManagerInterface $entityManager, RosterRepository $rosterRepository): Response
     {
         $idRoster = $request->attributes->get('idRoster');
         $roster = $rosterRepository->findOneBy(['id' => $idRoster]);
-        // dd($team);
-        // dd($roster);
-
+        
         // if the roster is set at the start it means we are in a modify roster and not in an add
         if (!$roster) {
             $roster = new Roster();
@@ -47,55 +45,36 @@ class RosterController extends AbstractController
 
         }
         
-        
-        $form = $this->createForm(RosterType::class, $roster);
- 
-        $form->handleRequest($request);
-         
-        if ($form->isSubmitted() && $form->isValid()) {
- 
-            if (!$edit) {
-
-                //add the roster to the team
-                $team->addRoster($roster);
-            }
-
-            // Check if a new player is added
-            $newPlayerData = $form->get('newPlayer')->getData();
-
-            if ($newPlayerData) {
-                $newPlayer = new Player();
-                // Set player data from the form
-                $newPlayer->setLastName($newPlayerData['lastName']);
-                $newPlayer->setFirstname($newPlayerData['firstname']);
-                $newPlayer->setFirstname($newPlayerData['nickname']);
-                $newPlayer->setGender($newPlayerData['gender']);
-                $newPlayer->setBiography($newPlayerData['biography']);
-                $newPlayer->setBirthDate($newPlayerData['birthDate']);
-                $newPlayer->setEarning($newPlayerData['earning']);
-                $newPlayer->addSocialMediaAccount($newPlayerData['socialMediaAccounts']);
-                $newPlayer->addCountry($newPlayerData['countries']);
-                // Set other player properties
-
-            }
-            
+        if ($this->IsGranted('ROLE_MODERATOR') || $this->getUser()->getTeam() == $team) {
+            $form = $this->createForm(RosterType::class, $roster);
+     
+            $form->handleRequest($request);
              
-            $roster = $form->getData();
- 
-            // tell Doctrine you want to (eventually) save the roster (no queries yet)
-            $entityManager->persist($roster);
- 
-            // actually executes the queries (i.e. the INSERT query)
-            $entityManager->flush();
- 
-            return $this->redirectToRoute('app_team');
+            if ($form->isSubmitted() && $form->isValid()) {
+     
+                if (!$edit) {
+    
+                    //add the roster to the team
+                    $team->addRoster($roster);
+                }
+                 
+                $roster = $form->getData();
+     
+                // tell Doctrine you want to (eventually) save the roster (no queries yet)
+                $entityManager->persist($roster);
+     
+                // actually executes the queries (i.e. the INSERT query)
+                $entityManager->flush();
+     
+                return $this->redirectToRoute('app_team');
+            }
+     
+            return $this->render('roster/rosterForm.html.twig', [
+                'form' => $form,
+                'team' => $team,
+                'rosterId' => $roster->getId(),
+                'edit' => $edit
+            ]);
         }
- 
-        return $this->render('roster/rosterForm.html.twig', [
-            'form' => $form,
-            'team' => $team,
-            'rosterId' => $roster->getId(),
-            'edit' => $edit
-        ]);
     }
 }

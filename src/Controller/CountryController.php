@@ -117,9 +117,32 @@ class CountryController extends AbstractController
         // dd($data);
 
 
-        $editors = $editorRepository->findBy([], ['name' => 'ASC']);
-        $teams = $teamRepository->findBy([], ['name' => 'ASC']);
-        $players = $playerRepository->findBy([], ['nickname' => 'ASC']);
+        $allEditors = $editorRepository->findBy([], ['name' => 'ASC']);
+        $allTeams = $teamRepository->findBy([], ['name' => 'ASC']);
+        $allPlayers = $playerRepository->findBy([], ['nickname' => 'ASC']);
+
+        $editors = [];
+        $teams = [];
+        $players = [];
+
+        
+        foreach ($allEditors as $editor) {
+            if ($editor->getCountry() == $countryId) {
+                array_push($editors, $editor);
+            }
+        }
+
+        foreach ($allTeams as $team) {
+            if ($team->getCountry() == $countryId) {
+                array_push($teams, $team);
+            }
+        }
+
+        foreach ($allPlayers as $player) {
+            if ($player->getCountry() == $countryId) {
+                array_push($players, $player);
+            }
+        }
 
         return $this->render('country/countryDetails.html.twig', [
             'editors' => $editors,

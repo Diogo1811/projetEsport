@@ -5,53 +5,63 @@
 {% block body %}
 
     {# This figure contains the flag of the country and the title of the page which is the country's name #}
-    {# <figure class="countryFlag">
-        <img src="{{country.flag}}" alt="Drapeau {{ country }}">
+    <figure class="countryFlag">
+        <img src="{{ country.flags.png }}" alt="Drapeau {{ country.translations.fra.common }}">
         <figcaption>
-            <h1>{{country}}</h1>
+            <h1>{{ country.translations.fra.common }}</h1>
         </figcaption>
-    </figure> #}
+    </figure>
 
-    <article class="countryEditors">
-          
-        <h2>Liste des éditeurs de jeux</h2>
-        <ul>
-            {% for editor in editors %}
-                {% if editor.country == country.cca2 %} 
-                    <li><a href="{{ path('details_editor', {'id': editor.id}) }}">{{ editor }}</a></li>
-                {% endif %}
-            {% endfor %}
-        </ul>
-
-    </article>
-
-    {# <article class="countryTeams">
-        <h2>Liste des équipes</h2>
-        <ul>
-            {% if country.teams %}
-                {% for team in country.teams %}
-                    <li><a href="{{ path('details_team', {'id': team.id}) }}">{{ team }}</a></li>
+    {% if editors|length > 0 %}
+        
+        <article class="countryEditors">
+            
+            <h2>Liste des éditeurs de jeux</h2>
+            <ul>
+                {% for editor in editors %}
+                    {% if editor.country == country.cca2 %} 
+                        <li><a href="{{ path('details_editor', {'id': editor.id}) }}">{{ editor }}</a></li>
+                    {% endif %}
                 {% endfor %}
-            {% endif %}
-        </ul>
-    </article>
-    
-    <article class="countryPlayers">
-        <h2>Liste des joueurs</h2>
-        <ul>
-            {% if country.players %}
-                {% for player in country.players %}
-                    <li><a href="{{ path('details_player', {'id': player.id}) }}">{{ player }}</a></li>
-                {% endfor %}
-            {% endif %}
-        </ul>
-    </article> #}
+            </ul>
 
-    {# Delete and modify the database is only allowed to moderators or admin #}
-    {# {% if is_granted('ROLE_MODERATOR') %}
-        <a href="{{ path('edit_country', {'id': country.id}) }}" class="btn btn-warning">Modifier {{ country }}</a>
-        <a href="{{ path('delete_country', {'id': country.id}) }}" class="btn btn-danger">Supprimer {{ country }}</a>
-    {% endif %} #}
+        </article>
+
+    {% endif %}
+
+    {% if teams|length > 0 %}
+        
+        <article class="countryTeams">
+            
+            <h2>Liste des équipes</h2>
+            <ul>
+                {% for team in teams %}
+                    {% if team.country == country.cca2 %} 
+                        <li><a href="{{ path('details_team', {'id': team.id}) }}">{{ team }}</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+
+        </article>
+
+    {% endif %}
+
+    {% if players|length > 0 %}
+        
+        <article class="countryPlayers">
+            
+            <h2>Liste des joueurs</h2>
+            <ul>
+                {% for player in players %}
+                    {% if player.country == country.cca2 %} 
+                        <li><a href="{{ path('details_player', {'id': player.id}) }}">{{ player }}</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+
+        </article>
+
+    {% endif %}
 
 
 {% endblock %}

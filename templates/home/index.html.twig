@@ -34,8 +34,9 @@
 
         </ol>
     </aside>
-    {# {% if is_granted('ROLE_MODERATOR') %}
-        <h1>tu es l'admin</h1>
+    {% if is_granted('ROLE_TEAM') and not is_granted('ROLE_MODERATOR') and app.user.team is null %}
+        <h1>Tu dois créer ton équipe ici</h1>
+        <a href="{{ path('new_team') }}">Créez votre équipe ici</a>
         
-    {% endif %} #}
+    {% endif %}
 {% endblock %}

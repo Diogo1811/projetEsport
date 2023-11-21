@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class TeamController extends AbstractController
 {
@@ -32,15 +33,15 @@ class TeamController extends AbstractController
     }
 
     //add a team in the data base
-    #[Route('/moderator/team/newteam', name: 'new_team')]
+    #[Route('/userTeam/team/newteam', name: 'new_team')]
     //modify a team in the data base
-    #[Route('/moderator/team/{id}/editteam', name: 'edit_team')]
+    #[Route('/userTeam/team/{id}/editteam', name: 'edit_team')]
     public function newEditTeam(Team $team = null, Request $request, EntityManagerInterface $entityManager, FileUploaderLogo $fileUploader): Response
     {
         // if the team is set at the start it means we are in a modify team and not in an add
         if (!$team) {
 
-            // since we are in a new team form we creat a new object of the class team that we will call $team
+            // since we are in a new team form we create a new object of the class team that we will call $team
             $team = new Team();
 
             // we set the edit with nothing to manage the title of the form
@@ -53,58 +54,74 @@ class TeamController extends AbstractController
 
         }
 
-        // creation of the form
-        $form = $this->createForm(TeamType::class, $team);
+        if($this->getUser()->getTeam() && $this->getUser()->getTeam()->getId() != $team->getId()) {
+    
+            return $this->redirectToRoute('app_home');
+           
+        }else {
+            // creation of the form
+            $form = $this->createForm(TeamType::class, $team);
 
-        // handle the form once submitted
-        $form->handleRequest($request);
-        
-        // if the form is sumbmitted and the values are valid we start the add or modification in the database
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            // set the var picture
-            $logo = $form->get('logo')->getData(); 
+            // handle the form once submitted
+            $form->handleRequest($request);
             
-            // if there's a logo
-            if ($logo) {
+            // if the form is sumbmitted and the values are valid we start the add or modification in the database
+            if ($form->isSubmitted() && $form->isValid()) {
     
-                // we upload the picture
-                $logoName = $fileUploader->upload($logo);
-    
-                //and we set the picture for the team
-                $team->setlogo($logoName);
+                // set the var picture
+                $logo = $form->get('logo')->getData(); 
                 
-                // if there's no picture added 
-            }else{
+                // if there's a logo
+                if ($logo) {
+        
+                    // we upload the picture
+                    $logoName = $fileUploader->upload($logo);
+        
+                    //and we set the picture for the team
+                    $team->setlogo($logoName);
+                    
+                    // if there's no picture added 
+                }else{
+    
+                    // A default picture is added to the team
+                    $team->setLogo('defaultlogo.jpg');
+                }
+    
+                // we set country with the value of the input 'country'
+                $country = $request->request->get('country');
+    
+                // if country is set
+                if ($country) {
+    
+                    // we set the country as the team's country
+                    $team->setCountry($country);
+                }
 
-                // A default picture is added to the team
-                $team->setLogo('defaultlogo.jpg');
+                // dd($this->IsGranted('ROLE_TEAM'));
+
+                // if we are in a new team created and that team was created by a user with ROLE_TEAM we set this team as its favorite
+                if (!$edit && $this->IsGranted('ROLE_TEAM')) {
+                    // dd("you are in the if that says you are the creator");
+                    $this->getUser()->setTeam($team);
+                }
+
+                // dd("you are after the if that says you are the creator");
+    
+                // prepare the request
+                $entityManager->persist($team);
+    
+                // executes the request
+                $entityManager->flush();
+    
+                // user is sent 
+                return $this->redirectToRoute('app_team');
             }
-
-            // we set country with the value of the input 'country'
-            $country = $request->request->get('country');
-
-            // if country is set
-            if ($country) {
-
-                // we set the country as the team's country
-                $team->setCountry($country);
-            }
-
-            // prepare the request
-            $entityManager->persist($team);
-
-            // executes the request
-            $entityManager->flush();
-
-            // user is sent 
-            return $this->redirectToRoute('app_team');
+    
+            return $this->render('team/teamForm.html.twig', [
+                'form' => $form,
+                'edit' => $edit
+            ]);
         }
-
-        return $this->render('team/teamForm.html.twig', [
-            'form' => $form,
-            'edit' => $edit
-        ]);
     }
 
     //function to delete a team
