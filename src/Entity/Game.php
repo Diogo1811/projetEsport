@@ -8,6 +8,7 @@ use App\Repository\GameRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: GameRepository::class)]
 #[UniqueEntity(fields: ['name'], message: 'Ce jeu a déjà été ajouté à la base de données')]
@@ -16,10 +17,13 @@ class Game
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(groups: 'id')]
     private ?int $id = null;
 
     #[ORM\Column(length: 200)]
+    #[Groups(groups: 'name')]
     private ?string $name = null;
+
 
     // #[ORM\Column(type: Types::DATE_MUTABLE)]
     // private ?\DateTimeInterface $releaseDate = null;
@@ -31,16 +35,16 @@ class Game
     #[ORM\JoinColumn(nullable: false)]
     private ?Editor $editor = null;
 
-    #[ORM\OneToMany(mappedBy: 'game', targetEntity: Tournament::class)]
-    private Collection $tournaments;
-
     #[ORM\OneToMany(mappedBy: 'game', targetEntity: SocialMediaAccount::class)]
     private Collection $socialMediaAccounts;
 
+    #[ORM\OneToMany(mappedBy: 'game', targetEntity: Roster::class, orphanRemoval: true)]
+    private Collection $rosters;
+
     public function __construct()
     {
-        $this->tournaments = new ArrayCollection();
         $this->socialMediaAccounts = new ArrayCollection();
+        $this->rosters = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -97,36 +101,6 @@ class Game
     }
 
     /**
-     * @return Collection<int, Tournament>
-     */
-    public function getTournaments(): Collection
-    {
-        return $this->tournaments;
-    }
-
-    public function addTournament(Tournament $tournament): static
-    {
-        if (!$this->tournaments->contains($tournament)) {
-            $this->tournaments->add($tournament);
-            $tournament->setGame($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTournament(Tournament $tournament): static
-    {
-        if ($this->tournaments->removeElement($tournament)) {
-            // set the owning side to null (unless already changed)
-            if ($tournament->getGame() === $this) {
-                $tournament->setGame(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, SocialMediaAccount>
      */
     public function getSocialMediaAccounts(): Collection
@@ -160,5 +134,35 @@ class Game
     public function __toString()
     {
         return ucfirst($this->getName());
+    }
+
+    /**
+     * @return Collection<int, Roster>
+     */
+    public function getRosters(): Collection
+    {
+        return $this->rosters;
+    }
+
+    public function addRoster(Roster $roster): static
+    {
+        if (!$this->rosters->contains($roster)) {
+            $this->rosters->add($roster);
+            $roster->setGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRoster(Roster $roster): static
+    {
+        if ($this->rosters->removeElement($roster)) {
+            // set the owning side to null (unless already changed)
+            if ($roster->getGame() === $this) {
+                $roster->setGame(null);
+            }
+        }
+
+        return $this;
     }
 }

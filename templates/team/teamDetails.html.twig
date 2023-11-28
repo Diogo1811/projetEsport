@@ -33,11 +33,11 @@
     <p>Date de création : {{ team.creationDate|date_fr('d F Y')}}</p>
 
     {% for roster in team.rosters %}
-        <h6>roster pour (nom du jeu) :</h6>
+        <h6>roster pour {{ roster.game }} :</h6>
         <ul>
             {% for playerRoster in roster.playerRosters %}
                 <li>
-                    {{playerRoster.player}} est un joueur {{team}} pour le jeu (nom du jeu) il a rejoint l'équipe le {{playerRoster.playingStartDate|date_fr('d F Y')}}. Son rôle est {{ playerRoster.role }}
+                    {{playerRoster.player}} est un joueur {{team}} pour le jeu {{ roster.game }}, il a rejoint l'équipe le {{playerRoster.playingStartDate|date_fr('d F Y')}}. Son rôle est {{ playerRoster.role }}
                 </li>
             {# {{ dump(player) }} #}
             {% endfor %}

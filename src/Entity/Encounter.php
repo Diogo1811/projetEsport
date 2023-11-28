@@ -22,10 +22,6 @@ class Encounter
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $linkToReplay = null;
 
-    #[ORM\ManyToOne(inversedBy: 'encounters')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Tournament $tournament = null;
-
     #[ORM\OneToMany(mappedBy: 'encounter', targetEntity: EncounterResult::class)]
     private Collection $encounterResults;
 
@@ -59,18 +55,6 @@ class Encounter
     public function setLinkToReplay(?string $linkToReplay): static
     {
         $this->linkToReplay = $linkToReplay;
-
-        return $this;
-    }
-
-    public function getTournament(): ?Tournament
-    {
-        return $this->tournament;
-    }
-
-    public function setTournament(?Tournament $tournament): static
-    {
-        $this->tournament = $tournament;
 
         return $this;
     }

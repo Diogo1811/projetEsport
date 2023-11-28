@@ -68,9 +68,6 @@
                     {# link to list of countries #}
                     <li><a href="{{ path('app_country') }}">Pays</a></li>
 
-                    {# link to list of tournaments #}
-                    <li><a href="{{ path('app_tournament') }}">Tournois</a></li>
-
                     {% if app.user %}
 
                         {# logOut #}
@@ -128,9 +125,6 @@
                                 {# Link to create a new editor #}
                                 <li><a href="{{ path('new_editor') }}" class="dropdown-item">Editeur</a></li>
 
-                                {# Link to create a new tournament #}
-                                <li><a href="{{ path('new_tournament') }}" class="dropdown-item">Tournoi</a></li>
-
                                 {# Link to create a new social media #}
                                 <li><a href="{{ path('app_home') }}" class="dropdown-item">Réseau Social</a></li>
                             </ul>
@@ -184,7 +178,7 @@
             {# links to my js files #}
             
             {# link to nationalitySearchBar js #}
-            <script src="{{ asset('js/nationalitySearchBar.js') }}"></script>
+            <script src="{{ asset('js/gameSearchBar.js') }}"></script>
 
             {# link to searchBars js #}
             <script src="{{ asset('js/searchBars.js') }}"></script>

@@ -43,21 +43,6 @@ class EditorType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
-            //input to add/modify the editor's country in the data base
-            // ->add('country', EntityType::class, [
-            //     'class' => Country::class,
-            //     'label' => 'Pays',
-            //     'choice_label' => ucwords('name'),
-            //     // this query_builder allows me to choose in which order i would like the country to be in the select
-            //     // en dql on recupere un object (instance de classe)
-            //     'query_builder' => function (EntityRepository $er): QueryBuilder {
-            //         return $er->createQueryBuilder('c')
-            //         ->orderBy('c.name', 'ASC');
-            //     },
-            //     'attr' => [
-            //         'class' => 'form-control'
-            //     ]
-            // ])
             //input to add/modify the editor's link to web site in the data base
             ->add('linkToOfficialPage', TextareaType::class, [
                 'label' => 'Lien vers la page officielle',

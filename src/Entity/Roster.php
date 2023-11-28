@@ -26,18 +26,18 @@ class Roster
     #[ORM\JoinColumn(nullable: false)]
     private ?Team $team = null;
 
-    #[ORM\OneToMany(mappedBy: 'roster', targetEntity: TournamentResult::class)]
-    private Collection $tournamentResults;
-
     #[ORM\OneToMany(mappedBy: 'roster', targetEntity: EncounterResult::class)]
     private Collection $encounterResults;
 
     #[ORM\OneToMany(mappedBy: 'roster', cascade: ['persist', 'remove'], targetEntity: PlayerRoster::class)]
     private Collection $playerRosters;
 
+    #[ORM\ManyToOne(inversedBy: 'rosters')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Game $game = null;
+
     public function __construct()
     {
-        $this->tournamentResults = new ArrayCollection();
         $this->encounterResults = new ArrayCollection();
         $this->playerRosters = new ArrayCollection();
     }
@@ -79,36 +79,6 @@ class Roster
     public function setTeam(?Team $team): static
     {
         $this->team = $team;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, TournamentResult>
-     */
-    public function getTournamentResults(): Collection
-    {
-        return $this->tournamentResults;
-    }
-
-    public function addTournamentResult(TournamentResult $tournamentResult): static
-    {
-        if (!$this->tournamentResults->contains($tournamentResult)) {
-            $this->tournamentResults->add($tournamentResult);
-            $tournamentResult->setRoster($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTournamentResult(TournamentResult $tournamentResult): static
-    {
-        if ($this->tournamentResults->removeElement($tournamentResult)) {
-            // set the owning side to null (unless already changed)
-            if ($tournamentResult->getRoster() === $this) {
-                $tournamentResult->setRoster(null);
-            }
-        }
 
         return $this;
     }
@@ -169,6 +139,18 @@ class Roster
                 $playerRosters->setRoster(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getGame(): ?Game
+    {
+        return $this->game;
+    }
+
+    public function setGame(?Game $game): static
+    {
+        $this->game = $game;
 
         return $this;
     }

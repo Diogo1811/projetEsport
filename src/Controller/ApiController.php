@@ -3,11 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Game;
+use App\Repository\GameRepository;
 use GuzzleHttp\Client;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ApiController extends AbstractController
 {
@@ -99,5 +101,14 @@ class ApiController extends AbstractController
         } catch (\Exception $e) {
             return new Response($e->getMessage(), 500);
         }
+    }
+
+    #[Route('/searchGame/{srch}', name: 'search_game', methods:['GET'])]
+    public function searchAGame(GameRepository $gameRepository, Request $request): JsonResponse
+    {
+        $srch = $request->attributes->get('srch');
+        $games = $gameRepository->searchGame($srch);
+       
+        return  $this->json($games, 200, [], ['groups'=> ['name', 'id']]);
     }
 }

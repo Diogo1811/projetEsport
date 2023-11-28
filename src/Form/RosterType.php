@@ -45,14 +45,6 @@ class RosterType extends AbstractType
                 // to avoid a mapping false we add by_reference
                 'by_reference' => false,
             ])
-            // ->add('newPlayers', CollectionType::class, [
-            //     'entry_type' => PlayerType::class,
-            //     'allow_add' => true,
-            //     'allow_delete' => true,
-            //     'by_reference' => false,
-            //     'mapped' => false,
-            //     'required' => false,
-            // ])
             ->add('Valider', SubmitType::class, [
                 'attr' => [
                     'class' => 'btn btn-success'

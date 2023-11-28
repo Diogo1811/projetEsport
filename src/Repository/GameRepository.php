@@ -45,4 +45,19 @@ class GameRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+
+    /**
+    * @return Game[] Returns an array of Game objects
+   **/
+    public function searchGame($srch): array
+    {
+       return $this->createQueryBuilder('g')
+           ->andWhere('g.name LIKE :val')
+           ->setParameter('val', '%'.$srch.'%')
+           ->setMaxResults(10)
+           ->getQuery()
+           ->getResult()
+       ;
+    }
 }
