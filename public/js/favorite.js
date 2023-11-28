@@ -4,7 +4,4 @@ window.addEventListener("load", (event) => {
 
 
 
-
-
-
 });

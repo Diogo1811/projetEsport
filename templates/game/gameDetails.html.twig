@@ -36,7 +36,7 @@
 
 
             <!-- If we need pagination -->
-            <div class="swiper-pagination"></div>
+            {# <div class="swiper-pagination"></div> #}
 
             <!-- If we need navigation buttons -->
             <div class="swiper-button-prev"></div>
@@ -45,16 +45,14 @@
         </div>
 
 
-        <!-- The Modal -->
+        <!-- The Modal This is here to be used as a zoom if the user wishes to have a better look at the picture -->
         <div id="myModal" class="hide">
             <span id="closeCross" class="hide">&times;</span>
             <img class="modal-content" id="modalImage">
         </div>
 
         {# display of the game's release date. date_fr is a personal function implemented in twig by a filter who allows me to transform a date on a french version it means that the day and month are in french and the date is in 'l d F Y' type #}
-        <p>Le jeu est sorti le {{ infos.0.release_dates.0.date | date_fr('l d F Y')}}</p>
-
-        <p>Ce jeu est du type 
+        <p>{{game}} est sorti le {{ infos.0.release_dates.0.date | date_fr('l d F Y')}}. Il est du type 
 
             {# We set a variable to the length of the array and for each loop we subtract him 1 to find when its value is 2 the genre just before the last one wich allow me to build a sentence correctly #}
             {% set beforeLast = infos.0.genres|length %}
@@ -109,33 +107,69 @@
 
         {% endfor %}
 
-        {# Links to purchase the game #}
-        <h3>Liens vers les sites qui proposent ce jeu :</h3>
+        <div class="gameLinks">
 
-        {# loop to search all the links to websites in the api database #}
-        {% for website in infos.0.websites %}
+            <div class="purchaseLink">
 
-            {# loop to search all the links where games could be purchase in the api database  #}
-            {% for key, linkName in purchaseLinks %}
+                {# set a var to check how many links to purchase there actually is so I can change the title in concequence #}
+                {% set linkPurchase = 0 %}
 
-                {# We check if the website is listed as a link to purchase and if the api finds him trustable #}
-                {% if website.category == key and website.trusted %}
+                {# loop to search all the links to websites in the api database #}
+                {% for website in infos.0.websites %}
 
-                    {# display of the link after they passed the conditions  #}
-                    <p><a target="_blank" href="{{ website.url }}"> {{ linkName|capitalize }} </a></p>
+                    {# loop to search all the links where games could be purchase in the api database #}
+                    {% for key, linkName in purchaseLinks %}
+                    
+                        {# We check if the website is listed as a link to purchase and if the api finds him trustable #}
+                        {% if website.category == key and website.trusted %}
+
+                            {# We add one to the var for each link who passed the condition #}
+                            {% set linkPurchase = linkPurchase + 1 %}
+
+                        {% endif %}
+
+                    {% endfor %}
+
+                {% endfor %}
+
+                {# The condition to show wich title will be showed to the user depending on how many links there's #}
+                {% if linkPurchase > 1 %}
+                    <h3>Liens vers les sites qui propesent ce jeu :</h3>
+
+                {% elseif linkPurchase == 1 %}
+
+                    <h3>Lien vers le site qui propose ce jeu :</h3>
+                
+                {% else %}
 
                 {% endif %}
+   
+                {# loop to search all the links to websites in the api database #}
+                {% for website in infos.0.websites %}
+    
+                    {# loop to search all the links where games could be purchase in the api database  #}
+                    {% for key, linkName in purchaseLinks %}
+    
+                        {# We check if the website is listed as a link to purchase and if the api finds him trustable #}
+                        {% if website.category == key and website.trusted %}
+    
+                            {# display of the link after they passed the conditions  #}
+                            <p><a target="_blank" href="{{ website.url }}">Achetez sur {{ linkName|capitalize }} </a></p>
 
-            {% endfor %}
+    
+                        {% endif %}
+    
+                    {% endfor %}
+    
+                {% endfor %}
 
-        {% endfor %}
+            </div>
 
-        {# link to the game's social medias #}
-        <div class="socialMediaGame">
+            {# link to the game's social medias #}
+            <div class="socialMediaGame">
 
-            <h3>liens vers les réseaux sociaux :</h3>
-
-            <ul>
+                {# set a var to check how many links to social media there actually is so I can change the title in concequence #}
+                {% set linkSocialMedia = 0 %}
 
                 {# loop to search all the links to websites in the api database #}
                 {% for website in infos.0.websites %}
@@ -146,23 +180,57 @@
                         {# We check if the website is listed as a link to a social media and if the api finds him trustable #}
                         {% if website.category == key and website.trusted %}
 
-                            {# This is a condition for the font awesome because the twitter logo isn't written the same maner as the other ones  #}
-                            {% if linkName == 'X' %}
-
-                                <li><a target="_blank" href="{{ website.url }}"><i class="fa-brands fa-x-twitter"></i></a></li> 
-
-                            {% else %}
-
-                                <li><a target="_blank" href="{{ website.url }}"><i class="fa-brands fa-{{linkName}}"></i></a></li>  
-
-                            {% endif %}
+                            {# if the link is a link to a social media and is trustable we add 1 to the links #}
+                            {% set linkSocialMedia = linkSocialMedia + 1 %}
 
                         {% endif %}
 
-                    {% endfor %} 
+                    {% endfor %}
 
                 {% endfor %}
-            </ul>
+
+                {# condition to modify the title accordingly #}
+                {% if linkSocialMedia > 1 %}
+
+                    <h3>Liens vers les réseaux sociaux :</h3>
+
+                {% elseif linkSocialMedia == 1 %}
+
+                    <h3>Lien vers le réseau social :</h3>
+
+                {% else %}
+
+                {% endif %}
+
+                <ul>
+
+                    {# loop to search all the links to websites in the api database #}
+                    {% for website in infos.0.websites %}
+
+                        {# loop to search all the links of the game's social medias in the api database #}
+                        {% for key, linkName in socialMediaLinks %}
+
+                            {# We check if the website is listed as a link to a social media and if the api finds him trustable #}
+                            {% if website.category == key and website.trusted %}
+
+                                {# This is a condition for the font awesome because the twitter logo isn't written the same maner as the other ones  #}
+                                {% if linkName == 'X' %}
+
+                                    <li class="socialMediaTwitter"><a target="_blank" href="{{ website.url }}"><i class="fa-brands fa-x-twitter"></i></a></li> 
+
+                                {% else %}
+
+                                    <li class="socialMedia{{ linkName|capitalize }}"><a target="_blank" href="{{ website.url }}"><i class="fa-brands fa-{{linkName}}"></i></a></li>  
+
+                                {% endif %}
+
+                            {% endif %}
+
+                        {% endfor %} 
+
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
     {% else %}
         <h1>Le jeu n'as pas été trouvé veuillez le modifier il se peut que les minuscules et majuscules y soient pour quelque chose</h1>
@@ -173,8 +241,15 @@
 
     {# Delete and modify the database is only allowed to moderators or admin #}
     {% if is_granted('ROLE_MODERATOR') %}
-        <a href="{{ path('edit_game', {'id': game.id}) }}" class="btn btn-warning">Modifier {{ game }}</a>
-        <a href="{{ path('delete_game', {'id': game.id}) }}" class="btn btn-danger">Supprimer {{ game }}</a>
+        <div class="deleteOrEditButtons">
+
+            {# link to edit a game #}
+            <a href="{{ path('edit_game', {'id': game.id}) }}" class="btn btn-warning">Modifier {{ game }}</a>
+            
+            {# link to delete a game #}
+            <a href="{{ path('delete_game', {'id': game.id}) }}" class="btn btn-danger">Supprimer {{ game }}</a>
+        
+        </div>
     {% endif %}
     
 

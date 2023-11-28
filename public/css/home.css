@@ -1,0 +1,10 @@
+/***********************************************HOME PAGE********************************************/
+.homeContent{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.homeContent h2{
+    text-align: center;
+}

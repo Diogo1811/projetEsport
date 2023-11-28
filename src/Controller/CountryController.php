@@ -125,8 +125,10 @@ class CountryController extends AbstractController
             'editors' => $editors,
             'teams' => $teams,
             'players' => $players,
-            'country' => $country
+            'infos' => $country
         ]);
     }
+
+    
 
 }

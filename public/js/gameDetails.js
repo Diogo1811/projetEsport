@@ -17,7 +17,7 @@ window.addEventListener("load", (event) => {
       
       // Automatic move from a slide to another
       autoplay: {
-          delay: 4000,
+        delay: 4000,
       },
     
       // If we need pagination

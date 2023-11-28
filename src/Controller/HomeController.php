@@ -15,7 +15,7 @@ class HomeController extends AbstractController
     #[Route('/home', name: 'app_home')]
     public function index(UserRepository $userRepository, TeamRepository $teamRepository): Response
     {
-        $users = $userRepository->orderBySiteCoins();
+        $users = $userRepository->findBy([],["siteCoins" => "DESC"], 10);
         $teams = $teamRepository->findAll();
 
 
@@ -24,5 +24,10 @@ class HomeController extends AbstractController
             'teams' => $teams
         ]);
     }
+
+    // public function topUsers(UserRepository $userRepository): Response
+    // {
+        
+    // }
 
 }

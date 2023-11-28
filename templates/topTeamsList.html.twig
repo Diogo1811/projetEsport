@@ -1,0 +1,10 @@
+<ol>
+    {# loop to take the teams in the data base limited at 10 needed and the sort allows me to sort the teams by  #}
+    {% for team in teams|sort((a, b) => b.users|length <=> a.users|length)|slice(0, 10) %}
+        <li>
+            <a href="{{ path('details_team', {'id': team.id}) }}">{{ team }}</a> ||
+            {{ team.users|length }} <i class="fa-solid fa-users"></i>
+        </li>
+    {% endfor %}
+
+</ol>

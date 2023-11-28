@@ -4,10 +4,11 @@
 
 {% block body %}
     {# this is the message send by the controller #}
-    {% for message in app.flashes('success') %}
-        <p>
-            {{message}}
-        </p>
+    {% for flash_error in app.flashes('error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+    {% for flash_success in app.flashes('success') %}
+        <div class="alert alert-success" role="alert">{{ flash_success }}</div>
     {% endfor %}
 
     <figure class="profilePicture">

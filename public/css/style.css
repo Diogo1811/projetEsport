@@ -132,10 +132,42 @@ body{
     width: 100%;
     margin: 0;
     padding: 10px;
+    height: auto;
+    min-height: 80vh;
 }
 
 h1{
     width: 100%;
     text-align: center;
     margin: 0;
+}
+
+
+
+/**************************************** Top Users and Teams templates ********************************************/
+ol{
+    padding: 0;
+    margin: 0;
+}
+
+.topUsers,
+.topTeams{
+    background-color: #DBF0FA;
+    width: 13%;
+    height: 30vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    padding: 10px;
+}
+
+/*********************************DELETE AND MODIFY BUTTONS ****************************************/
+.deleteOrEditButtons{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
 }

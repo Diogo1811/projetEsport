@@ -61,7 +61,6 @@
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgb(0,0,0);
     background-color: rgba(0,0,0,0.9);
 }
 
@@ -81,4 +80,65 @@
     font-weight: bold;
     cursor: pointer;
 }
-  
+
+.gameLinks{
+    width: 100%;
+    display: flex;
+}
+
+.purchaseLink{
+    width: 50%;
+    
+}
+
+/**************** Social Medias  ***************************/
+.socialMediaGame{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.socialMediaGame ul{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    font-size: 3.5rem;
+    gap: 20px;
+    padding: 0;
+}
+
+.socialMediaFacebook i{
+    color: #4267B2;
+}
+
+.socialMediaTwitter i{
+    color: #14171A;
+}
+
+.socialMediaYoutube i{
+    color: #FF0000;
+}
+
+.socialMediaTwitch i{
+    color: #9146ff;
+}
+
+.socialMediaInstagram i{
+    color: #fff;
+    background: radial-gradient(
+            circle farthest-corner at 28% 100%,
+            #fcdf8f 0%,
+            #fbd377 10%,
+            #fa8e37 22%,
+            #f73344 35%,
+            transparent 65%
+        ), linear-gradient(145deg, #3051f1 10%, #c92bb7 70%)
+    ;
+    border-radius: 10px;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    padding-top: 3px;
+}
