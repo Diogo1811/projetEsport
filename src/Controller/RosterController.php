@@ -32,7 +32,6 @@ class RosterController extends AbstractController
     {
         $idRoster = $request->attributes->get('idRoster');
         $roster = $rosterRepository->findOneBy(['id' => $idRoster]);
-        // dd($team);
         // dd($roster);
 
         // if the roster is set at the start it means we are in a modify roster and not in an add
@@ -65,29 +64,12 @@ class RosterController extends AbstractController
                 $team->addRoster($roster);
             }
 
-            // Check if a new player is added
-            // $newPlayerData = $form->get('newPlayer')->getData();
-
-            // if ($newPlayerData) {
-            //     $newPlayer = new Player();
-            //     // Set player data from the form
-            //     $newPlayer->setLastName($newPlayerData['lastName']);
-            //     $newPlayer->setFirstname($newPlayerData['firstname']);
-            //     $newPlayer->setFirstname($newPlayerData['nickname']);
-            //     $newPlayer->setGender($newPlayerData['gender']);
-            //     $newPlayer->setBiography($newPlayerData['biography']);
-            //     $newPlayer->setBirthDate($newPlayerData['birthDate']);
-            //     $newPlayer->setEarning($newPlayerData['earning']);
-            //     $newPlayer->addSocialMediaAccount($newPlayerData['socialMediaAccounts']);
-            //     $newPlayer->addCountry($newPlayerData['countries']);
-            //     // Set other player properties
-
-            // }
-            
              
             $roster = $form->getData();
 
-            $game = $request->request->get('game');
+            $gameId = $request->request->get('game');
+
+            $game = $gameRepository->findOneBy(['id' => $gameId]);
 
             if ($game) {
                 $roster->setGame($game);
@@ -99,7 +81,7 @@ class RosterController extends AbstractController
             // actually executes the queries (i.e. the INSERT query)
             $entityManager->flush();
  
-            return $this->redirectToRoute('app_team');
+            return $this->redirectToRoute('details_team', ['id' => $team->getId()]);
         }
  
         return $this->render('roster/rosterForm.html.twig', [
@@ -108,5 +90,22 @@ class RosterController extends AbstractController
             'rosterId' => $roster->getId(),
             'edit' => $edit
         ]);
+    }
+
+
+    //function to delete a roster
+    #[Route('/moderator/roster/{id}/deleteroster', name: 'delete_roster')]
+    public function rosterDelete(roster $roster, EntityManagerInterface $entityManager): Response
+    {
+        $teamId = $roster->getTeam()->getId();
+
+        // prepare the request
+        $entityManager->remove($roster);
+
+        // execute the request
+        $entityManager->flush();
+
+        // send the user to the list of rosters
+        return $this->redirectToRoute('details_team', ['id' => $teamId]);
     }
 }

@@ -48,6 +48,7 @@ class PlayerRosterType extends AbstractType
             ])
             ->add('role', TextType::class, [
                 'label' => "Rôle",
+                'required' => false,
                 'attr' => [
                     'class' => 'form-control'
                 ]

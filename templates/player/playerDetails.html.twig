@@ -6,14 +6,25 @@
 
     <h1>{{player}}</h1>
 
-    {# This article presents the player nationality and his real name #}
-    <article class="playerNationalitySentence">
+    {# This article presents the player and his real name #}
+    <article class="playerSentence">
 
         {# Begining of the sentence where we use the player nickname firstname and lastname #} 
         {{ player }} (de son vrai nom {{ player.firstname }} {{ player.lastname }}, {{ player.gender == 'Homme' ? ' né ' : ' née' }}  le {{ player.birthDate|date_fr('d F Y') }}) est 
 
         {# Ternary operator : inline if that allows me to ask if the player is male or female to modify the sentence in consequence #}
         {{ player.gender == 'Homme' ? ' un joueur ' : ' une joueuse ' }} 
+
+        {% for playerRoster in player.playerRosters %}
+
+            {% if not playerRoster.playingEndDate %}
+                
+                <a href="{{ path('details_game', {'name': playerRoster.roster.game.name}) }}">{{playerRoster.roster.game.name}}</a> pour <a href="{{ path('details_team', {'id': playerRoster.roster.team.id}) }}">{{playerRoster.roster.team.name}}</a>
+                
+            {% endif %}
+
+            
+        {% endfor %}
 
         {# link to the country's details #}
         {# figure that will allow me to add the country's flag #}

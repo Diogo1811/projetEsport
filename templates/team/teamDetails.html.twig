@@ -6,25 +6,41 @@
 
     <div class="title">
 
+        {# The title is the team name #}
         <h1>{{team}}</h1>
-        {% if is_granted('ROLE_USER') %}
+
+        {# If the one who is in this page is a registred user he can set a team as is favorite or remove it #}
+        {% if is_granted('ROLE_USER') and not is_granted('ROLE_TEAM') or is_granted('ROLE_MODERATOR')%}
+
+            {# We modify the star depending if the user has the team as a favorite or not #}
             {% if app.user.team and app.user.team.id == team.id %}
+
                 <a href= "{{ path('add_team', {'id': team.id}) }}" class="starContainer">
+
                     <i class='fa-solid fa-star favTeam'></i>
+
                 </a>
+
             {% else %}
+
                 <a href= "{{ path('add_team', {'id': team.id}) }}" class="starContainer">
+
                     <i class='fa-regular fa-star favTeam'></i>
+
                 </a>
+
             {% endif %}
             
         {% endif %}
         
     </div>
-    {#  #}
+
+    {# error messages  #}
     {% for flash_error in app.flashes('error') %}
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
     {% endfor %}
+
+    {# success messages #}
     {% for flash_success in app.flashes('success') %}
         <div class="alert alert-success" role="alert">{{ flash_success }}</div>
     {% endfor %}
@@ -33,19 +49,70 @@
     <p>Date de création : {{ team.creationDate|date_fr('d F Y')}}</p>
 
     {% for roster in team.rosters %}
-        <h6>roster pour {{ roster.game }} :</h6>
+        <h6>Roster actuel pour {{ roster.game }} :</h6>
+
         <ul>
+
             {% for playerRoster in roster.playerRosters %}
-                <li>
-                    {{playerRoster.player}} est un joueur {{team}} pour le jeu {{ roster.game }}, il a rejoint l'équipe le {{playerRoster.playingStartDate|date_fr('d F Y')}}. Son rôle est {{ playerRoster.role }}
-                </li>
-            {# {{ dump(player) }} #}
+
+                {% if not playerRoster.playingEndDate %}
+                    
+                    <li>
+                        {{playerRoster.player}} est un joueur {{team}} pour le jeu {{ roster.game }}, il a rejoint l'équipe le {{playerRoster.playingStartDate|date_fr('d F Y')}}. {{ playerRoster.role ? "Son rôle est" ~ playerRoster.role }}
+                    </li>
+
+                {% endif %}
+
             {% endfor %}
 
         </ul>
 
+        {% set nbAnciensJoueurs = 0 %}
+
+        {% for playerRoster in roster.playerRosters %}
+
+            {% if playerRoster.playingEndDate %}
+
+                {% set nbAnciensJoueurs = nbAnciensJoueurs + 1 %}
+            {% endif %}
+
+        {% endfor %}
+
+        {% if nbAnciensJoueurs > 1 %}
+
+            <h6>Anciens joueurs du roster {{ roster.game }} :</h6>
+
+        {% elseif nbAnciensJoueurs > 0 %}
+            
+            <h6>Ancien joueur du roster {{ roster.game }} :</h6>
+
+        {% else %}
+
+        {% endif %}
+
+        <ul>
+
+            {% for playerRoster in roster.playerRosters %}
+
+                {% if playerRoster.playingEndDate %}
+                    
+                    <li>
+                        {{playerRoster.player}} était un joueur {{team}} pour le jeu {{ roster.game }}, il a rejoint l'équipe le {{playerRoster.playingStartDate|date_fr('d F Y')}} et est parti le {{playerRoster.playingEndDate|date_fr('d F Y')}}. {{ playerRoster.role ? "Son rôle était" ~ playerRoster.role }}
+                    </li>
+
+                {% endif %}
+
+            {% endfor %}
+
+        </ul>
+
+
         {# link to modify a roster #}
         <a href="{{ path('edit_roster', {'idRoster': roster.id, 'id': team.id}) }}" class="btn btn-warning">Modifier un roster</a>
+
+        {# Link to delete a roster #}
+        <a href="{{ path('delete_roster', {'id': roster.id}) }}" class="btn btn-danger">Supprimer un roster</a>
+
     {% endfor %}
 
 

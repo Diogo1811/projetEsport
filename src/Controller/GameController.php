@@ -74,11 +74,11 @@ class GameController extends AbstractController
    }
 
    //function to show the details of an game (games, country...)
-   #[Route('/game/{id}', name: 'details_game')]
-   public function gameDetails(Game $game): Response
-   {
-       return $this->render('game/gameDetails.html.twig', [
-           'game' => $game,
-       ]);
-   }
+//    #[Route('/game/{id}', name: 'details_game')]
+//    public function gameDetails(Game $game): Response
+//    {
+//        return $this->render('game/gameDetails.html.twig', [
+//            'game' => $game,
+//        ]);
+//    }
 }

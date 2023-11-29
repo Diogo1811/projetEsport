@@ -8,7 +8,7 @@
         <ul>
             {% for game in games %}
                 <li>
-                    <a href="{{ path('app_api', {'name': game}) }}">{{ game }}</a>
+                    <a href="{{ path('details_game', {'name': game}) }}">{{ game }}</a>
 
                 </li>
             {% endfor %}

@@ -1,15 +1,7 @@
 /********************************************** PLAYER'S DETAILS ******************************************************/
-.playerNationalitySentence{
+.playerSentence{
     display: flex;
     width: 100%;
-}
-
-.playerNationalitySentence a{
-    margin-left: 5px;
-}
-
-.playerNationalitySentence a:first-child figcaption{
-    margin-right: 5px;
 }
 
 .playerNationality{

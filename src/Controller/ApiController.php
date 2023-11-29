@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ApiController extends AbstractController
 {
-    #[Route('/detailsGame/{name}', name: 'app_api')]
+    #[Route('/detailsGame/{name}', name: 'details_game')]
     public function proxyActionGameApi(Game $game, Request $request)
     {
         // Twitch token link
