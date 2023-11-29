@@ -5,46 +5,53 @@
     
 {% block body %}
 
-    {# this is the error message #}
-    {% for message in app.flashes('warning') %}
-        <p>
-            {{message}}
-        </p>
-    {% endfor %}
-
     <h1>Bienvenue sur Esport Xpertise {{ app.user == '' ? '' : app.user }} </h1>
 
     <p>
         Bienvenue sur Esport Xpertise, un site pour les amateurs d’esport et pour ceux qui en font la découverte. Ici vous pourrez trouver des renseignements sur ce qu’est l’eSport mais aussi sur chaque équipe, chaque jeu ou encore chaque tournoi existant.
+        
         {% if app.user %}
 
         {% else %}
+            
             <a href="{{ path('app_register') }}">Inscrivez vous</a> pour faire des prédictions sur des matchs et inscrire votre nom parmi les meilleurs et, si vous le souhaitez, suivre votre équipe favorite.
+        
         {% endif %} 
+
     </p>
 
     <div class="homeContent">
 
         <aside class="topUsers">
+
             {% include "topUsersList.html.twig" %}
+
         </aside>
     
         <article>
+
             <h2>Qu'est-ce que l'esport ?</h2>
+
             <p>
                 L'esport désigne la compétiton entre des professionels du jeux vidéo.
             </p>
+
         </article>
     
         <aside class="topTeams">
+
             {% include "topTeamsList.html.twig" %}
+
         </aside>
 
     </div>
     
     {% if is_granted('ROLE_TEAM') and not is_granted('ROLE_MODERATOR') and app.user.team is null %}
-        <h1>Tu dois créer ton équipe ici</h1>
+
+        <h2>Tu dois créer ton équipe ici</h2>
+        
         <a href="{{ path('new_team') }}">Créez votre équipe ici</a>
+    
     {% endif %}
 
 {% endblock %}

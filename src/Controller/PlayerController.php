@@ -24,9 +24,9 @@ class PlayerController extends AbstractController
     }
 
     //add a player in the data base
-    #[Route('/moderator/player/newplayer', name: 'new_player')]
+    #[Route('/userTeam/player/newplayer', name: 'new_player')]
     //modify a player in the data base
-    #[Route('/moderator/player/{id}/editplayer', name: 'edit_player')]
+    #[Route('/userTeam/player/{id}/editplayer', name: 'edit_player')]
     public function newEditPlayer(Player $player = null, Request $request, EntityManagerInterface $entityManager): Response
     {
         // if the player is set at the start it means we are in a modify player and not in an add
@@ -37,36 +37,41 @@ class PlayerController extends AbstractController
             $edit = $player;
         }
 
-        $form = $this->createForm(PlayerType::class, $player);
-        // dd($form);
+        if ($this->IsGranted('ROLE_MODERATOR') || $this->getUser()->getTeam()){
+            $form = $this->createForm(PlayerType::class, $player);
+            // dd($form);
 
-        $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) {
-
+            $form->handleRequest($request);
             
-            $player = $form->getData();
+            if ($form->isSubmitted() && $form->isValid()) {
 
-            $country = $request->request->get('country');
+                
+                $player = $form->getData();
 
-            if ($country) {
-                $player->setCountry($country);
+                $country = $request->request->get('country');
+
+                if ($country) {
+                    $player->setCountry($country);
+                }
+
+                // tell Doctrine you want to (eventually) save the player (no queries yet)
+                $entityManager->persist($player);
+
+                // actually executes the queries (i.e. the INSERT query)
+                $entityManager->flush();
+
+                return $this->redirectToRoute('details_player', ['id' => $player->getId()]);
             }
-
-            // tell Doctrine you want to (eventually) save the player (no queries yet)
-            $entityManager->persist($player);
-
-            // actually executes the queries (i.e. the INSERT query)
-            $entityManager->flush();
-
-            return $this->redirectToRoute('details_player', ['id' => $player->getId()]);
+        
+            return $this->render('player/playerForm.html.twig', [
+                'form' => $form,
+                'edit' => $edit,
+                'playerId' => $player->getId(),
+            ]);
+        }else {
+            $this->addFlash('error', 'bien essayé!');
+            return $this->redirectToRoute('app_home');
         }
-
-        return $this->render('player/playerForm.html.twig', [
-            'form' => $form,
-            'edit' => $edit,
-            'playerId' => $player->getId(),
-        ]);
     }
 
     //function to show the details of a player

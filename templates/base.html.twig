@@ -138,6 +138,19 @@
         <main id="siteMain">
 
             <section id="container">
+                {# error messages  #}
+                {% for flash_error in app.flashes('error') %}
+                    
+                <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+                
+                {% endfor %}
+
+                {# success messages #}
+                {% for flash_success in app.flashes('success') %}
+
+                    <div class="alert alert-success" role="alert">{{ flash_success }}</div>
+
+                {% endfor %}
                 {% block body %}{% endblock %}
             </section>
 

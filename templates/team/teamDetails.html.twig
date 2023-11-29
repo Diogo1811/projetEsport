@@ -6,8 +6,19 @@
 
     <div class="title">
 
-        {# The title is the team name #}
-        <h1>{{team}}</h1>
+        {{ dump(team) }}
+
+        <figure>
+
+            <img src="{{ asset('upload/logo/' ~ team.logo) }}" alt="logo de {{ team }}">
+            
+            <figcaption>
+
+                {# The title is the team name #}
+                <h1>{{team}}</h1>
+
+            </figcaption>
+        </figure>
 
         {# If the one who is in this page is a registred user he can set a team as is favorite or remove it #}
         {% if is_granted('ROLE_USER') and not is_granted('ROLE_TEAM') or is_granted('ROLE_MODERATOR')%}
@@ -15,6 +26,7 @@
             {# We modify the star depending if the user has the team as a favorite or not #}
             {% if app.user.team and app.user.team.id == team.id %}
 
+                {# link to remove team from favorite #}
                 <a href= "{{ path('add_team', {'id': team.id}) }}" class="starContainer">
 
                     <i class='fa-solid fa-star favTeam'></i>
@@ -23,6 +35,7 @@
 
             {% else %}
 
+                {# link to add team to favorite #}
                 <a href= "{{ path('add_team', {'id': team.id}) }}" class="starContainer">
 
                     <i class='fa-regular fa-star favTeam'></i>
@@ -37,17 +50,24 @@
 
     {# error messages  #}
     {% for flash_error in app.flashes('error') %}
+
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+
     {% endfor %}
 
     {# success messages #}
     {% for flash_success in app.flashes('success') %}
+
         <div class="alert alert-success" role="alert">{{ flash_success }}</div>
+
     {% endfor %}
             
     {# <p>Son siège sociale : <a href="{{ path('details_country', {'id': team.country.id}) }}">{{ team.country }}</a></p> #}
-    <p>Date de création : {{ team.creationDate|date_fr('d F Y')}}</p>
 
+    {# creation date of the team #}
+    <p>Date de création : {{ team.creationDate|date_fr('j F Y')}}</p>
+
+    {# loop to search every roster  #}
     {% for roster in team.rosters %}
         <h6>Roster actuel pour {{ roster.game }} :</h6>
 
@@ -58,7 +78,9 @@
                 {% if not playerRoster.playingEndDate %}
                     
                     <li>
-                        {{playerRoster.player}} est un joueur {{team}} pour le jeu {{ roster.game }}, il a rejoint l'équipe le {{playerRoster.playingStartDate|date_fr('d F Y')}}. {{ playerRoster.role ? "Son rôle est" ~ playerRoster.role }}
+
+                        {{playerRoster.player}} est un joueur {{team}} pour le jeu {{ roster.game }}, il a rejoint l'équipe le {{playerRoster.playingStartDate|date_fr('d F Y')}}. {{ playerRoster.role ? "Son rôle est " ~ playerRoster.role }}
+
                     </li>
 
                 {% endif %}
@@ -74,6 +96,7 @@
             {% if playerRoster.playingEndDate %}
 
                 {% set nbAnciensJoueurs = nbAnciensJoueurs + 1 %}
+                
             {% endif %}
 
         {% endfor %}
@@ -97,7 +120,9 @@
                 {% if playerRoster.playingEndDate %}
                     
                     <li>
+
                         {{playerRoster.player}} était un joueur {{team}} pour le jeu {{ roster.game }}, il a rejoint l'équipe le {{playerRoster.playingStartDate|date_fr('d F Y')}} et est parti le {{playerRoster.playingEndDate|date_fr('d F Y')}}. {{ playerRoster.role ? "Son rôle était" ~ playerRoster.role }}
+
                     </li>
 
                 {% endif %}
@@ -117,10 +142,13 @@
 
 
     {# Allowing modifications only to moderators and admin #}
-    {% if is_granted("ROLE_MODERATOR") %}
+    {% if is_granted("ROLE_MODERATOR") or is_granted("ROLE_TEAM") and app.user.team and app.user.team.id == team.id %}
 
         {# link to add a new roster #}
         <a href="{{ path('new_roster', {'id': team.id}) }}" class="btn btn-warning">Ajouter un roster</a>
+
+        {# link to add a new player #}
+        <a href="{{ path('new_player') }}" class="btn btn-warning">Ajouter un joueur</a>
         
         {# link to modify a team #}
         <a href="{{ path('edit_team', {'id': team.id}) }}" class="btn btn-warning">Modifier {{ team }}</a>

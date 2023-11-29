@@ -153,15 +153,19 @@ ol{
 .topUsers,
 .topTeams{
     background-color: #DBF0FA;
-    width: 13%;
-    height: 30vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    width: auto;
+    height: auto;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    padding: 10px;
+}
+
+.topUsers ol,
+.topTeams ol{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 30px;
 }
 
 /*********************************DELETE AND MODIFY BUTTONS ****************************************/

@@ -32,21 +32,30 @@ class TeamController extends AbstractController
     }
 
     //add a team in the data base
-    #[Route('/moderator/team/newteam', name: 'new_team')]
+    #[Route('/userTeam/team/newteam', name: 'new_team')]
     //modify a team in the data base
-    #[Route('/moderator/team/{id}/editteam', name: 'edit_team')]
+    #[Route('/userTeam/team/{id}/editteam', name: 'edit_team')]
     public function newEditTeam(Team $team = null, Request $request, EntityManagerInterface $entityManager, FileUploaderLogo $fileUploader): Response
     {
         // if the team is set at the start it means we are in a modify team and not in an add
         if (!$team) {
 
-            // since we are in a new team form we creat a new object of the class team that we will call $team
+            // since we are in a new team form we create a new object of the class team that we will call $team
             $team = new Team();
 
             // we set the edit with nothing to manage the title of the form
             $edit = "";
         
         }else {
+            
+            // On an edit a user who doesn't have a team or has one but it's not the one in the edit will be send off
+            if(!$this->getUser()->getTeam() || $this->getUser()->getTeam() != $team) {
+
+                $this->addFlash('error', 'bien essayé !');
+
+                return $this->redirectToRoute('app_home');
+    
+            }
 
             // here we are in an edit team so we set the edit with the team to manage the title of the form 
             $edit = $team;
@@ -91,6 +100,12 @@ class TeamController extends AbstractController
                 $team->setCountry($country);
             }
 
+            // if we are in a new team created and that team was created by a user with ROLE_TEAM we set this team as its favorite
+            if (!$edit && $this->IsGranted('ROLE_TEAM')) {
+                // dd("you are in the if that says you are the creator");
+                $this->getUser()->setTeam($team);
+            }
+
             // prepare the request
             $entityManager->persist($team);
 
@@ -98,12 +113,14 @@ class TeamController extends AbstractController
             $entityManager->flush();
 
             // user is sent 
-            return $this->redirectToRoute('app_team');
+            return $this->redirectToRoute('details_team', ['id' => $team->getId()]);
         }
 
         return $this->render('team/teamForm.html.twig', [
+
             'form' => $form,
             'edit' => $edit
+            
         ]);
     }
 

@@ -25,9 +25,9 @@ class RosterController extends AbstractController
     }
 
     //add a roster in the data base
-    #[Route('/moderator/roster/{id}/newroster', name: 'new_roster')]
+    #[Route('/userTeam/roster/{id}/newroster', name: 'new_roster')]
     //edit a roster in the data base
-    #[Route('/moderator/roster/{idRoster}/{id}/editroster', name: 'edit_roster')]
+    #[Route('/userTeam/roster/{idRoster}/{id}/editroster', name: 'edit_roster')]
     public function newEditRoster(Team $team, Roster $roster = null, Request $request, EntityManagerInterface $entityManager, RosterRepository $rosterRepository, GameRepository $gameRepository): Response
     {
         $idRoster = $request->attributes->get('idRoster');
@@ -47,54 +47,60 @@ class RosterController extends AbstractController
         }
  
         
-        $form = $this->createForm(RosterType::class, $roster);
- 
-        $form->handleRequest($request);
+        if ($this->IsGranted('ROLE_MODERATOR') || $this->getUser()->getTeam() == $team) {
+            
+            $form = $this->createForm(RosterType::class, $roster);
+    
+            $form->handleRequest($request);
 
-        // $srch = $request->request->get('searchGameInput');
+            // $srch = $request->request->get('searchGameInput');
 
-        // searchBar to check the games
-        // $games = json_encode($gameRepository->findBy(['name' => $srch]));
-         
-        if ($form->isSubmitted() && $form->isValid()) {
- 
-            if (!$edit) {
+            // searchBar to check the games
+            // $games = json_encode($gameRepository->findBy(['name' => $srch]));
+            
+            if ($form->isSubmitted() && $form->isValid()) {
+    
+                if (!$edit) {
 
-                //add the roster to the team
-                $team->addRoster($roster);
+                    //add the roster to the team
+                    $team->addRoster($roster);
+                }
+
+                
+                $roster = $form->getData();
+
+                $gameId = $request->request->get('game');
+
+                $game = $gameRepository->findOneBy(['id' => $gameId]);
+
+                if ($game) {
+                    $roster->setGame($game);
+                }
+    
+                // tell Doctrine you want to (eventually) save the roster (no queries yet)
+                $entityManager->persist($roster);
+    
+                // actually executes the queries (i.e. the INSERT query)
+                $entityManager->flush();
+    
+                return $this->redirectToRoute('details_team', ['id' => $team->getId()]);
             }
-
-             
-            $roster = $form->getData();
-
-            $gameId = $request->request->get('game');
-
-            $game = $gameRepository->findOneBy(['id' => $gameId]);
-
-            if ($game) {
-                $roster->setGame($game);
-            }
- 
-            // tell Doctrine you want to (eventually) save the roster (no queries yet)
-            $entityManager->persist($roster);
- 
-            // actually executes the queries (i.e. the INSERT query)
-            $entityManager->flush();
- 
-            return $this->redirectToRoute('details_team', ['id' => $team->getId()]);
+    
+            return $this->render('roster/rosterForm.html.twig', [
+                'form' => $form,
+                'team' => $team,
+                'rosterId' => $roster->getId(),
+                'edit' => $edit
+            ]);
+        }else {
+            $this->addFlash('error', 'bein essayé !');
+            return $this->redirectToRoute('app_home');
         }
- 
-        return $this->render('roster/rosterForm.html.twig', [
-            'form' => $form,
-            'team' => $team,
-            'rosterId' => $roster->getId(),
-            'edit' => $edit
-        ]);
     }
 
 
     //function to delete a roster
-    #[Route('/moderator/roster/{id}/deleteroster', name: 'delete_roster')]
+    #[Route('/userTeam/roster/{id}/deleteroster', name: 'delete_roster')]
     public function rosterDelete(roster $roster, EntityManagerInterface $entityManager): Response
     {
         $teamId = $roster->getTeam()->getId();

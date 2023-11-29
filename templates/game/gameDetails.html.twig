@@ -241,6 +241,7 @@
 
     {# Delete and modify the database is only allowed to moderators or admin #}
     {% if is_granted('ROLE_MODERATOR') %}
+    
         <div class="deleteOrEditButtons">
 
             {# link to edit a game #}
