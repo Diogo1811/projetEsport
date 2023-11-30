@@ -111,4 +111,25 @@ class ApiController extends AbstractController
        
         return  $this->json($games, 200, [], ['groups'=> ['name', 'id']]);
     }
+
+    // #[Route('/countryApi', name: 'country_api')]
+    public function displayCountry($cca2)
+    {
+        // $cca2 = $request->attributes->get('cca2');
+
+        $apiCountries = 'https://restcountries.com/v3.1/alpha/'.$cca2;
+
+        // Create a Guzzle client
+        $client = new Client();
+
+        // Api 4 games call 
+        $response = $client->request('GET', $apiCountries);
+
+        
+        $data = json_decode($response->getBody(), true);
+        
+        // dd($data[0]);
+       
+        return $data[0];
+    }
 }

@@ -108,37 +108,3 @@
     gap: 20px;
     padding: 0;
 }
-
-.socialMediaFacebook i{
-    color: #4267B2;
-}
-
-.socialMediaTwitter i{
-    color: #14171A;
-}
-
-.socialMediaYoutube i{
-    color: #FF0000;
-}
-
-.socialMediaTwitch i{
-    color: #9146ff;
-}
-
-.socialMediaInstagram i{
-    color: #fff;
-    background: radial-gradient(
-            circle farthest-corner at 28% 100%,
-            #fcdf8f 0%,
-            #fbd377 10%,
-            #fa8e37 22%,
-            #f73344 35%,
-            transparent 65%
-        ), linear-gradient(145deg, #3051f1 10%, #c92bb7 70%)
-    ;
-    border-radius: 10px;
-    width: 60px;
-    height: 60px;
-    text-align: center;
-    padding-top: 3px;
-}

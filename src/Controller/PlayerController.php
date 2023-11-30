@@ -4,7 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Player;
 use App\Form\PlayerType;
+use App\Controller\ApiController;
 use App\Service\FileUploaderLogo;
+use App\Repository\TeamRepository;
+use App\Repository\UserRepository;
 use App\Repository\PlayerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -74,12 +77,36 @@ class PlayerController extends AbstractController
         }
     }
 
+    //function to delete a player STILL HAVE TO THINK ABOUT IT
+    // #[Route('/moderator/player/{id}/deleteplayer', name: 'delete_player')]
+    // public function playerDelete(Player $player, EntityManagerInterface $entityManager): Response
+    // {
+
+    //     // prepare the request
+    //     $entityManager->remove($player);
+
+    //     // execute the request
+    //     $entityManager->flush();
+
+    //     // send the user to the list of players
+    //     return $this->redirectToRoute('app_player');
+    // }
+
     //function to show the details of a player
     #[Route('/player/{id}', name: 'details_player')]
-    public function playerDetails(Player $player): Response
+    public function playerDetails(Player $player, ApiController $apiController, UserRepository $userRepository, TeamRepository $teamRepository): Response
     {
+
+        $users = $userRepository->findBy([],["siteCoins" => "DESC"], 10);
+        $teams = $teamRepository->findAll();
+
+        $countryDetails = $apiController->displayCountry($player->getCountry());
+
         return $this->render('player/playerDetails.html.twig', [
             'player' => $player,
+            'users' => $users,
+            'teams' => $teams,
+            'countryDetails' => $countryDetails
         ]);
     }
 }

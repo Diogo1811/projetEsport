@@ -4,68 +4,173 @@
 
 {% block body %}
 
+    {# set the age of the player by searching for the difference between today and his birth date. to only have the  #}
+    {% set age = date().diff(date(player.birthDate)).y %}
+
+    {{ dump(player) }} 
     <h1>{{player}}</h1>
 
-    {# This article presents the player and his real name #}
-    <article class="playerSentence">
+    <section class="playerDetailsContainer">
 
-        {# Begining of the sentence where we use the player nickname firstname and lastname #} 
-        {{ player }} (de son vrai nom {{ player.firstname }} {{ player.lastname }}, {{ player.gender == 'Homme' ? ' né ' : ' née' }}  le {{ player.birthDate|date_fr('d F Y') }}) est 
+        
+        {# add to this template the top ten users template #}
+        <aside class="topUsers">
 
-        {# Ternary operator : inline if that allows me to ask if the player is male or female to modify the sentence in consequence #}
-        {{ player.gender == 'Homme' ? ' un joueur ' : ' une joueuse ' }} 
+            {% include "topUsersList.html.twig" %}
 
-        {% for playerRoster in player.playerRosters %}
+        </aside>
 
-            {% if not playerRoster.playingEndDate %}
+        <div class="mainPlayerDetails">
+        
+            {# This article presents the player and his real name #}
+            <article class="playerSentence">
+
+                {# Flag of the player nationality #}
+                <figure id="playerNationality">
+
+                    <a href="{{ path('details_country', {'id': countryDetails.cca2}) }}"><img src="{{countryDetails.flags.png}}" alt="drapeau de {{countryDetails.translations.fra.common}}"></a>
+
+                </figure>
+
+                <p>
+                    {# Begining of the sentence where we use the player nickname firstname and lastname #} 
+                    {{ player }} (de son vrai nom {{ player.firstname|capitalize }} {{ player.lastname|capitalize }}, {{ player.gender == 'Homme' ? ' né ' : ' née' }}  le {{ player.birthDate|date_fr('d F Y') }}) est 
+
+                    {# Ternary operator : inline if that allows me to ask if the player is male or female to modify the sentence in consequence #}
+                    {{ player.gender == 'Homme' ? ' un joueur ' : ' une joueuse ' }}
+
+
+                    de {{ age }} ans{{player.playerRosters|length < 1 ? "." : ""}}
+
+                    {# loop in the assosiative table between player and roster to check if the player has rosters #}
+                    {% for playerRoster in player.playerRosters %}
+
+                        {# Condition to check if the player is still on the roster since a player cannot be in two roster at the same time #}
+                        {% if not playerRoster.playingEndDate %}
+                            
+                            {# links to the details of the game he plays and the team he is on  #}
+                            sur <a href="{{ path('details_game', {'name': playerRoster.roster.game.name}) }}">{{playerRoster.roster.game.name}}</a> pour <a href="{{ path('details_team', {'id': playerRoster.roster.team.id}) }}">{{playerRoster.roster.team.name}}</a>.
+                            
+                        {% endif %}
+
+                    {% endfor %}
+
+
+                    {# if the player has earnings it shows a sentence with how much #}
+                    {% if player.earning %}
+                        {{ player.gender == 'Homme' ? ' Il ' : ' Elle ' }}  a actuellement {{ player.earning|number_format(2, ',', ' ') }} euros de gains dans sa carrière.
+                    {% endif %}
+                </p>
+
+            </article>
+
+            {% set hasAnOldTeam = false %}
+
+            {# loop in the player's rosters #}
+            {% for playerRoster in player.playerRosters %} 
+
+                {# if there's a roster where the player has an ending date  #}
+                {% if playerRoster.playingEndDate %}
+
+                    {# set a new var that will allow me to display an article with the historic of the player #}
+                    {% set hasAnOldTeam = true %}
+
+                {% endif %}
+
+            {% endfor %}
+
+            {% if hasAnOldTeam %}
+            
+                <article id="historic">
                 
-                <a href="{{ path('details_game', {'name': playerRoster.roster.game.name}) }}">{{playerRoster.roster.game.name}}</a> pour <a href="{{ path('details_team', {'id': playerRoster.roster.team.id}) }}">{{playerRoster.roster.team.name}}</a>
+                    <ul>
+                        {# Loop on the player's rosters #}
+                        {% for playerRoster in player.playerRosters %} 
+
+                            {# if there's a roster where the player has an ending date  #}
+                            {% if playerRoster.playingEndDate %}
+
+                                {# Name of the previous team and the dates when he was part of the team #}
+                                <li>{{ playerRoster.roster.team }} entre le {{ playerRoster.playingStartDate|date_fr('d F Y') }} et le {{ playerRoster.playingEndDate|date_fr('d F Y') }}</li>
+
+                            {% endif %}
+
+                        {% endfor %}
+                    
+                    </ul>
+
+                </article>
                 
             {% endif %}
 
+            <article id="playerSocialMedia">
+
+                {# Changing the social media title  #}
+                {# if the player has multiple social media accounts #}
+                {% if player.socialMediaAccounts|length > 1 %}
+
+                    <h4>Réseaux sociaux</h4>
+                    
+                {# if the player has only one social media account #}
+                {% elseif player.socialMediaAccounts|length > 0 %}
+                    
+                    <h4>Réseau social</h4>
+
+                {# if the player has none no need for a title #}
+                {% else %}
+
+
+                {% endif %}
+
+                <ul>
+
+                    {# loop in the player's social media accounts #}
+                    {% for socialMediaAccount in player.socialMediaAccounts %}
             
-        {% endfor %}
-
-        {# link to the country's details #}
-        {# figure that will allow me to add the country's flag #}
-        {# link to the country flag #}
-        {# <a href="{{ path('details_country', {'id': country.id}) }}">
-
-            <figure class="playerNationality">
-
-                <img src="{{ country.flag }}" alt="Drapeau {{ country.nationalityNameMale }}">
-
-
-            </figure>
-
-        </a> #}
-    </article>
-
-    <article>
-
-        <h4>Réseaux sociaux</h4>
-
-        {% for socialMediaAccount in player.socialMediaAccounts %}
-
-            {# This is a condition for the font awesome because the twitter logo isn't written the same maner as the other ones  #}
-            {% if socialMediaAccount == 'X' or socialMediaAccount == 'Twitter' %}
-
-            <li><a target="_blank" href="{{ socialMediaAccount.linktoSocialMedia }}"><i class="fa-brands fa-x-twitter"></i></a></li> 
-
-            {% else %}
-
-                <li><a target="_blank" href="{{ socialMediaAccount.linktoSocialMedia }}"><i class="fa-brands fa-{{socialMediaAccount|lower}}"></i></a></li>  
-
-            {% endif %}
+                        {# This is a condition for the font awesome because the twitter logo isn't written the same maner as the other ones  #}
+                        {% if socialMediaAccount == 'X' or socialMediaAccount == 'Twitter' %}
             
-        {% endfor %}
-    </article>
+                            {# link to the player's twitter account #}
+                            <li class="socialMediaTwitter"><a target="_blank" href="{{ socialMediaAccount.linktoSocialMedia }}"><i class="fa-brands fa-x-twitter"></i></a></li> 
             
+                        {% else %}
+            
+                            {# link to the player's others social media accounts #}
+                            <li class="socialMedia{{socialMediaAccount|capitalize}}"><a target="_blank" href="{{ socialMediaAccount.linktoSocialMedia }}"><i class="fa-brands fa-{{socialMediaAccount|lower}}"></i></a></li>  
+            
+                        {% endif %}
+                        
+                    {% endfor %}
 
-    {% if is_granted('ROLE_MODERATOR') %}    
-        <a href="{{ path('edit_player', {'id': player.id}) }}" class="btn btn-warning">Modifier {{ player }}</a>
-        {# <a href="{{ path('delete_player', {'id': player.id}) }}" class="btn btn-danger">Supprimer {{ player }}</a> #}
-    {% endif %}
+                </ul>
 
 
+            </article>
+
+        </div>
+
+        {# add to this template the top ten teams template #}
+        <aside class="topTeams">
+
+            {% include "topTeamsList.html.twig" %}
+
+        </aside>
+                
+
+        
+    </section>
+
+    <div class="deleteOrEditButtons">
+        {# we allow the deletion or the modification of a player only to at least a moderator #}
+        {% if is_granted('ROLE_MODERATOR') %}    
+    
+            {# link to modification #}
+            <a href="{{ path('edit_player', {'id': player.id}) }}" class="btn btn-warning">Modifier {{ player }}</a>
+    
+            {# link to deletion STILL HAVE TO THINK ABOUT IT #}
+            {# <a href="{{ path('delete_player', {'id': player.id}) }}" class="btn btn-danger">Supprimer {{ player }}</a> #}
+            
+        {% endif %}
+
+    </div>
 {% endblock %}
