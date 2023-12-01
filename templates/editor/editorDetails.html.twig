@@ -5,37 +5,130 @@
 {% block body %}
 
     {{ dump(editor) }}
-    {{ dump(countryDetails) }}
+    {# {{ dump(countryDetails) }} #}
+
+    {# Title of this template will be the editor's name #}
     <h1>{{editor}}</h1>
-
+    
+    
+    {# Main part of the editor page #}
     <section id="editorContainer">
-
+        
+        {# Include top users template #}
         <aside class="topUsers">
-
+            
             {% include "topUsersList.html.twig" %}
-
+            
         </aside>
+        
+        {# All the infos I have about the editor #}
+        <article id="editorDetails">
 
-        <article>
-            {{ editor }} est une entreprise qui conçoit des jeux vidéos. Elle a été crée le {{ editor.creationDate|date_fr('d F Y') }} et 
+            {# Editor little sentence with name and creation date #}
+            <p>
+                
+                {{ editor }} est une entreprise qui conçoit des jeux vidéos. Elle a été crée le {{ editor.creationDate|date_fr('d F Y') }}
+                
+            </p>
+            
+            {# Editor's Country #}
+            <div id="editorCountry">
+                
+                {# Since I can't make a good sentence I will put this not in an sentence but in a title followed by the country's flag and name #}
+                <h6>Siège social : </h6>
+
+                <p>{{ editor.city }},</p>
+                {# figure for country's flag #}
+                <figure>
+                    
+                    {# Figacaption to put the country's name #}
+                    <figcaption>
+                        
+                        {# link to country's page #}
+                        <a href="{{ path('details_country', {'id': countryDetails.cca2}) }}">
+                            
+                            {# Country'name #}
+                            {{ countryDetails.translations.fra.common }}
+                            
+                        </a>
+                        
+                    </figcaption>
+                    {# link to country's page #}
+                    <a href="{{ path('details_country', {'id': countryDetails.cca2}) }}">
+                        
+                        {# Country's flag #}
+                        <img src="{{countryDetails.flags.png}}" alt="drapeau de {{countryDetails.translations.fra.common}}">
+                            
+                    </a>
+                        
+                </figure>
+
+
+                <div class="editorSocialMedia">
+
+                    {% if editor.socialMediaAccounts|length > 1 %}
+                            
+                        <h4>Réseaux Sociaux :</h4>
+
+                    {% elseif editor.socialMediaAccounts|length > 0 %}
+
+                        <h4>Réseau Social :</h4>
+
+                    {% else %}
+
+                    
+                    {% endif %}
+
+                    <ul>
+
+                        {# loop in the editor's social media accounts #}
+                        {% for socialMediaAccount in editor.socialMediaAccounts %}
+                
+                            {# This is a condition for the font awesome because the twitter logo isn't written the same maner as the other ones  #}
+                            {% if socialMediaAccount == 'X' or socialMediaAccount == 'Twitter' %}
+                
+                                {# link to the editor's twitter account #}
+                                <li class="socialMediaTwitter"><a target="_blank" href="{{ socialMediaAccount.linktoSocialMedia }}"><i class="fa-brands fa-x-twitter"></i></a></li> 
+                
+                            {% else %}
+                
+                                {# link to the editor's others social media accounts #}
+                                <li class="socialMedia{{socialMediaAccount|capitalize}}"><a target="_blank" href="{{ socialMediaAccount.linktoSocialMedia }}"><i class="fa-brands fa-{{socialMediaAccount|lower}}"></i></a></li>  
+                
+                            {% endif %}
+                            
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+                    
+            </div>
+                
         </article>
-
+        
+        {# Include top teams template #}
         <aside class="topTeams">
-
+            
             {% include "topTeamsList.html.twig" %}
-
+            
         </aside>
 
     </section>
-        
-    {# <p>Son siège sociale : <a href="{{ path('details_country', {'id': editor.country.id}) }}">{{ editor.country }}</a></p> #}
-
-    {# Delete and modify the database is only allowed to moderators or admin #}
-    {% if is_granted('ROLE_MODERATOR') %}
-        <a href="{{ path('edit_editor', {'id': editor.id}) }}" class="btn btn-warning">Modifier {{ editor }}</a>
-        <a href="{{ path('delete_editor', {'id': editor.id}) }}" class="btn btn-danger">Supprimer {{ editor }}</a>
-    {% endif %}
     
+    <div class="deleteOrEditButtons">
 
+        {# Delete and modify the database is only allowed to moderators or admin #}
+        {% if is_granted('ROLE_MODERATOR') %}
+    
+            {# Modification button #}
+            <a href="{{ path('edit_editor', {'id': editor.id}) }}" class="btn btn-warning">Modifier {{ editor }}</a>
+    
+            {# Delete button #}
+            <a href="{{ path('delete_editor', {'id': editor.id}) }}" class="btn btn-danger">Supprimer {{ editor }}</a>
+    
+        {% endif %}
+
+    </div>
 
 {% endblock %}

@@ -170,9 +170,9 @@ class Editor
         return $this;
     }
 
-     //adding a  __tostring function
-     public function __toString()
-     {
-         return $this->name;
-     }
+    //adding a  __tostring function
+    public function __toString()
+    {
+        return $this->name;
+    }
 }

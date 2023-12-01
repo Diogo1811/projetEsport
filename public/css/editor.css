@@ -1,0 +1,44 @@
+/********************************Editor Details **************************************************************/
+#editorContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+#editorDetails {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+}
+
+#editorCountry {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#editorCountry h6,
+#editorCountry p{
+  margin-bottom: 0;
+}
+
+#editorCountry figure{
+  display: flex;
+  margin: 0;
+  gap: 10px;
+}
+
+#editorCountry figure img{
+  display: flex;
+  width: 40px;
+}
+
+#editorCountry figcaption a{
+  text-decoration: none;
+  color: black;
+}
+
+#editorCountry figcaption a:hover{
+  color: blue;
+
+}
