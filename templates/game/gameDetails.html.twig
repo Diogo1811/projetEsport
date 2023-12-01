@@ -3,6 +3,7 @@
 {% block title %}{{game}}{% endblock %}
 
 {% block body %}
+    {{ dump(infos) }}
     
     {% if infos is defined %}   
         <figure class="gameCover">

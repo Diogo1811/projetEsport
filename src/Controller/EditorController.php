@@ -5,6 +5,9 @@ namespace App\Controller;
 use App\Entity\Editor;
 use GuzzleHttp\Client;
 use App\Form\EditorType;
+use App\Controller\ApiController;
+use App\Repository\TeamRepository;
+use App\Repository\UserRepository;
 use App\Repository\EditorRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -79,10 +82,19 @@ class EditorController extends AbstractController
 
     //function to show the details of an editor (games, country...)
     #[Route('/editor/{id}', name: 'details_editor')]
-    public function editorDetails(Editor $editor): Response
+    public function editorDetails(Editor $editor, UserRepository $userRepository, TeamRepository $teamRepository, ApiController $apiController): Response
     {
+
+        $users = $userRepository->findBy([],["siteCoins" => "DESC"], 10);
+        $teams = $teamRepository->findAll();
+
+        $countryDetails = $apiController->displayCountry($editor->getCountry());
+
         return $this->render('editor/editorDetails.html.twig', [
             'editor' => $editor,
+            'users' => $users,
+            'teams' => $teams,
+            'countryDetails' => $countryDetails
         ]);
     }
 

@@ -3,7 +3,30 @@
 {% block title %}{{editor}}{% endblock %}
 
 {% block body %}
+
+    {{ dump(editor) }}
+    {{ dump(countryDetails) }}
     <h1>{{editor}}</h1>
+
+    <section id="editorContainer">
+
+        <aside class="topUsers">
+
+            {% include "topUsersList.html.twig" %}
+
+        </aside>
+
+        <article>
+            {{ editor }} est une entreprise qui conçoit des jeux vidéos. Elle a été crée le {{ editor.creationDate|date_fr('d F Y') }} et 
+        </article>
+
+        <aside class="topTeams">
+
+            {% include "topTeamsList.html.twig" %}
+
+        </aside>
+
+    </section>
         
     {# <p>Son siège sociale : <a href="{{ path('details_country', {'id': editor.country.id}) }}">{{ editor.country }}</a></p> #}
 
