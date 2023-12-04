@@ -40,7 +40,7 @@ class ModerationController extends AbstractController
         if ($user->isIsBanned()) {
 
             $user->setIsBanned(false);
-            $this->addFlash('success', "L'utilisateur a bien été bloqué");
+            $this->addFlash('success', "L'utilisateur a bien été débloqué");
         }else{
 
             $user->setIsBanned(true);
