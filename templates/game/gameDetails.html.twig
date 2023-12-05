@@ -3,9 +3,10 @@
 {% block title %}{{game}}{% endblock %}
 
 {% block body %}
-    {{ dump(infos) }}
-    
+{{ dump(game) }}
+
     {% if infos is defined %}   
+        {{ dump(infos) }}
         <figure class="gameCover">
 
             {# link to the cover of the game the image is in the api#}

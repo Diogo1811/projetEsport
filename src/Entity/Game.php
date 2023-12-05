@@ -24,13 +24,6 @@ class Game
     #[Groups(groups: 'name')]
     private ?string $name = null;
 
-
-    // #[ORM\Column(type: Types::DATE_MUTABLE)]
-    // private ?\DateTimeInterface $releaseDate = null;
-
-    // #[ORM\Column(type: Types::TEXT, nullable: true)]
-    // private ?string $linkToPurchase = null;
-
     #[ORM\ManyToOne(inversedBy: 'games')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Editor $editor = null;
@@ -40,6 +33,9 @@ class Game
 
     #[ORM\OneToMany(mappedBy: 'game', targetEntity: Roster::class, orphanRemoval: true)]
     private Collection $rosters;
+
+    #[ORM\Column]
+    private ?bool $isVerified = null;
 
     public function __construct()
     {
@@ -63,30 +59,6 @@ class Game
 
         return $this;
     }
-
-    // public function getReleaseDate(): ?\DateTimeInterface
-    // {
-    //     return $this->releaseDate;
-    // }
-
-    // public function setReleaseDate(\DateTimeInterface $releaseDate): static
-    // {
-    //     $this->releaseDate = $releaseDate;
-
-    //     return $this;
-    // }
-
-    // public function getLinkToPurchase(): ?string
-    // {
-    //     return $this->linkToPurchase;
-    // }
-
-    // public function setLinkToPurchase(?string $linkToPurchase): static
-    // {
-    //     $this->linkToPurchase = $linkToPurchase;
-
-    //     return $this;
-    // }
 
     public function getEditor(): ?Editor
     {
@@ -130,12 +102,6 @@ class Game
         return $this;
     }
 
-    //adding a  __tostring function
-    public function __toString()
-    {
-        return ucfirst($this->getName());
-    }
-
     /**
      * @return Collection<int, Roster>
      */
@@ -165,4 +131,23 @@ class Game
 
         return $this;
     }
+
+    public function isIsVerified(): ?bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): static
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    //adding a  __toString function
+    public function __toString()
+    {
+        return ucfirst($this->getName());
+    }
+ 
 }

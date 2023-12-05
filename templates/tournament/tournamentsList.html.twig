@@ -9,9 +9,8 @@
         {{ dump(tournaments) }}
             {% for tournament in tournaments %}
                 <li>
-                    {{ tournament.name }}
-                    {# {{ tournament.start_at|date_fr('l j F Y') }}
-                    <a href="{{ path('details_game', {'name': tournament.game_name}) }}">{{ tournament.game_name }}</a> #}
+                    {{ tournament.tournament.name }}
+                    {# {{ tournament.start_at|date_fr('l j F Y') }} #}
                 </li>
             {% endfor %}
         </ul>

@@ -16,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ApiController extends AbstractController
 {
     #[Route('/detailsGame/{name}', name: 'details_game')]
-    public function proxyActionGameApi(Game $game, Request $request)
+    public function proxyActionGameApi(Game $game, Request $request, EntityManagerInterface $entityManager)
     {
         // Twitch token link
         $accessTokenUrl = 'https://id.twitch.tv/oauth2/token';
@@ -59,6 +59,17 @@ class ApiController extends AbstractController
             $data = json_decode($response->getBody(), true);
 
             if ($data) {
+
+                if (!$game->isIsVerified()) {
+
+                    $game->setIsVerified(true);
+
+                    // tell Doctrine you want to (eventually) save the game (no queries yet)
+                    $entityManager->persist($game);
+
+                    // actually executes the queries (i.e. the INSERT query)
+                    $entityManager->flush();
+                }
                 
                 //str_replace to modify the quality of the received picture
                 $urlCover = str_replace('thumb', '1080p', $data[0]['cover']['url']);
@@ -92,7 +103,9 @@ class ApiController extends AbstractController
                     //this gives me the info I entered in the data base
                     'game' => $game,
                 ]);
+
             }else{
+
                 return $this->render('game/gameDetails.html.twig', [
 
                     //this gives me the info I entered in the data base
@@ -138,8 +151,8 @@ class ApiController extends AbstractController
 
 
 /************************************************* API TOURNAMENT ****************************************************/
-    #[Route('/tournament', name: 'get_challonge_api')]
-    public function getTournament()
+    #[Route('/tournament/tournamentsList', name: 'get_challonge_api')]
+    public function getTournaments()
     {
 
         // This allows me to get a registred tournament
@@ -159,40 +172,14 @@ class ApiController extends AbstractController
         
         $data = json_decode($response->getBody(), true);
        
-        // return $data[0];
         return $this->render('tournament/tournamentsList.html.twig', [
-            'tournaments' => $data[0],
+            'tournaments' => $data,
         ]);
-    }
-
-    #[Route('/challongeNewTournament', name: 'new_challonge_api')]
-    public function newATournament()
-    {
-
-        // This allows me to add a new tournament
-        $apiChallonge = 'https://api.challonge.com/v1/tournaments.json';
-
-        // Create a Guzzle client
-        $client = new Client();
-
-        // Api tournament call
-        $response = $client->request('POST', $apiChallonge, [
-            'query' => [
-                'api_key' => 'ywlAxaVHioEqzgZ0uwqzNzU2rpceht45ydKf88fe',
-            ],
-        ]);
-
-        
-        $data = json_decode($response->getBody(), true);
-        
-        dd($data[0]);
-       
-        // return $data[0];
     }
 
     //add a tournament in the data base
     #[Route('/moderator/tournament/newtournament', name: 'new_tournament')]
-    public function newTournament(Request $request, EntityManagerInterface $entityManager): Response
+    public function newTournament(Request $request): Response
     {
 
 
@@ -201,13 +188,31 @@ class ApiController extends AbstractController
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
+
             $tournament = $form->getData();
+            $tournament["game_name"]= $form->getData()["game_name"]->getName();
+            // dd($tournament);
+            // $tournament->setGame()
 
-            // tell Doctrine you want to (eventually) save the tournament (no queries yet)
-            $entityManager->persist($tournament);
+            $jsonData = json_encode($tournament);
 
-            // actually executes the queries (i.e. the INSERT query)
-            $entityManager->flush();
+
+            // This allows me to add a new tournament
+            $apiChallonge = 'https://api.challonge.com/v1/tournaments.json';
+
+            // Create a Guzzle client
+            $client = new Client();
+
+            // Api tournament call and creation of the tournament
+            $client->request('POST', $apiChallonge, [
+                'headers' => [
+                    'Content-Type' => 'application/json'
+                ],
+                'query' => [
+                    'api_key' => 'ywlAxaVHioEqzgZ0uwqzNzU2rpceht45ydKf88fe',
+                ],
+                'body' => $jsonData
+            ]);
 
             return $this->redirectToRoute('get_challonge_api');
         }
