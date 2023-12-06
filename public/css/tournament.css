@@ -1,0 +1,14 @@
+.doubleElimination,
+.swiss,
+.roundRobin,
+.openSignUpOn{
+
+    display: none;
+
+}
+
+.singleElimination{
+
+    display: block;
+    
+}
