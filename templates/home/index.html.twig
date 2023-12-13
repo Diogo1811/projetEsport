@@ -4,21 +4,27 @@
 
     
 {% block body %}
+    {# {% set now %} #}
+    
 
+    {# This is the title of the home page #}
     <h1>Bienvenue sur Esport Xpertise {{ app.user == '' ? '' : app.user }} </h1>
 
+    {# This is the description of the home page with a link to register if it'a a vistitor #}
     <p>
         Bienvenue sur Esport Xpertise, un site pour les amateurs d’esport et pour ceux qui en font la découverte. Ici vous pourrez trouver des renseignements sur ce qu’est l’eSport mais aussi sur chaque équipe, chaque jeu ou encore chaque tournoi existant.
         
-        {% if app.user %}
-
-        {% else %}
+        {% if not app.user %}
             
+            {# Link to register for someone who isn't logged in #}
             <a href="{{ path('app_register') }}">Inscrivez vous</a> pour faire des prédictions sur des matchs et inscrire votre nom parmi les meilleurs et, si vous le souhaitez, suivre votre équipe favorite.
         
         {% endif %} 
 
     </p>
+
+    {# This is where my backgroud picture will be #}
+    <section class="backgroundPic"></section>
 
     <div class="homeContent">
 
@@ -28,7 +34,7 @@
 
         </aside>
     
-        <article>
+        <section>
 
             <h2>Qu'est-ce que l'esport ?</h2>
 
@@ -36,7 +42,37 @@
                 L'esport désigne la compétiton entre des professionels du jeux vidéo.
             </p>
 
-        </article>
+            <article id="tournament-list">
+                <h2>Tournois</h2>
+                <ul>
+
+                    {% for tournament in tournaments %}
+    
+                        {# {{ dump(tournament.start_at) }} #}
+                        {% if tournament.start_at and tournament.start_at %}
+                            
+                            <li class="tournamentListHome">
+
+                                <p class="tournamentNameHome">
+                                    {{ tournament.name }}
+                                    <i class="fa fa-angle-right"></i>
+                                </p>
+
+                                <p class="tournamentDetailsHome">
+                                    Ce tournoi commence le {{ tournament.start_at|date_fr('l d F y')}} !
+                                </p>
+                               
+
+                            </li>
+                        {% endif %}
+    
+                        
+                    {% endfor %}
+                </ul>
+
+            </article>
+
+        </section>
     
         <aside class="topTeams">
 
@@ -53,5 +89,8 @@
         <a href="{{ path('new_team') }}">Créez votre équipe ici</a>
     
     {% endif %}
+
+    {# This is where my backgroud picture will be #}
+    <section class="backgroundPic"></section>
 
 {% endblock %}

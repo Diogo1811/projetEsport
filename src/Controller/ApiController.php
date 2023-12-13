@@ -151,7 +151,7 @@ class ApiController extends AbstractController
 
 
 /************************************************* API TOURNAMENT ****************************************************/
-    #[Route('/tournament/tournamentsList', name: 'get_challonge_api')]
+    // #[Route('/tournament/tournamentsList', name: 'get_challonge_api')]
     public function getTournaments()
     {
 
@@ -172,53 +172,33 @@ class ApiController extends AbstractController
         
         $data = json_decode($response->getBody(), true);
        
-        return $this->render('tournament/tournamentsList.html.twig', [
-            'tournaments' => $data,
-        ]);
+        return $data;
     }
 
     //add a tournament in the data base
-    #[Route('/moderator/tournament/newtournament', name: 'new_tournament')]
-    public function newTournament(Request $request): Response
+    public function addTournament($data)
     {
 
+        // This allows me to add a new tournament
+        $apiChallonge = 'https://api.challonge.com/v1/tournaments.json';
 
-        $form = $this->createForm(TournamentType::class);
+        // Create a Guzzle client
+        $client = new Client();
 
-        $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $tournament = $form->getData();
-            $tournament["game_name"]= $form->getData()["game_name"]->getName();
-            // dd($tournament);
-            // $tournament->setGame()
-
-            $jsonData = json_encode($tournament);
-
-
-            // This allows me to add a new tournament
-            $apiChallonge = 'https://api.challonge.com/v1/tournaments.json';
-
-            // Create a Guzzle client
-            $client = new Client();
-
-            // Api tournament call and creation of the tournament
-            $client->request('POST', $apiChallonge, [
-                'headers' => [
-                    'Content-Type' => 'application/json'
-                ],
-                'query' => [
-                    'api_key' => 'ywlAxaVHioEqzgZ0uwqzNzU2rpceht45ydKf88fe',
-                ],
-                'body' => $jsonData
-            ]);
-
-            return $this->redirectToRoute('get_challonge_api');
-        }
-
-        return $this->render('tournament/tournamentForm.html.twig', [
-            'form' => $form
+        // Api tournament call and creation of the tournament
+        $client->request('POST', $apiChallonge, [
+            'headers' => [
+                'Content-Type' => 'application/json'
+            ],
+            'query' => [
+                'api_key' => 'ywlAxaVHioEqzgZ0uwqzNzU2rpceht45ydKf88fe',
+            ],
+            'body' => $data
         ]);
+
+        return;
+        
+
+       
     }
 }

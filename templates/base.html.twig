@@ -68,6 +68,9 @@
 
                     {# link to list of countries #}
                     <li><a href="{{ path('app_country') }}">Pays</a></li>
+                    
+                    {# link to list of countries #}
+                    <li><a href="{{ path('app_tournament') }}">Tournois</a></li>
 
                     {% if app.user %}
 
@@ -191,7 +194,10 @@
 
             {# links to my js files #}
             
-            {# link to nationalitySearchBar js #}
+            {# link to home js #}
+            <script src="{{ asset('js/home.js') }}"></script>
+
+            {# link to gameSearchBar js #}
             <script src="{{ asset('js/gameSearchBar.js') }}"></script>
 
             {# link to searchBars js #}

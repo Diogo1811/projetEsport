@@ -10,7 +10,9 @@
         
     {# First form is the FUNCTION the second one is the var creates in the controller #}
     {{ form_start(form) }} 
-
+    
+        <label> Sur quel jeu se joue le tournoi ?</label>
+        {% include "searchbarGame.html.twig" %}
     {{ form_end(form) }}
    
 {% endblock %}

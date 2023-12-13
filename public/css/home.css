@@ -2,9 +2,74 @@
 .homeContent{
     display: flex;
     justify-content: space-between;
-    margin-top: 20px;
+    margin: 20px 0;
 }
 
 .homeContent h2{
     text-align: center;
+}
+
+/**********Background pic ******************************/
+.backgroundPic {
+    /* 
+    Super propriété background permet de combiner background-image, repeat et position
+    */
+    background: url(../img/homeBackground.jpeg) no-repeat center;
+    height: 250px;
+    background-attachment: fixed;
+    /* 
+    Permet de définir si l'image de fond défile par rapport au document ou si elle reste fixée au fond
+    */
+    background-size:cover;
+}
+
+
+/************Accordeon **********************************/
+#tournament-list {
+    width: 700px;
+    margin: 0 auto;
+}
+
+.tournamentNameHome {
+    background: #DBF0FA;
+    padding: 11px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-bottom: 0;
+    display: block;
+    border-bottom: 1px solid #e7e7e7;
+    position: relative;
+    text-decoration: none;
+    color: #2a2a2e;
+    border-radius: 10px;
+    box-shadow: 2px #2a2a2e;
+}
+
+.tournamentNameHome i {
+    position: absolute;
+    right: 3%;
+    transition: 0.3s;
+}
+
+.tournamentDetailsHome {
+    padding: 15px;
+    display: none;
+    background: #DBF0FA;
+    margin-top: 0;
+    color: #455;
+    border-radius: 10px;
+}
+
+.active {
+    color: blue;
+    font-weight: bold;
+}
+
+.active i {
+    transform: rotate(90deg);
+}
+
+.tournamentListHome {
+    /* display: none; */
+    list-style: none;
 }

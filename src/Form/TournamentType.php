@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class TournamentType extends AbstractType
@@ -32,18 +33,18 @@ class TournamentType extends AbstractType
                 ]
             ])
             // tournament's type select
-            ->add('tournament_type', ChoiceType::class, [
-                'label' => 'Type du tournoi',
-                'choices' => [
-                    'Elimination Simple' => 'single elimination',
-                    'Elimination Double' => 'double elimination',
-                    'Round-robin' => 'round robin',
-                    'Système Suisse' => 'swiss',
-                ],
-                'attr' => [
-                    'class' => 'form-control'
-                ]
-            ])
+            // ->add('tournament_type', ChoiceType::class, [
+            //     'label' => 'Type du tournoi',
+            //     'choices' => [
+            //         'Elimination Simple' => 'single elimination',
+            //         'Elimination Double' => 'double elimination',
+            //         'Round-robin' => 'round robin',
+            //         'Système Suisse' => 'swiss',
+            //     ],
+            //     'attr' => [
+            //         'class' => 'form-control'
+            //     ]
+            // ])
             // tournament's description input
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
@@ -58,6 +59,7 @@ class TournamentType extends AbstractType
                     'Non' => false,
                     'Oui' => true,
                 ],
+                'data' => false,
                 'expanded' => true,
                 'multiple' => false,
             ])
@@ -74,133 +76,134 @@ class TournamentType extends AbstractType
                     'Non' => false,
                     'Oui' => true,
                 ],
+                'data' => false,
                 'expanded' => true,
                 'multiple' => false,
             ])
             // tournament's points per match win only if swiss type is choosen
-            ->add('pts_for_match_win', NumberType::class, [
-                'label' => 'Combien de points par victoire ?',
-                'label_attr' => [
-                    'class' => 'swiss'
-                ],
-                'scale' => 1,
-                'attr' => [
-                    'class' => 'swiss'
-                ]
-            ])
+            // ->add('pts_for_match_win', NumberType::class, [
+            //     'label' => 'Combien de points par victoire ?',
+            //     'label_attr' => [
+            //         'class' => 'swiss'
+            //     ],
+            //     'scale' => 1,
+            //     'attr' => [
+            //         'class' => 'swiss'
+            //     ]
+            // ])
             // tournament's points per match tie only if swiss type is choosen
-            ->add('pts_for_match_tie', NumberType::class, [
-                'label' => 'Combien de points par match nul ?',
-                'label_attr' => [
-                    'class' => 'swiss'
-                ],
-                'scale' => 1,
-                'attr' => [
-                    'class' => 'swiss'
-                ]
-            ])
+            // ->add('pts_for_match_tie', NumberType::class, [
+            //     'label' => 'Combien de points par match nul ?',
+            //     'label_attr' => [
+            //         'class' => 'swiss'
+            //     ],
+            //     'scale' => 1,
+            //     'attr' => [
+            //         'class' => 'swiss'
+            //     ]
+            // ])
             // tournament's points per game win only if swiss type is choosen
-            ->add('pts_for_game_win', NumberType::class, [
-                'label' => 'Combien de points par manche gagnée ?',
-                'label_attr' => [
-                    'class' => 'swiss'
-                ],
-                'scale' => 1,
-                'attr' => [
-                    'class' => 'swiss'
-                ]
-            ])
+            // ->add('pts_for_game_win', NumberType::class, [
+            //     'label' => 'Combien de points par manche gagnée ?',
+            //     'label_attr' => [
+            //         'class' => 'swiss'
+            //     ],
+            //     'scale' => 1,
+            //     'attr' => [
+            //         'class' => 'swiss'
+            //     ]
+            // ])
             // tournament's points per game tie only if swiss type is choosen
-            ->add('pts_for_game_tie', NumberType::class, [
-                'label' => 'Combien de points par égalité sur une manche ?',
-                'label_attr' => [
-                    'class' => 'swiss'
-                ],
-                'scale' => 1,
-                'attr' => [
-                    'class' => 'swiss'
-                ]
-            ])
+            // ->add('pts_for_game_tie', NumberType::class, [
+            //     'label' => 'Combien de points par égalité sur une manche ?',
+            //     'label_attr' => [
+            //         'class' => 'swiss'
+            //     ],
+            //     'scale' => 1,
+            //     'attr' => [
+            //         'class' => 'swiss'
+            //     ]
+            // ])
             // tournament's points per give up only if swiss type is choosen
-            ->add('pts_for_bye', NumberType::class, [
-                'label' => 'Combien de points si il y a un abandon ?',
-                'label_attr' => [
-                    'class' => 'swiss'
-                ],
-                'scale' => 1,
-                'attr' => [
-                    'class' => 'swiss'
-                ]
-            ])
+            // ->add('pts_for_bye', NumberType::class, [
+            //     'label' => 'Combien de points si il y a un abandon ?',
+            //     'label_attr' => [
+            //         'class' => 'swiss'
+            //     ],
+            //     'scale' => 1,
+            //     'attr' => [
+            //         'class' => 'swiss'
+            //     ]
+            // ])
             // tournament's round number only if swiss type is choosen
-            ->add('swiss_rounds', NumberType::class, [
-                'label' => 'Combien de rounds dans votre tournoi ?',
-                'label_attr' => [
-                    'class' => 'swiss'
-                ],
-                'attr' => [
-                    'class' => 'swiss'
-                ]
-            ])
+            // ->add('swiss_rounds', NumberType::class, [
+            //     'label' => 'Combien de rounds dans votre tournoi ?',
+            //     'label_attr' => [
+            //         'class' => 'swiss'
+            //     ],
+            //     'attr' => [
+            //         'class' => 'swiss'
+            //     ]
+            // ])
             // tournament's rank by select only for rr and swiss
-            ->add('ranked_by', ChoiceType::class, [
-                'label' => 'Comment voulez-vous classer les participants ?',
-                'label_attr' => [
-                    'class' => 'swiss roundRobin'
-                ],
-                'choices' => [
-                    'Match gagnés' => 'match wins',
-                    'Manches gagnées' => 'game wins',
-                    'Nombre de points' => 'points scored',
-                ],
-                'attr' => [
-                    'class' => 'swiss roundRobin'
-                ]
-            ])
+            // ->add('ranked_by', ChoiceType::class, [
+            //     'label' => 'Comment voulez-vous classer les participants ?',
+            //     'label_attr' => [
+            //         'class' => 'swiss roundRobin'
+            //     ],
+            //     'choices' => [
+            //         'Match gagnés' => 'match wins',
+            //         'Manches gagnées' => 'game wins',
+            //         'Nombre de points' => 'points scored',
+            //     ],
+            //     'attr' => [
+            //         'class' => 'swiss roundRobin'
+            //     ]
+            // ])
              // tournament's points per match win only if Round robin type is choosen
-             ->add('rr_pts_for_match_win', NumberType::class, [
-                'label' => 'Combien de points par victoire ?',
-                'label_attr' => [
-                    'class' => 'roundRobin'
-                ],
-                'scale' => 1,
-                'attr' => [
-                    'class' => 'roundRobin'
-                ]
-            ])
+            //  ->add('rr_pts_for_match_win', NumberType::class, [
+            //     'label' => 'Combien de points par victoire ?',
+            //     'label_attr' => [
+            //         'class' => 'roundRobin'
+            //     ],
+            //     'scale' => 1,
+            //     'attr' => [
+            //         'class' => 'roundRobin'
+            //     ]
+            // ])
             // tournament's points per match tie only if Round robin type is choosen
-            ->add('rr_pts_for_match_tie', NumberType::class, [
-                'label' => 'Combien de points par match nul ?',
-                'label_attr' => [
-                    'class' => 'roundRobin'
-                ],
-                'scale' => 1,
-                'attr' => [
-                    'class' => 'roundRobin'
-                ]
-            ])
+            // ->add('rr_pts_for_match_tie', NumberType::class, [
+            //     'label' => 'Combien de points par match nul ?',
+            //     'label_attr' => [
+            //         'class' => 'roundRobin'
+            //     ],
+            //     'scale' => 1,
+            //     'attr' => [
+            //         'class' => 'roundRobin'
+            //     ]
+            // ])
             // tournament's points per game win only if Round robin type is choosen
-            ->add('rr_pts_for_game_win', NumberType::class, [
-                'label' => 'Combien de points par manche gagnée ?',
-                'label_attr' => [
-                    'class' => 'roundRobin'
-                ],
-                'scale' => 1,
-                'attr' => [
-                    'class' => 'roundRobin'
-                ]
-            ])
-            // tournament's points per game tie only if Round robin type is choosen
-            ->add('rr_pts_for_game_tie', NumberType::class, [
-                'label' => 'Combien de points par égalité sur une manche ?',
-                'label_attr' => [
-                    'class' => 'roundRobin'
-                ],
-                'scale' => 1,
-                'attr' => [
-                    'class' => 'roundRobin'
-                ]
-            ])
+            // ->add('rr_pts_for_game_win', NumberType::class, [
+            //     'label' => 'Combien de points par manche gagnée ?',
+            //     'label_attr' => [
+            //         'class' => 'roundRobin'
+            //     ],
+            //     'scale' => 1,
+            //     'attr' => [
+            //         'class' => 'roundRobin'
+            //     ]
+            // ])
+            // // tournament's points per game tie only if Round robin type is choosen
+            // ->add('rr_pts_for_game_tie', NumberType::class, [
+            //     'label' => 'Combien de points par égalité sur une manche ?',
+            //     'label_attr' => [
+            //         'class' => 'roundRobin'
+            //     ],
+            //     'scale' => 1,
+            //     'attr' => [
+            //         'class' => 'roundRobin'
+            //     ]
+            // ])
             // tournament's round show radio only if single or double elimination is choosen
             ->add('show_rounds', ChoiceType::class, [
                 'label' => 'Afficher le round actuel ?',
@@ -214,6 +217,7 @@ class TournamentType extends AbstractType
                 'attr' => [
                     'class' => 'singleElimination doubleElimination'
                 ],
+                'data' => false,
                 'expanded' => true,
                 'multiple' => false,
             ])
@@ -230,6 +234,7 @@ class TournamentType extends AbstractType
                 'attr' => [
                     'class' => 'openSignUpOn'
                 ],
+                'data' => false,
                 'expanded' => true,
                 'multiple' => false,
             ])
@@ -246,55 +251,56 @@ class TournamentType extends AbstractType
                 'attr' => [
                     'class' => 'openSignUpOn'
                 ],
+                'data' => false,
                 'expanded' => true,
                 'multiple' => false,
             ])
             // tournament's radio for sequentiel pairing
-            ->add('sequential_pairings', ChoiceType::class, [
-                'label' => 'Sequential pairing ?',
-                'choices' => [
-                    'Non' => false,
-                    'Oui' => true,
-                ],
-                'expanded' => true,
-                'multiple' => false,
-            ])
+            // ->add('sequential_pairings', ChoiceType::class, [
+            //     'label' => 'Sequential pairing ?',
+            //     'choices' => [
+            //         'Non' => false,
+            //         'Oui' => true,
+            //     ],
+            //     'expanded' => true,
+            //     'multiple' => false,
+            // ])
             // tournament's maximum participants
             ->add('signup_cap', NumberType::class, [
                 'label' => 'Combien de participants maximum possède le tournoi ?',
             ])
             // tournament's start date
-            ->add('start_at', DateType::class, [
+            ->add('start_at', DateTimeType::class, [
                 'label' => 'Date de début du tournoi',
                 'widget' => 'single_text',
                 'required' => false,
             ])
             // tournament's check in limit duration only if open signup allowed
-            ->add('check_in_duration', NumberType::class, [
-                'label' => "Durée limite de l'enregistrement d'un participant ?",
-                'label_attr' => [
-                    'class' => 'openSignUpOn'
-                ],
-                'attr' => [
-                    'class' => 'openSignUpOn'
-                ]
-            ])
+            // ->add('check_in_duration', NumberType::class, [
+            //     'label' => "Durée limite de l'enregistrement d'un participant ?",
+            //     'label_attr' => [
+            //         'class' => 'openSignUpOn'
+            //     ],
+            //     'attr' => [
+            //         'class' => 'openSignUpOn'
+            //     ]
+            // ])
             // tournament's grand final type by select
-            ->add('grand_finals_modifier', ChoiceType::class, [
-                'label' => 'Type de la grande finale du tournoi',
-                'label_attr' => [
-                    'class' => 'doubleElimination'
-                ],
-                'attr' => [
-                    'class' => 'doubleElimination'
-                ],
-                'choices' => [
-                    'Par défault' => null,
-                    'Match simple' => 'single match',
-                    'Pas de matchs' => 'skip',
-                ]
+            // ->add('grand_finals_modifier', ChoiceType::class, [
+            //     'label' => 'Type de la grande finale du tournoi',
+            //     'label_attr' => [
+            //         'class' => 'doubleElimination'
+            //     ],
+            //     'attr' => [
+            //         'class' => 'doubleElimination'
+            //     ],
+            //     'choices' => [
+            //         'Par défault' => null,
+            //         'Match simple' => 'single match',
+            //         'Pas de matchs' => 'skip',
+            //     ]
                 
-            ])
+            // ])
             //input to validate the form and submit it
             ->add('Valider', SubmitType::class, [
                 'attr' => [
