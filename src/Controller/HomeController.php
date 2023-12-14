@@ -36,9 +36,4 @@ class HomeController extends AbstractController
         ]);
     }
 
-    // public function topUsers(UserRepository $userRepository): Response
-    // {
-        
-    // }
-
 }

@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\TournamentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\TournamentRepository;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: TournamentRepository::class)]
+#[UniqueEntity(fields: ['name'], message: 'Ce nom est déjà pris !')]
 class Tournament
 {
     #[ORM\Id]
@@ -47,5 +49,11 @@ class Tournament
         $this->game = $game;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+
+        return ucwords($this->name);
     }
 }

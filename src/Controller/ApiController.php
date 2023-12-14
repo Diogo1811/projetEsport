@@ -175,7 +175,32 @@ class ApiController extends AbstractController
         return $data;
     }
 
-    //add a tournament in the data base
+    // Function to find a tournament by is url
+    public function findTournamentByUrl($url)
+    {
+
+        // This allows me to get a registred tournament
+        $apiChallonge = 'https://api.challonge.com/v1/tournaments/'.$url.'.json';
+
+        // Create a Guzzle client
+        $client = new Client();
+
+        // Api tournament call
+        $response = $client->request('GET', $apiChallonge, [
+            'query' => [
+                'api_key' => 'ywlAxaVHioEqzgZ0uwqzNzU2rpceht45ydKf88fe',
+            ],
+        ]);
+
+        
+        $data = json_decode($response->getBody(), true);
+       
+        // dd($data);
+
+        return $data;
+    }
+
+    //add a tournament in the API data base
     public function addTournament($data)
     {
 
@@ -198,7 +223,30 @@ class ApiController extends AbstractController
 
         return;
         
+    }
 
-       
+    //add a paticipant to a tournament in the data base
+    public function addRosterToTournament($url, $name)
+    {
+
+        // This allows me to add a new tournament
+        $apiChallonge = 'https://api.challonge.com/v1/tournaments/'.$url.'/participants.json';
+
+        // Create a Guzzle client
+        $client = new Client();
+
+        // Api tournament call and creation of the tournament
+        $client->request('POST', $apiChallonge, [
+            'headers' => [
+                'Content-Type' => 'application/json'
+            ],
+            'query' => [
+                'api_key' => 'ywlAxaVHioEqzgZ0uwqzNzU2rpceht45ydKf88fe',
+                'participant[name]' => $name
+            ]
+        ]);
+
+        return;
+        
     }
 }

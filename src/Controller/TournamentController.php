@@ -8,6 +8,9 @@ use App\Form\TournamentType;
 use Doctrine\ORM\EntityManager;
 use App\Controller\ApiController;
 use App\Repository\GameRepository;
+use App\Repository\TeamRepository;
+use App\Repository\UserRepository;
+use App\Repository\TournamentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,14 +20,26 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class TournamentController extends AbstractController
 {
     #[Route('/tournament', name: 'app_tournament')]
-    public function index(ApiController $apiController): Response
+    public function index(ApiController $apiController, TournamentRepository $tournamentRepository): Response
     {
+        $dataBaseTournaments = $tournamentRepository->findAll();
+        
         $allTournaments = $apiController->getTournaments();
         $tournaments = [];
         $i = 0;
         while ($i < count($allTournaments)) {
+
             foreach ($allTournaments[$i] as $tournament) {
-                $tournaments[] = $tournament;
+
+                foreach ($dataBaseTournaments as $dataBaseTournament) {
+                
+                    if ($tournament['name'] === $dataBaseTournament->getName()) {
+
+                        $tournaments[] = $tournament;
+        
+                    }
+
+                }
             }
             $i++;
         }
@@ -81,6 +96,27 @@ class TournamentController extends AbstractController
 
         return $this->render('tournament/tournamentForm.html.twig', [
             'form' => $form
+        ]);
+    }
+
+    //function to show the details of a tournament
+    #[Route('/tournament/{name}/{url}', name: 'details_tournament')]
+    public function tournamentDetails(Tournament $tournament, ApiController $apiController, UserRepository $userRepository, Request $request, TeamRepository $teamRepository, TournamentRepository $tournamentRepository): Response
+    {
+        $tournamentName = $request->attributes->get('url');
+        // dd($tournamentName);
+        $tournamentDetails = $apiController->findTournamentByUrl($tournamentName);
+        // dd($tournamentDetails); 
+        $users = $userRepository->findBy([],["siteCoins" => "DESC"], 10);
+        $teams = $teamRepository->findAll();
+
+        
+
+        return $this->render('tournament/tournamentDetails.html.twig', [
+            'tournament' => $tournament,
+            'tournamentDetails' => $tournamentDetails,
+            'users' => $users,
+            'teams' => $teams,
         ]);
     }
 }
