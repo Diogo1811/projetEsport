@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -191,6 +192,16 @@ class TeamController extends AbstractController
             // send him back to the team détails
             return $this->redirectToRoute('details_team', ['id' => $team->getId()]);
         }
+    }
+
+    // Function to search a team
+    #[Route('/searchTeam/{srch}', name: 'search_team', methods:['GET'])]
+    public function searchATeam(TeamRepository $teamRepository, Request $request): JsonResponse
+    {
+        $srch = $request->attributes->get('srch');
+        $teams = $teamRepository->searchTeam($srch);
+       
+        return  $this->json($teams, 200, [], ['groups'=> ['name', 'id']]);
     }
 
     //function to show the details of a team

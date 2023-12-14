@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class GameController extends AbstractController
@@ -44,13 +45,15 @@ class GameController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $game = $form->getData();
 
+            $game->setIsVerified(false);
+
             // tell Doctrine you want to (eventually) save the game (no queries yet)
             $entityManager->persist($game);
 
             // actually executes the queries (i.e. the INSERT query)
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_game');
+            return $this->redirectToRoute('details_game', ['name' => $game->getName()]);
         }
 
         return $this->render('game/gameForm.html.twig', [
@@ -58,6 +61,16 @@ class GameController extends AbstractController
             'edit' => $edit
         ]);
 
+    }
+
+    // Function to search a game
+    #[Route('/searchGame/{srch}', name: 'search_game', methods:['GET'])]
+    public function searchAGame(GameRepository $gameRepository, Request $request): JsonResponse
+    {
+        $srch = $request->attributes->get('srch');
+        $games = $gameRepository->searchGame($srch);
+       
+        return  $this->json($games, 200, [], ['groups'=> ['name', 'id']]);
     }
 
     //function to delete a game
@@ -69,13 +82,4 @@ class GameController extends AbstractController
 
         return $this->redirectToRoute('app_game');
     }
-
-   //function to show the details of an game (games, country...)
-//    #[Route('/game/{id}', name: 'details_game')]
-//    public function gameDetails(Game $game): Response
-//    {
-//        return $this->render('game/gameDetails.html.twig', [
-//            'game' => $game,
-//        ]);
-//    }
 }

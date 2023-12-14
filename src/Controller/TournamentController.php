@@ -10,6 +10,7 @@ use App\Controller\ApiController;
 use App\Repository\GameRepository;
 use App\Repository\TeamRepository;
 use App\Repository\UserRepository;
+use App\Form\AddPlayersToTournamentType;
 use App\Repository\TournamentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -110,6 +111,22 @@ class TournamentController extends AbstractController
         $users = $userRepository->findBy([],["siteCoins" => "DESC"], 10);
         $teams = $teamRepository->findAll();
 
+        $form = $this->createForm(AddPlayersToTournamentType::class);
+
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $participantId = $request->request->get('team');
+
+
+            $participant = $teamRepository->find($participantId);
+
+
+            $apiController->addRosterToTournament($tournamentDetails['url'], $participant->getName());
+
+        }
+
         
 
         return $this->render('tournament/tournamentDetails.html.twig', [
@@ -117,6 +134,7 @@ class TournamentController extends AbstractController
             'tournamentDetails' => $tournamentDetails,
             'users' => $users,
             'teams' => $teams,
+            'form' => $form
         ]);
     }
 }

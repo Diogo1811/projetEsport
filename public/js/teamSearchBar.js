@@ -1,10 +1,10 @@
 // This tells the js to wait for the page to be load before starting the js
 window.addEventListener("load", (event) => {
         
-    // The select that will contain every game in differents options
-    const textHint = document.getElementById("textGameHint");
+    // The select that will contain every team in differents options
+    const textHint = document.getElementById("textTeamHint");
     
-    const labelForResult = document.getElementById("labelSelectGame");
+    const labelForResult = document.getElementById("labelSelectTeam");
 
     // Option to put all the search results in option elements to choose the one we want in the select
     const optionResult = document.createElement("option");
@@ -24,7 +24,7 @@ window.addEventListener("load", (event) => {
 
         // appel asynchrone
         const response = await fetch(
-            "/searchGame/" + srch,
+            "/searchTeam/" + srch,
             {
                 method: "GET",
             }
@@ -56,7 +56,7 @@ window.addEventListener("load", (event) => {
     }
 
     // id de la search bar
-    const searchBar = document.getElementById("searchGameInput");
+    const searchBar = document.getElementById("searchTeamInput");
 
     // la function est appelé à chaque fois qu'une touche est 'up' après avoir appuyé dessus
     searchBar.addEventListener("input", (e) => {

@@ -16,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ApiController extends AbstractController
 {
     #[Route('/detailsGame/{name}', name: 'details_game')]
-    public function proxyActionGameApi(Game $game, Request $request, EntityManagerInterface $entityManager)
+    public function gameDetailsApi(Game $game, EntityManagerInterface $entityManager)
     {
         // Twitch token link
         $accessTokenUrl = 'https://id.twitch.tv/oauth2/token';
@@ -118,15 +118,6 @@ class ApiController extends AbstractController
         }
     }
 
-    #[Route('/searchGame/{srch}', name: 'search_game', methods:['GET'])]
-    public function searchAGame(GameRepository $gameRepository, Request $request): JsonResponse
-    {
-        $srch = $request->attributes->get('srch');
-        $games = $gameRepository->searchGame($srch);
-       
-        return  $this->json($games, 200, [], ['groups'=> ['name', 'id']]);
-    }
-
     // #[Route('/countryApi', name: 'country_api')]
     public function displayCountry($cca2)
     {
@@ -197,7 +188,7 @@ class ApiController extends AbstractController
        
         // dd($data);
 
-        return $data;
+        return $data['tournament'];
     }
 
     //add a tournament in the API data base

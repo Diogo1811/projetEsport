@@ -46,4 +46,15 @@ class TeamRepository extends ServiceEntityRepository
 //        ;
 //    }
 
+    public function searchTeam($srch): array
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.name LIKE :val')
+            ->setParameter('val', '%'.$srch.'%')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 }

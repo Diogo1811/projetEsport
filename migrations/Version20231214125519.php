@@ -1,0 +1,85 @@
+<?php
+
+declare(strict_types=1);
+
+namespace DoctrineMigrations;
+
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
+
+/**
+ * Auto-generated Migration: Please modify to your needs!
+ */
+final class Version20231214125519 extends AbstractMigration
+{
+    public function getDescription(): string
+    {
+        return '';
+    }
+
+    public function up(Schema $schema): void
+    {
+        // this up() migration is auto-generated, please modify it to your needs
+        $this->addSql('CREATE TABLE country (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(100) NOT NULL, flag VARCHAR(255) NOT NULL, nationality_name_male VARCHAR(150) NOT NULL, nationality_name_female VARCHAR(150) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE editor (id INT AUTO_INCREMENT NOT NULL, country VARCHAR(2) NOT NULL, name VARCHAR(100) NOT NULL, link_to_official_page LONGTEXT DEFAULT NULL, creation_date DATE NOT NULL, city VARCHAR(100) DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE encounter (id INT AUTO_INCREMENT NOT NULL, start_date DATETIME NOT NULL, link_to_replay LONGTEXT DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE encounter_result (id INT AUTO_INCREMENT NOT NULL, encounter_id INT NOT NULL, roster_id INT DEFAULT NULL, score NUMERIC(11, 2) NOT NULL, ranking INT NOT NULL, INDEX IDX_178C261BD6E2FADC (encounter_id), INDEX IDX_178C261B75404483 (roster_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE game (id INT AUTO_INCREMENT NOT NULL, editor_id INT NOT NULL, name VARCHAR(200) NOT NULL, is_verified TINYINT(1) NOT NULL, INDEX IDX_232B318C6995AC4C (editor_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE player (id INT AUTO_INCREMENT NOT NULL, country VARCHAR(2) NOT NULL, last_name VARCHAR(100) NOT NULL, firstname VARCHAR(100) NOT NULL, nickname VARCHAR(100) NOT NULL, gender VARCHAR(10) NOT NULL, biography LONGTEXT DEFAULT NULL, birth_date DATE NOT NULL, earning NUMERIC(11, 2) DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE player_roster (id INT AUTO_INCREMENT NOT NULL, player_id INT NOT NULL, roster_id INT NOT NULL, playing_start_date DATE NOT NULL, playing_end_date DATE DEFAULT NULL, role VARCHAR(20) DEFAULT NULL, INDEX IDX_FFB93B2799E6F5DF (player_id), INDEX IDX_FFB93B2775404483 (roster_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE reset_password_request (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, selector VARCHAR(20) NOT NULL, hashed_token VARCHAR(100) NOT NULL, requested_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', expires_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', INDEX IDX_7CE748AA76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE roster (id INT AUTO_INCREMENT NOT NULL, team_id INT NOT NULL, game_id INT NOT NULL, start_date DATE NOT NULL, end_date DATE DEFAULT NULL, INDEX IDX_60B9ADF9296CD8AE (team_id), INDEX IDX_60B9ADF9E48FD905 (game_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE social_media_account (id INT AUTO_INCREMENT NOT NULL, player_id INT DEFAULT NULL, team_id INT DEFAULT NULL, editor_id INT DEFAULT NULL, game_id INT DEFAULT NULL, link_to_social_media LONGTEXT DEFAULT NULL, name VARCHAR(50) NOT NULL, INDEX IDX_AA5B5E7999E6F5DF (player_id), INDEX IDX_AA5B5E79296CD8AE (team_id), INDEX IDX_AA5B5E796995AC4C (editor_id), INDEX IDX_AA5B5E79E48FD905 (game_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE team (id INT AUTO_INCREMENT NOT NULL, country VARCHAR(2) NOT NULL, name VARCHAR(50) NOT NULL, address VARCHAR(50) DEFAULT NULL, zip_code VARCHAR(15) NOT NULL, city VARCHAR(100) NOT NULL, logo LONGTEXT DEFAULT NULL, creation_date DATE NOT NULL, description LONGTEXT DEFAULT NULL, link_to_official_page LONGTEXT DEFAULT NULL, link_to_shop LONGTEXT DEFAULT NULL, earning NUMERIC(11, 2) DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE tournament (id INT AUTO_INCREMENT NOT NULL, game_id INT NOT NULL, name VARCHAR(255) NOT NULL, INDEX IDX_BD5FB8D9E48FD905 (game_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, team_id INT DEFAULT NULL, username VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, profile_picture LONGTEXT NOT NULL, creation_date DATETIME NOT NULL, is_banned TINYINT(1) NOT NULL, site_coins INT NOT NULL, is_verified TINYINT(1) NOT NULL, is_of_legal_age TINYINT(1) NOT NULL, UNIQUE INDEX UNIQ_8D93D649F85E0677 (username), UNIQUE INDEX UNIQ_8D93D649E7927C74 (email), INDEX IDX_8D93D649296CD8AE (team_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE messenger_messages (id BIGINT AUTO_INCREMENT NOT NULL, body LONGTEXT NOT NULL, headers LONGTEXT NOT NULL, queue_name VARCHAR(190) NOT NULL, created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', available_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', delivered_at DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', INDEX IDX_75EA56E0FB7336F0 (queue_name), INDEX IDX_75EA56E0E3BD61CE (available_at), INDEX IDX_75EA56E016BA31DB (delivered_at), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('ALTER TABLE encounter_result ADD CONSTRAINT FK_178C261BD6E2FADC FOREIGN KEY (encounter_id) REFERENCES encounter (id)');
+        $this->addSql('ALTER TABLE encounter_result ADD CONSTRAINT FK_178C261B75404483 FOREIGN KEY (roster_id) REFERENCES roster (id)');
+        $this->addSql('ALTER TABLE game ADD CONSTRAINT FK_232B318C6995AC4C FOREIGN KEY (editor_id) REFERENCES editor (id)');
+        $this->addSql('ALTER TABLE player_roster ADD CONSTRAINT FK_FFB93B2799E6F5DF FOREIGN KEY (player_id) REFERENCES player (id)');
+        $this->addSql('ALTER TABLE player_roster ADD CONSTRAINT FK_FFB93B2775404483 FOREIGN KEY (roster_id) REFERENCES roster (id)');
+        $this->addSql('ALTER TABLE reset_password_request ADD CONSTRAINT FK_7CE748AA76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
+        $this->addSql('ALTER TABLE roster ADD CONSTRAINT FK_60B9ADF9296CD8AE FOREIGN KEY (team_id) REFERENCES team (id)');
+        $this->addSql('ALTER TABLE roster ADD CONSTRAINT FK_60B9ADF9E48FD905 FOREIGN KEY (game_id) REFERENCES game (id)');
+        $this->addSql('ALTER TABLE social_media_account ADD CONSTRAINT FK_AA5B5E7999E6F5DF FOREIGN KEY (player_id) REFERENCES player (id)');
+        $this->addSql('ALTER TABLE social_media_account ADD CONSTRAINT FK_AA5B5E79296CD8AE FOREIGN KEY (team_id) REFERENCES team (id)');
+        $this->addSql('ALTER TABLE social_media_account ADD CONSTRAINT FK_AA5B5E796995AC4C FOREIGN KEY (editor_id) REFERENCES editor (id)');
+        $this->addSql('ALTER TABLE social_media_account ADD CONSTRAINT FK_AA5B5E79E48FD905 FOREIGN KEY (game_id) REFERENCES game (id)');
+        $this->addSql('ALTER TABLE tournament ADD CONSTRAINT FK_BD5FB8D9E48FD905 FOREIGN KEY (game_id) REFERENCES game (id)');
+        $this->addSql('ALTER TABLE user ADD CONSTRAINT FK_8D93D649296CD8AE FOREIGN KEY (team_id) REFERENCES team (id)');
+    }
+
+    public function down(Schema $schema): void
+    {
+        // this down() migration is auto-generated, please modify it to your needs
+        $this->addSql('ALTER TABLE encounter_result DROP FOREIGN KEY FK_178C261BD6E2FADC');
+        $this->addSql('ALTER TABLE encounter_result DROP FOREIGN KEY FK_178C261B75404483');
+        $this->addSql('ALTER TABLE game DROP FOREIGN KEY FK_232B318C6995AC4C');
+        $this->addSql('ALTER TABLE player_roster DROP FOREIGN KEY FK_FFB93B2799E6F5DF');
+        $this->addSql('ALTER TABLE player_roster DROP FOREIGN KEY FK_FFB93B2775404483');
+        $this->addSql('ALTER TABLE reset_password_request DROP FOREIGN KEY FK_7CE748AA76ED395');
+        $this->addSql('ALTER TABLE roster DROP FOREIGN KEY FK_60B9ADF9296CD8AE');
+        $this->addSql('ALTER TABLE roster DROP FOREIGN KEY FK_60B9ADF9E48FD905');
+        $this->addSql('ALTER TABLE social_media_account DROP FOREIGN KEY FK_AA5B5E7999E6F5DF');
+        $this->addSql('ALTER TABLE social_media_account DROP FOREIGN KEY FK_AA5B5E79296CD8AE');
+        $this->addSql('ALTER TABLE social_media_account DROP FOREIGN KEY FK_AA5B5E796995AC4C');
+        $this->addSql('ALTER TABLE social_media_account DROP FOREIGN KEY FK_AA5B5E79E48FD905');
+        $this->addSql('ALTER TABLE tournament DROP FOREIGN KEY FK_BD5FB8D9E48FD905');
+        $this->addSql('ALTER TABLE user DROP FOREIGN KEY FK_8D93D649296CD8AE');
+        $this->addSql('DROP TABLE country');
+        $this->addSql('DROP TABLE editor');
+        $this->addSql('DROP TABLE encounter');
+        $this->addSql('DROP TABLE encounter_result');
+        $this->addSql('DROP TABLE game');
+        $this->addSql('DROP TABLE player');
+        $this->addSql('DROP TABLE player_roster');
+        $this->addSql('DROP TABLE reset_password_request');
+        $this->addSql('DROP TABLE roster');
+        $this->addSql('DROP TABLE social_media_account');
+        $this->addSql('DROP TABLE team');
+        $this->addSql('DROP TABLE tournament');
+        $this->addSql('DROP TABLE user');
+        $this->addSql('DROP TABLE messenger_messages');
+    }
+}

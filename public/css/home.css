@@ -2,11 +2,16 @@
 .homeContent{
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin: 20px 0;
 }
 
 .homeContent h2{
     text-align: center;
+}
+
+.homeContent section{
+    max-width: 60%;
 }
 
 /**********Background pic ******************************/
@@ -21,6 +26,11 @@
     Permet de définir si l'image de fond défile par rapport au document ou si elle reste fixée au fond
     */
     background-size:cover;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 

@@ -12,6 +12,8 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
@@ -27,21 +29,6 @@ class GameType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
-            // //input to add/modify the game's release date in the data base
-            // ->add('releaseDate', DateType::class, [
-            //     'label' => 'Date de sortie',
-            //     'widget' => 'single_text',
-            //     'attr' => [
-            //         'class' => 'form-control'
-            //     ]
-            // ])
-            // //input to add/modify the game's link to purchese it in the data base
-            // ->add('linkToPurchase', TextareaType::class, [
-            //     'label' => "Lien officiel pour l'achat du jeu",
-            //     'attr' => [
-            //         'class' => 'form-control'
-            //     ]
-            // ])
             //input to add/modify the game's editor in the data base
             ->add('editor', EntityType::class, [
                 'class' => Editor::class,

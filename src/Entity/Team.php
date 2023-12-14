@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\TeamRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: TeamRepository::class)]
@@ -16,11 +17,13 @@ class Team
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(groups: 'id')]
     private ?int $id = null;
 
     #[ORM\Column(length: 2)]
     private ?string $country = null;
 
+    #[Groups(groups: 'name')]
     #[ORM\Column(length: 50)]
     private ?string $name = null;
 
