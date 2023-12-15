@@ -23,30 +23,38 @@ class TournamentController extends AbstractController
     #[Route('/tournament', name: 'app_tournament')]
     public function index(ApiController $apiController, TournamentRepository $tournamentRepository): Response
     {
+
+        // We get the tournaments in my database
         $dataBaseTournaments = $tournamentRepository->findAll();
         
+        // We get the tournaments in the api database
         $allTournaments = $apiController->getTournaments();
-        $tournaments = [];
-        $i = 0;
-        while ($i < count($allTournaments)) {
-
-            foreach ($allTournaments[$i] as $tournament) {
-
-                foreach ($dataBaseTournaments as $dataBaseTournament) {
-                
-                    if ($tournament['name'] === $dataBaseTournament->getName()) {
-
-                        $tournaments[] = $tournament;
         
-                    }
+        // We set an empty array of tournaments to add every tournaments that are in my database and in the api database
+        $tournaments = [];
 
+        // loop beacause the data retrieve from the api sends arrays inside other arrays so i want to sort what will be send to the template
+        for ($i=0; $i < count($allTournaments); $i++) { 
+
+            // loop to search every tournament one by one
+            foreach ($dataBaseTournaments as $dataBaseTournament) {
+
+                // condition to check if the tournament in the api database is in my database
+                if ($allTournaments[$i]['tournament']['name'] === $dataBaseTournament->getName()) {
+
+                    // we add the api tournament un the array
+                    $tournaments[] = $allTournaments[$i]['tournament'];
+    
                 }
+
             }
-            $i++;
         }
 
         return $this->render('tournament/index.html.twig', [
+
+            // we send the array to the template
             'tournaments' => $tournaments
+
         ]);
     }
 
@@ -54,36 +62,45 @@ class TournamentController extends AbstractController
     #[Route('/moderator/tournament/newtournament', name: 'new_tournament')]
     public function newTournament(Request $request, ApiController $apiController, EntityManagerInterface $entityManager, GameRepository $gameRepository): Response
     {
-
+        // Creation of a new object of tournament in my database
         $tournament = new Tournament();
-
+        
+        // Creation of the form to create a tournament
         $form = $this->createForm(TournamentType::class);
 
         $form->handleRequest($request);
         
+        // condition to check if the user has submitted the form and if it's valid
         if ($form->isSubmitted() && $form->isValid()) {
 
+            // we take the data gave by the $form and set it in a var
             $tournamentApi = $form->getData();
-            $tournamentApi["start_at"]= $form->getData()["start_at"]->format('c');
-            // dd($tournamentApi);
-            // $tournament->setGame()
 
+            // the api ask for a certain format for the starting date so we take the input start at we format it with the c and set it to the index start_at of the array $tournament api
+            $tournamentApi["start_at"]= $form->getData()["start_at"]->format('c');
+
+            // we get the id of the game of the tournament since the api doesn't allow the add of the game it's not in the tounamentType so not in the $form
             $gameId = $request->request->get('game');
 
+            // find the object game thanks to his id
             $game = $gameRepository->findOneBy(['id' => $gameId]);
 
+            // condition to check if the var $game is not empty
             if ($game) {
+
+                // we set the game to the tournament in my database
                 $tournament->setGame($game);
+
             }
 
+            // we set the name of the tournament in my database
             $tournament->setName($tournamentApi["name"]);
 
-            // dd($tournamentApi);
-            // dd($tournament);
-
+       
+            // we encode the retrieved data from the form to send it to the api
             $jsonData = json_encode($tournamentApi);
 
-
+            // we use a function created in the apicontroller that allows, me thanks to the data, to create a new tournament
             $apiController->addTournament($jsonData);
 
             // tell Doctrine you want to (eventually) save the tournament (no queries yet)
@@ -92,49 +109,111 @@ class TournamentController extends AbstractController
             // actually executes the queries (i.e. the INSERT query)
             $entityManager->flush();
 
+            // redirection to the list of tournaments
             return $this->redirectToRoute('app_tournament');
         }
 
         return $this->render('tournament/tournamentForm.html.twig', [
+
+            // send the TournamentType form
             'form' => $form
+            
         ]);
     }
 
     //function to show the details of a tournament
     #[Route('/tournament/{name}/{url}', name: 'details_tournament')]
-    public function tournamentDetails(Tournament $tournament, ApiController $apiController, UserRepository $userRepository, Request $request, TeamRepository $teamRepository, TournamentRepository $tournamentRepository): Response
+    public function tournamentDetails(Tournament $tournament, ApiController $apiController, UserRepository $userRepository, Request $request, TeamRepository $teamRepository): Response
     {
-        $tournamentName = $request->attributes->get('url');
-        // dd($tournamentName);
-        $tournamentDetails = $apiController->findTournamentByUrl($tournamentName);
-        // dd($tournamentDetails); 
+
+        // We get the tournament's url to search the tournament in the api
+        $tournamentUrl = $request->attributes->get('url');
+
+        // Thanks to the touranment's url we can get the tournament
+        $tournamentDetails = $apiController->findTournamentByUrl($tournamentUrl);
+
+        // We use once again the tournament's url but this time to retrive all the participants
+        $tournamentParticipantsAPI = $apiController->findParticipantsByTournamentUrl($tournamentUrl);
+
+        // dd($tournamentParticipantsAPI);
+
+        // We create the empty array that we will send to the template once we put all the paticipants in
+        $tournamentParticipants = [];
+
+        // We take every name of the teams in the tournament
+        for ($i=0; $i < count($tournamentParticipantsAPI); $i++) { 
+
+            // We search every team in the tournament in my database thanks to the names 
+            $teamInTournament = $teamRepository->findOneBy(['name' => $tournamentParticipantsAPI[$i]['name']]);
+
+            // set the array with every object team found 
+            $tournamentParticipants[] = $teamInTournament;
+
+        }
+
+        // get 10 users and sort them by the site coins that they have
         $users = $userRepository->findBy([],["siteCoins" => "DESC"], 10);
+
+        // get all the teams in the database
         $teams = $teamRepository->findAll();
 
+        // Creation of the form to add participants to the tournament
         $form = $this->createForm(AddPlayersToTournamentType::class);
 
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
 
+            // we get the team selected id
             $participantId = $request->request->get('team');
 
-
+            // find the team in the database thanks to his id
             $participant = $teamRepository->find($participantId);
 
+            // loop to check every roster linked to the team
+            foreach ($participant->getRosters() as $roster) {
 
-            $apiController->addRosterToTournament($tournamentDetails['url'], $participant->getName());
+                // if the team has a roster with the same game as the tournament
+                if ($roster->getGame()->getName() == $tournament->getGame()->getName()) {
+                    
+                    // We use the function created in the ApiController to add a participant to a tournament
+                    $apiController->addRosterToTournament($tournamentDetails['url'], $participant->getName());
+
+                    // Success message to inform the user that the participant as been added
+                    $this->addFlash('success', $participant." a été ajouter au tournoi !");
+
+                    // return to the page to refresh and show the team added
+                    return $this->redirectToRoute('details_tournament', ['name' => $tournament->getName(), "url" => $tournamentUrl]);
+                    
+                }
+            }
+
+            // this message is displayed if the team has no roster with the same game as the tournament
+            $this->addFlash('error', $participant." n'as pas de roster pour ".$tournament->getGame()->getName()." qui est le jeu sur lequel se déroule ce tournoi !");
 
         }
 
         
 
         return $this->render('tournament/tournamentDetails.html.twig', [
+
+            // tournament in my database
             'tournament' => $tournament,
+
+            // tournament in database
             'tournamentDetails' => $tournamentDetails,
+
+            // 10 users 
             'users' => $users,
+
+            // all teams in the database
             'teams' => $teams,
-            'form' => $form
+
+            // add a participant form
+            'form' => $form,
+
+            // teams participating in the tournament
+            'participants' => $tournamentParticipants
         ]);
     }
 }

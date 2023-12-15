@@ -76,7 +76,7 @@ class ApiController extends AbstractController
 
                 // we create an empty array to put the urls insilate later on
                 $urlScreenshots = [];
-                
+
                 // loop to search the screenshots which will have an id and an url as written in the api doc 
                 foreach($data[0]['screenshots'] as $screenshot) {
 
@@ -86,8 +86,6 @@ class ApiController extends AbstractController
                     //then we put every screenshot new url in the array urlScreenshots 
                     $urlScreenshots[] = $urlScreenshot;
                 }
-
-                
         
                 return $this->render('game/gameDetails.html.twig', [
 
@@ -98,7 +96,7 @@ class ApiController extends AbstractController
                     'urlScreenshots' => $urlScreenshots,
 
                     //this gives me all the info on the game
-                    'infos' => $data,
+                    'infos' => $data[0],
 
                     //this gives me the info I entered in the data base
                     'game' => $game,
@@ -189,6 +187,43 @@ class ApiController extends AbstractController
         // dd($data);
 
         return $data['tournament'];
+    }
+
+    // Function to find a tournament by is url
+    public function findParticipantsByTournamentUrl($url)
+    {
+
+        // This allows me to get a registred tournament
+        $apiChallonge = 'https://api.challonge.com/v1/tournaments/'.$url.'/participants.json';
+
+        // Create a Guzzle client
+        $client = new Client();
+
+        // Api tournament call
+        $response = $client->request('GET', $apiChallonge, [
+            'query' => [
+                'api_key' => 'ywlAxaVHioEqzgZ0uwqzNzU2rpceht45ydKf88fe',
+            ],
+        ]);
+
+        
+        $dataPaticipants = json_decode($response->getBody(), true);
+
+        // dd($dataPaticipants);
+        
+        $participants = [];
+        
+        for ($i=0; $i < count($dataPaticipants); $i++) { 
+            foreach ($dataPaticipants[$i] as $participant) {
+                // dd($participant);
+                $participants[] = $participant;
+            }
+        }
+        
+        // dd($participants);
+        
+
+        return $participants;
     }
 
     //add a tournament in the API data base

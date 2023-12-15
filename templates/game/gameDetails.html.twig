@@ -54,13 +54,13 @@
         </div>
 
         {# display of the game's release date. date_fr is a personal function implemented in twig by a filter who allows me to transform a date on a french version it means that the day and month are in french and the date is in 'l d F Y' type #}
-        <p>{{game}} est sorti le {{ infos.0.release_dates.0.date | date_fr('l d F Y')}}. Il est du type 
+        <p>{{game}} est sorti le {{ infos.release_dates.0.date | date_fr('l d F Y')}}. Il est du type 
 
             {# We set a variable to the length of the array and for each loop we subtract him 1 to find when its value is 2 the genre just before the last one wich allow me to build a sentence correctly #}
-            {% set beforeLast = infos.0.genres|length %}
+            {% set beforeLast = infos.genres|length %}
 
             {# loop to search all the genres of the game #}
-            {% for genre in infos.0.genres %}
+            {% for genre in infos.genres %}
                     
                 {# loop.last is the to check if an element is the last in the array #}
                 {% if loop.last %}
@@ -100,7 +100,7 @@
         %}
 
         {# Link to official web page #}
-        {% for website in infos.0.websites %}
+        {% for website in infos.websites %}
 
             {# In the api the link to the official page has an id of 1 so we take the category 1 to display the link to the official page #}
             {% if website.category == 1 %}
@@ -117,7 +117,7 @@
                 {% set linkPurchase = 0 %}
 
                 {# loop to search all the links to websites in the api database #}
-                {% for website in infos.0.websites %}
+                {% for website in infos.websites %}
 
                     {# loop to search all the links where games could be purchase in the api database #}
                     {% for key, linkName in purchaseLinks %}
@@ -147,7 +147,7 @@
                 {% endif %}
    
                 {# loop to search all the links to websites in the api database #}
-                {% for website in infos.0.websites %}
+                {% for website in infos.websites %}
     
                     {# loop to search all the links where games could be purchase in the api database  #}
                     {% for key, linkName in purchaseLinks %}
@@ -174,7 +174,7 @@
                 {% set linkSocialMedia = 0 %}
 
                 {# loop to search all the links to websites in the api database #}
-                {% for website in infos.0.websites %}
+                {% for website in infos.websites %}
 
                     {# loop to search all the links of the game's social medias in the api database #}
                     {% for key, linkName in socialMediaLinks %}
@@ -207,7 +207,7 @@
                 <ul>
 
                     {# loop to search all the links to websites in the api database #}
-                    {% for website in infos.0.websites %}
+                    {% for website in infos.websites %}
 
                         {# loop to search all the links of the game's social medias in the api database #}
                         {% for key, linkName in socialMediaLinks %}

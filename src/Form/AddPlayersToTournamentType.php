@@ -15,7 +15,7 @@ class AddPlayersToTournamentType extends AbstractType
             //input to validate the form and submit it
             ->add('Valider', SubmitType::class, [
                 'attr' => [
-                    'class' => 'btn btn-success'
+                    'class' => 'btn btn-success',
                 ]
             ])
         ;

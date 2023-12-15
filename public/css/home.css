@@ -14,6 +14,10 @@
     max-width: 60%;
 }
 
+.esportDescription{
+    text-align: justify;
+}
+
 /**********Background pic ******************************/
 .backgroundPic {
     /* 
@@ -31,6 +35,11 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.backgroundPic p {
+    width: 50%;
+    text-align: justify;
 }
 
 

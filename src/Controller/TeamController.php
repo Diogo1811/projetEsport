@@ -102,7 +102,7 @@ class TeamController extends AbstractController
             }
 
             // if we are in a new team created and that team was created by a user with ROLE_TEAM we set this team as its favorite
-            if (!$edit && $this->IsGranted('ROLE_TEAM')) {
+            if (!$edit && $this->IsGranted('ROLE_TEAM') && !$this->IsGranted('ROLE_MODERATOR')) {
                 // dd("you are in the if that says you are the creator");
                 $this->getUser()->setTeam($team);
             }

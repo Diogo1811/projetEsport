@@ -4,10 +4,30 @@
 
 {% block body %}
 
+    {# {{ dump(tournament) }}
+    {{ dump(tournamentDetails) }} #}
     <h1>{{ tournament }}</h1>
 
+    <p>il s'agit d'un tournoi sur le jeu {{ tournament.game }}</p>
 
-    {{ form_start(form) }}
-        {% include "searchBarTeam.html.twig" %}
-    {{ form_end(form) }}
+    <ul>
+        {% for participant in participants %}
+            <li>{{ participant }}</li>
+        {% endfor %}
+    </ul>
+
+
+    {% if is_granted('ROLE_MODERATOR') %}
+
+        <article class="addTeamForm">
+            <h2>Ajouter une équipe au tournoi</h2>
+
+            {{ form_start(form) }}
+                {% include "searchBarTeam.html.twig" %}
+            {{ form_end(form) }}
+        </article>
+        
+
+    {% endif %}
+
 {% endblock %}
