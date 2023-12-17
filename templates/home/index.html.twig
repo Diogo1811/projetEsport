@@ -12,21 +12,25 @@
     {# This is where my backgroud picture will be #}
     <section class="backgroundPic">
 
-        {# This is the title of the home page #}
-        <h1>Bienvenue sur Esport Xpertise {{ app.user == '' ? '' : app.user }} </h1>
+        <article class="backgroundPicText">
 
-        {# This is the description of the home page with a link to register if it'a a vistitor #}
-        <p>
-            Un site pour les amateurs d’esport et pour ceux qui en font la découverte. Ici vous pourrez trouver des renseignements sur ce qu’est l’esport mais aussi sur chaque équipe, chaque jeu ou encore chaque tournoi existant.
-            
-            {% if not app.user %}
+            {# This is the title of the home page #}
+            <h1>Bienvenue sur Esport Xpertise {{ app.user == '' ? '' : app.user }} </h1>
+    
+            {# This is the description of the home page with a link to register if it'a a vistitor #}
+            <p>
+                Un site pour les amateurs d’esport et pour ceux qui en font la découverte. Ici vous pourrez trouver des renseignements sur ce qu’est l’esport mais aussi sur chaque équipe, chaque jeu ou encore chaque tournoi existant.
                 
-                {# Link to register for someone who isn't logged in #}
-                <a href="{{ path('app_register') }}">Inscrivez vous</a> pour faire des prédictions sur des matchs et inscrire votre nom parmi les meilleurs et, si vous le souhaitez, suivre votre équipe favorite.
-            
-            {% endif %} 
+                {% if not app.user %}
+                    
+                    {# Link to register for someone who isn't logged in #}
+                    <a href="{{ path('app_register') }}">Inscrivez vous</a> pour faire des prédictions sur des matchs et inscrire votre nom parmi les meilleurs et, si vous le souhaitez, suivre votre équipe favorite.
+                
+                {% endif %} 
+    
+            </p>
 
-        </p>
+        </article>
 
     </section>
 
