@@ -26,12 +26,14 @@ class PlayerType extends AbstractType
         $builder
             ->add('lastName', TextType::class, [
                 'label' => "Nom de famille",
+                'required' => false,
                 'attr' => [
                     'class' => 'form-control'
                 ]
             ])
             ->add('firstname', TextType::class, [
                 'label' => "Prénom",
+                'required' => false,
                 'attr' => [
                     'class' => 'form-control'
                 ]

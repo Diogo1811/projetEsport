@@ -6,7 +6,7 @@
     <h1>Liste des tournois</h1>
 
         <ul id="tournamentsList">
-        {{ dump(tournaments) }}
+            {{ dump(tournaments) }}
             {% for tournament in tournaments %}
                 <li>
                     <a href="{{ path('details_tournament', {'name': tournament.name, 'url': tournament.url}) }}">{{ tournament.name }}</a>

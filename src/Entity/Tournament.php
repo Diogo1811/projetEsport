@@ -22,6 +22,9 @@ class Tournament
     #[ORM\JoinColumn(nullable: false)]
     private ?Game $game = null;
 
+    #[ORM\Column]
+    private ?int $numberPlayer = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -55,5 +58,17 @@ class Tournament
     {
 
         return ucwords($this->name);
+    }
+
+    public function getNumberPlayer(): ?int
+    {
+        return $this->numberPlayer;
+    }
+
+    public function setNumberPlayer(int $numberPlayer): static
+    {
+        $this->numberPlayer = $numberPlayer;
+
+        return $this;
     }
 }

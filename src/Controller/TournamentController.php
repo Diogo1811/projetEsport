@@ -11,6 +11,7 @@ use App\Repository\GameRepository;
 use App\Repository\TeamRepository;
 use App\Repository\UserRepository;
 use App\Form\AddPlayersToTournamentType;
+use App\Form\EncounterType;
 use App\Repository\TournamentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -132,6 +133,11 @@ class TournamentController extends AbstractController
         // Thanks to the touranment's url we can get the tournament
         $tournamentDetails = $apiController->findTournamentByUrl($tournamentUrl);
 
+        // Thanks to the touranment's url we can get the tournament's matches
+        $tournamentMatches = $apiController->findMatchesByTournamentUrl($tournamentUrl);
+
+        // dd($tournamentMatches);
+
         // We use once again the tournament's url but this time to retrive all the participants
         $tournamentParticipantsAPI = $apiController->findParticipantsByTournamentUrl($tournamentUrl);
 
@@ -150,6 +156,30 @@ class TournamentController extends AbstractController
             $tournamentParticipants[] = $teamInTournament;
 
         }
+
+        // $idPlayers = [];
+
+        // foreach ($dataMatches as $keys => $match) {
+        //     // dd($key);
+        //     foreach ($match as $key => $value) {
+
+        //         $idPlayers[] = $value['player1_id'];
+        //         $idPlayers[] = $value['player2_id'];
+
+        //     }
+        // }
+
+
+        // $players = [];
+
+        // dd($idPlayers);
+        // foreach ($idPlayers as $idPlayer) {
+
+        //     if ($idPlayer) {
+        //         $players[] = $this->findParticipantById($url, $idPlayer);
+        //     }
+
+        // }
 
         // get 10 users and sort them by the site coins that they have
         $users = $userRepository->findBy([],["siteCoins" => "DESC"], 10);
@@ -193,6 +223,9 @@ class TournamentController extends AbstractController
 
         }
 
+
+
+
         
 
         return $this->render('tournament/tournamentDetails.html.twig', [
@@ -213,7 +246,84 @@ class TournamentController extends AbstractController
             'form' => $form,
 
             // teams participating in the tournament
-            'participants' => $tournamentParticipants
+            'participants' => $tournamentParticipants,
+            
+            // teams participating in the tournament
+            'participantsApi' => $tournamentParticipantsAPI,
+
+            // list of tournament's matches
+            'matches' => $tournamentMatches
+        ]);
+    }
+
+    // Match results function
+    #[Route('/moderator/match/{id}/{url}', name: 'update_score')]
+    public function updateScore(ApiController $apiController, Request $request): Response
+    {
+
+        // We get the tournament's url to search the tournament in the api
+        $tournamentUrl = $request->attributes->get('url');
+        
+        // We get the tournament's url to search the tournament in the api
+        $matchId = $request->attributes->get('id');
+
+        // we find in the api the match we want to update
+        $match = $apiController->findMatchById($matchId, $tournamentUrl);
+        
+        // we find in the api the match we want to update
+        $tournament = $apiController->findTournamentByUrl($tournamentUrl);
+
+        // dd($tournament);
+
+        // Creation of the form to add participants to the tournament
+        $form = $this->createForm(EncounterType::class);
+
+
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            // we get the team selected id
+            $scoreTeamOne = $form->get('scoreTeamOne')->getData();
+            $scoreTeamTwo = $form->get('scoreTeamTwo')->getData();
+
+            // dd($form->getData());
+            // dd($scoreTeamTwo);
+            // dd($scoreTeamOne);
+
+            if ($scoreTeamOne > $scoreTeamTwo) {
+
+                $winner = $match['player1_id'];
+
+            }else {
+
+                $winner = $match['player2_id'];
+            }
+
+            $scoreMatch = $scoreTeamOne.'-'.$scoreTeamTwo;
+
+            $apiController->addScoreToMatch($tournamentUrl, $matchId, $scoreMatch, $winner);
+
+            return $this->redirectToRoute('details_tournament', ['name' => $tournament['name'], "url" => $tournamentUrl]);
+
+
+
+
+            // this message is displayed if the team has no roster with the same game as the tournament
+            // $this->addFlash('error', $participant." n'as pas de roster pour ".$tournament->getGame()->getName()." qui est le jeu sur lequel se déroule ce tournoi !");
+
+        }
+
+
+
+
+        
+
+        return $this->render('match/addScore.html.twig', [
+
+            
+            // add a participant form
+            'form' => $form,
         ]);
     }
 }

@@ -140,6 +140,7 @@ class ApiController extends AbstractController
 
 
 /************************************************* API TOURNAMENT ****************************************************/
+    
     // #[Route('/tournament/tournamentsList', name: 'get_challonge_api')]
     public function getTournaments()
     {
@@ -189,6 +190,58 @@ class ApiController extends AbstractController
         return $data['tournament'];
     }
 
+    
+    //add a tournament in the API data base
+    public function addTournament($data)
+    {
+
+        // This allows me to add a new tournament
+        $apiChallonge = 'https://api.challonge.com/v1/tournaments.json';
+
+        // Create a Guzzle client
+        $client = new Client();
+
+        // Api tournament call and creation of the tournament
+        $client->request('POST', $apiChallonge, [
+            'headers' => [
+                'Content-Type' => 'application/json'
+            ],
+            'query' => [
+                'api_key' => 'ywlAxaVHioEqzgZ0uwqzNzU2rpceht45ydKf88fe',
+            ],
+            'body' => $data
+        ]);
+
+        return;
+        
+    }
+ /***************************************** PARTICIPANTS *********************************************************/ 
+
+    //add a paticipant to a tournament in the data base
+    public function addRosterToTournament($url, $name)
+    {
+
+        // This allows me to add a new tournament
+        $apiChallonge = 'https://api.challonge.com/v1/tournaments/'.$url.'/participants.json';
+
+        // Create a Guzzle client
+        $client = new Client();
+
+        // Api tournament call and creation of the tournament
+        $client->request('POST', $apiChallonge, [
+            'headers' => [
+                'Content-Type' => 'application/json'
+            ],
+            'query' => [
+                'api_key' => 'ywlAxaVHioEqzgZ0uwqzNzU2rpceht45ydKf88fe',
+                'participant[name]' => $name
+            ]
+        ]);
+
+        return;
+        
+    }
+
     // Function to find a tournament by is url
     public function findParticipantsByTournamentUrl($url)
     {
@@ -226,53 +279,115 @@ class ApiController extends AbstractController
         return $participants;
     }
 
-    //add a tournament in the API data base
-    public function addTournament($data)
+    // Function to find a tournament by is url
+    public function findParticipantById($url, $id)
     {
 
-        // This allows me to add a new tournament
-        $apiChallonge = 'https://api.challonge.com/v1/tournaments.json';
+        // This allows me to get a registred tournament
+        $apiChallonge = 'https://api.challonge.com/v1/tournaments/'.$url.'/participants/'.$id.'.json';
 
         // Create a Guzzle client
         $client = new Client();
 
-        // Api tournament call and creation of the tournament
-        $client->request('POST', $apiChallonge, [
-            'headers' => [
-                'Content-Type' => 'application/json'
-            ],
+        // Api tournament call
+        $response = $client->request('GET', $apiChallonge, [
             'query' => [
                 'api_key' => 'ywlAxaVHioEqzgZ0uwqzNzU2rpceht45ydKf88fe',
             ],
-            'body' => $data
         ]);
 
-        return;
         
+        $dataPaticipant = json_decode($response->getBody(), true);
+
+        // dd($dataPaticipant);
+        
+        
+        
+        // dd($participants);
+        
+
+        return $dataPaticipant;
     }
 
-    //add a paticipant to a tournament in the data base
-    public function addRosterToTournament($url, $name)
+ /***************************************** MATCHES ******************************************************************/ 
+   
+    // Function to find tournament's matches by is url
+    public function findMatchesByTournamentUrl($url)
     {
 
-        // This allows me to add a new tournament
-        $apiChallonge = 'https://api.challonge.com/v1/tournaments/'.$url.'/participants.json';
+        // This allows me to get a registred tournament
+        $apiChallonge = 'https://api.challonge.com/v1/tournaments/'.$url.'/matches.json';
 
         // Create a Guzzle client
         $client = new Client();
 
-        // Api tournament call and creation of the tournament
-        $client->request('POST', $apiChallonge, [
-            'headers' => [
-                'Content-Type' => 'application/json'
-            ],
+        // Api tournament call
+        $response = $client->request('GET', $apiChallonge, [
             'query' => [
                 'api_key' => 'ywlAxaVHioEqzgZ0uwqzNzU2rpceht45ydKf88fe',
-                'participant[name]' => $name
-            ]
+            ],
+        ]);
+
+        
+        $dataMatches = json_decode($response->getBody(), true);
+        
+        $matches = [];
+        
+        for ($i=0; $i < count($dataMatches); $i++) { 
+            foreach ($dataMatches[$i] as $match) {
+                // dd($match);
+                $matches[] = $match;
+            }
+        }
+        
+        // dd($participants);
+        
+
+        return $matches;
+    }
+
+    // Function to find a tournament's match by is id and tournament url
+    public function findMatchById($id, $url)
+    {
+
+        // This allows me to get a registred tournament
+        $apiChallonge = 'https://api.challonge.com/v1/tournaments/'.$url.'/matches/'.$id.'.json';
+
+        // Create a Guzzle client
+        $client = new Client();
+
+        // Api tournament call
+        $response = $client->request('GET', $apiChallonge, [
+            'query' => [
+                'api_key' => 'ywlAxaVHioEqzgZ0uwqzNzU2rpceht45ydKf88fe',
+            ],
+        ]);
+
+        
+        $datas = json_decode($response->getBody(), true);
+        
+        // dd($datas);
+        return $datas['match'];
+    }
+
+
+    // Function to add a score to a match
+    public function addScoreToMatch($url, $idMatch, $score, $idWinner)
+    {
+        $apiChallonge = 'https://api.challonge.com/v1/tournaments/'.$url.'/matches/'.$idMatch.'.json';
+
+        // Create a Guzzle client
+        $client = new Client();
+
+        // Api tournament call
+        $response = $client->request('PUT', $apiChallonge, [
+            'query' => [
+                'api_key' => 'ywlAxaVHioEqzgZ0uwqzNzU2rpceht45ydKf88fe',
+                'match[scores_csv]' => $score,
+                'match[winner_id]' => $idWinner
+            ],
         ]);
 
         return;
-        
     }
 }

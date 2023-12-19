@@ -1,3 +1,4 @@
+/********************************************** Tournament Form *******************************************************/
 .doubleElimination,
 .swiss,
 .roundRobin,
@@ -11,4 +12,37 @@
 
     display: block;
     
+}
+
+.tournamentMatches{
+    /* border: 1px solid #999;
+    border-radius: 10px;
+    border-collapse: unset; */
+    width: 900px;
+}
+
+.tournamentTableColumnTitle th{
+    text-align: center;
+}
+
+.tableTitle{
+    width: 100%;
+    background-color: #DBF0FA;
+    border-radius: 10px;
+    padding: 10px 0;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.tournamentMatches tbody tr{
+    border-bottom: 1px dotted #999;
+    border-radius: 10px;
+}
+
+.tournamentMatches tbody td
+{
+    padding: 10px 0;
+    text-align: center;
+    width: 20%;
 }

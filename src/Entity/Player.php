@@ -21,10 +21,10 @@ class Player
     #[ORM\Column(length: 2)]
     private ?string $country = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 100, nullable: true)]
     private ?string $lastName = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 100, nullable: true)]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 100)]

@@ -58,11 +58,13 @@
     
                         {# {{ dump(tournament.start_at) }} #}
                         {% if tournament.start_at and tournament.start_at %}
+
+                            {# {{ dump(tournament) }} #}
                             
                             <li class="tournamentListHome">
 
                                 <p class="tournamentNameHome">
-                                    {{ tournament.name }}
+                                    <a href="{{ path('details_tournament', {'name': tournament.name, 'url': tournament.url}) }}">{{ tournament.name }}</a>
                                     <i class="fa fa-angle-right"></i>
                                 </p>
 

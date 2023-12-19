@@ -4,27 +4,326 @@
 
 {% block body %}
 
+    {% set now = 'now'|date() %}
+
     {# {{ dump(tournament) }}
-    {{ dump(tournamentDetails) }} #}
+    {{ dump(tournamentDetails) }}
+    {{ dump(participantsApi) }}
+    {{ dump(matches) }} #}
     <h1>{{ tournament }}</h1>
 
     <p>il s'agit d'un tournoi sur le jeu {{ tournament.game }}</p>
 
-    <ul>
-        {% for participant in participants %}
-            <li>{{ participant }}</li>
+    {# Matches table #}
+    <table class="tournamentMatches">
+        <thead>
+            {# Table title #}
+            <th colspan="5" class="tableTitle">
+                Matches
+            </th>
+            {# every column title #}
+            <tr class="tournamentTableColumnTitle">
+                <th>
+                    équipe 1
+                </th>
+                <th>
+                    score
+                </th>
+                <th>
+                    équipe 2
+                </th>
+                <th>
+                    Date et heure du début du match
+                </th>
+                {# loop to check every matches in the torunament #}
+                {% for match in matches %}
+                    
+                    {# if the user is at least a moderator and the score isn't set yet #}
+                    {% if is_granted('ROLE_MODERATOR') and not match.scores_csv  %}
+                        
+                        {# title for the column of score's setting #}
+                        <th>
+                            Mettre à jour les scores
+                        </th>
+
+                    {% endif %}
+
+                {% endfor %}
+
+            </tr>
+
+        </thead>
+        
+        {# loop to check every matches of the tournament #}
+        {% for match in matches %}
+
+            {# condition to check if the 2 participants are set #}
+            {% if match.player1_id and match.player2_id %}
+            
+                <tbody>
+
+                    <tr>
+
+                        <td>
+
+                            {# loop to get every participant of the tournament #}
+                            {% for participantApi in participantsApi %}
+                        
+                                {# get the participant with the id of the first player of th match #}
+                                {% if participantApi.id == match.player1_id %}
+                                    
+                                    {# display the participant's name #}
+                                    {{ participantApi.name }}
+                                
+                                {% endif %}
+                                    
+                            {% endfor %}
+                        
+                        </td>
+
+                        <td>
+
+                            {# if the score is set display score else display Vs #}
+                            {{ match.scores_csv ? match.scores_csv|replace({'-' : " - "}) : 'Vs'}}
+
+                        </td>
+
+                        <td>
+
+                            {# loop to get every participant of the tournament  #}
+                            {% for participantApi in participantsApi %}
+
+                                {# get the participant with the id of the second player of the match #}
+                                {% if participantApi.id == match.player2_id %}
+
+                                    {# display the participant's name #}
+                                    {{ participantApi.name }}
+
+                                {% endif %}
+                            
+                            {% endfor %}
+                        </td>
+
+                        {# if the match hasn't started yet we display its stat date #}
+                        {% if match.started_at > now %}
+
+                            <td>
+
+                                {# display of the match's date #}
+                                {{ match.started_at | date_fr('d/n/Y à g') }}h {{ match.started_at | date_fr('i') }}
+
+                            </td> 
+
+                         {# if the match has started but there is no score which means it hasn't ended yet #}
+                        {% elseif not match.scores_csv %}
+
+                            <td class="green">
+
+                                {# we display that the game is in progress #}
+                                en cours
+
+                            </td>
+
+                         {# if the match is over #}
+                        {% else %}
+
+                            <td class="red">
+
+                                {# display match over #}
+                                match terminé
+
+                            </td>
+
+                        {% endif %}
+
+                        {# if the user is at least a moderator and the score isn't set yet #}
+                        {% if is_granted('ROLE_MODERATOR') and not match.scores_csv %}
+                        
+                            <td>
+                                
+                                {# link to update scores #}
+                                <a class="btn btn-success" href="{{ path('update_score', {'id': match.id, 'url': tournamentDetails.url}) }}">Mettre à jour</a>
+
+                            </td>
+
+                        {% endif %}
+
+                    </tr>
+
+                </tbody>
+
+             {# if the match as not a player 1 and a player 2 #}
+             {% else %}
+             
+                {# We set the actual match in a var named nextround #}
+                {% set nextRound = match %}
+                    
+                    <tbody>
+
+                        <tr>
+
+                            <td>
+
+                                {# if in this match there is a player one #}
+                                {% if match.player1_id %}
+                                
+                                    {# loop to get every participant of the tournament #}
+                                    {% for participantApi in participantsApi %}
+                            
+                                        {# get the participant with the id of the first player of the match #}
+                                        {% if participantApi.id == match.player1_id %}
+                                            
+                                            {# display the participant's name #}
+                                            {{ participantApi.name }}
+                                        
+                                        {% endif %}
+                                        
+                                    {% endfor %}
+                                    
+                                {% else %}
+
+                                    {# loop to check every matches of the tournament #}
+                                    {% for match in matches %}
+                                    
+                                        {# the winner of the first match will be the player one so we get the match id and compare it to the player one match id #}
+                                        {% if match.id == nextRound.player1_prereq_match_id %}
+
+                                            {# loop to get every participant of the tournament #}
+                                            {% for participantApi in participantsApi %}
+                                        
+                                                {# get the participant with the id of the first player of the match  #}
+                                                {% if participantApi.id == match.player1_id %}
+                                                    
+                                                    {# display the participant's name #}
+                                                    {{ participantApi.name }} ou
+                                                
+                                                {% endif %}
+
+                                                {# get the participant with the id of the second player of the match  #}
+                                                {% if participantApi.id == match.player2_id %}
+                                                    
+                                                    {# display the participant's name #}
+                                                    {{ participantApi.name }}
+                                                
+                                                {% endif %}
+
+                                            {% endfor %}
+                                                
+                                        {% endif %}
+                                        
+                                    {% endfor %}
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                Vs
+                                
+                            </td>
+
+                            <td>
+
+                                {% if match.player2_id %}
+                                
+                                    {% for participantApi in participantsApi %}
+                            
+                        
+                            
+                                        {% if participantApi.id == match.player2_id %}
+                                            
+                                            {{ participantApi.name }}
+                                        
+                                        {% endif %}
+                                        
+                                    {% endfor %}
+                                    
+                                {% else %}
+                                    {% for match in matches %}
+                                        {% if match.id == nextRound.player2_prereq_match_id %}
+
+                                            {% for participantApi in participantsApi %}
+                                        
+                                                {# {{ dump(participantApi) }} #}
+                                            
+                                                {% if participantApi.id == match.player1_id %}
+                                                    
+                                                    {{ participantApi.name }} ou
+                                                
+                                                {% endif %}
+
+                                                {% if participantApi.id == match.player2_id %}
+                                                    
+                                                    {{ participantApi.name }}
+                                            
+                                                {% endif %}
+
+                                            {% endfor %}
+
+                                        {% endif %}                                      
+                                        
+                                    {% endfor %}
+
+                                {% endif %}
+
+                            </td>
+                            <td>
+                                {% if match.started_at %}
+                                    {{ match.started_at | date_fr('l d F Y à g') }}h {{ match.started_at | date_fr('i') }}
+                                {% else %}
+                                    à determiner
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </tbody>
+                
+                    
+                {# {% endfor %} #}
+            {% endif %}
+            {% if loop.last %}
+                <tbody>
+                    <tr>
+                        <td colspan="2">
+                            Vainqueur :
+                        </td>
+                        <td colspan="3">
+                    
+
+                            {% for participantApi in participantsApi %}
+
+                                {% if participantApi.id ==  match.winner_id %}
+
+                                    <span class="tournamentWinner">{{ participantApi.name }}</span>
+                                    
+                                {% endif %}
+                                
+                            {% endfor %}
+                            
+                            
+                        </td>
+                    </tr>
+                </tbody>
+            {% endif %}
         {% endfor %}
-    </ul>
+    </table>
 
 
-    {% if is_granted('ROLE_MODERATOR') %}
+
+
+
+    {% if is_granted('ROLE_MODERATOR') and not tournamentDetails.started_at %}
 
         <article class="addTeamForm">
+
             <h2>Ajouter une équipe au tournoi</h2>
 
             {{ form_start(form) }}
+
                 {% include "searchBarTeam.html.twig" %}
+
             {{ form_end(form) }}
+
         </article>
         
 
