@@ -116,6 +116,110 @@ class ApiController extends AbstractController
         }
     }
 
+    public function getApiGames(GameRepository $gameRepository){
+        // Twitch token link
+        $accessTokenUrl = 'https://id.twitch.tv/oauth2/token';
+
+        // Get the external API URL from the request
+        $externalApiUrl = 'https://api.igdb.com/v4/games/';
+
+        // Create a Guzzle client
+        $client = new Client();
+
+        $games = $gameRepository->findAll();
+
+        // dd($games->getName());
+
+        // Forward the request to the external API
+        try {
+
+            //get the access token
+            $accessTokenResponse = $client->request('POST', $accessTokenUrl, [
+                'form_params' => [
+                    // Add any required headers here
+                    'client_id' => '8sfdd3sko2vfcpqfg5dfhpsogvnj3b',
+                    'client_secret' => 'vom6l47mrtaubqfdo6tngjtupntumu',
+                    'grant_type' => 'client_credentials',
+                   
+                ],
+            ]);
+            $accessTokenData = json_decode($accessTokenResponse->getBody(), true);
+            //this is the access token needed for the api
+            $accessToken = $accessTokenData['access_token'];
+            // dd($accessToken);
+
+            $apiGames = [];
+
+            foreach ($games as $game) {
+                
+                // Api 4 games call 
+                $response = $client->request('POST', $externalApiUrl, [
+                    'headers' => [
+    
+                        // Add any required headers here
+                        'Accept' => 'application/json',
+                        'Client-ID' => '8sfdd3sko2vfcpqfg5dfhpsogvnj3b',
+                        'Authorization' => 'Bearer '.$accessToken,
+    
+                    ],
+    
+                    // here we are looking for the infos on the game by it's name
+                    'body' => 'fields cover.url, name; where name = "'.$game->getName().'";',
+                ]);
+    
+                $data = json_decode($response->getBody(), true);
+                $apiGames[] = $data[0];
+            }
+            dd($apiGames);
+
+            if ($data) {
+
+                foreach ($games as $game) {
+                    
+                    for ($i=0; $i < count($data); $i++) { 
+
+                        if ($data[$i]['name'] == $game->getName()) {
+
+                            dd('ici');
+                        
+                        }
+    
+                        //str_replace to modify the quality of the received picture
+                        str_replace('thumb', '1080p', $data[$i]['cover']['url']);
+                        dd($data);
+                    
+                    }
+                    # code...
+                }
+                
+
+               
+        
+                return $this->render('game/gameDetails.html.twig', [
+
+                    //modified url to have a better picture for the game's cover
+                    'urlCover' => $urlCover,
+
+                    //this gives me all the info on the game
+                    'infos' => $data[0],
+
+                ]);
+
+            }else{
+
+                return $this->render('game/gameDetails.html.twig', [
+
+                   
+                ]);
+            }
+            
+        } catch (\Exception $e) {
+            return new Response($e->getMessage(), 500);
+        }
+    }
+
+/********************************* Countries api ************************************************/
+
     // #[Route('/countryApi', name: 'country_api')]
     public function displayCountry($cca2)
     {

@@ -2,6 +2,8 @@
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
+        <meta name="description" content="{% block meta_description %}{% endblock %}">
+
 
         {# link for fontAwesome #}
         <script src="https://kit.fontawesome.com/d08e193109.js" crossorigin="anonymous"></script>
@@ -173,12 +175,10 @@
 
             {# Links to my own social medias #}
             <div class="socialMedia">
-                <a target="_blank" href="#"><i class="fa-brands fa-facebook"></i></a>
-                <a target="_blank" href="#"><i class="fa-brands fa-x-twitter"></i></a>
-                <a target="_blank" href="#"><i class="fa-brands fa-linkedin"></i></a>
-                <a target="_blank" href="#"><i class="fa-brands fa-instagram"></i></a>
-                <a target="_blank" href="#"><i class="fa-brands fa-snapchat"></i></a> 
-                <a target="_blank" href="#"><i class="fa-brands fa-github"></i></a> 
+                <a target="_blank" href="#" class="socialMediaFacebook"><i class="fa-brands fa-facebook"></i></a>
+                <a target="_blank" href="#" class="socialMediaTwitter"><i class="fa-brands fa-x-twitter"></i></a>
+                <a target="_blank" href="#" class="socialMediaLinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                <a target="_blank" href="#" class="socialMediaGithub"><i class="fa-brands fa-github"></i></a> 
             </div>
         </footer>
         {% block javascripts %}

@@ -41,12 +41,13 @@ body{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 2em;
 }
 
 #siteHeader nav{
     width: 70%;
     height: 5vh;
-    background-color: #DBF0FA;
+    background-image: url(../img/4d3uKwt812GoqIOoWCaUcKG.jpg);
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     margin-right: 5px;
@@ -74,7 +75,9 @@ body{
 #siteHeader a{
     text-decoration: none;
     font-size: large;
-    color: #333;
+    color: rgb(9, 9, 49);
+    font-weight: bold;
+
 }
 
 /* this is how the header's a will behave themselves when a user passes over it */
@@ -84,7 +87,7 @@ body{
 }
 
 .dropdown-menu{
-    background-color: #DBF0FA;
+    background-image: url(../img/4d3uKwt812GoqIOoWCaUcKG.jpg);
     min-width: 9rem;
 }
 
@@ -118,9 +121,9 @@ body{
     align-items: center;
 }
 
-.socialMedia a{
+/* .socialMedia a{
     color: #131D74;
-}
+} */
 
 .socialMedia a i{
     font-size: 3.5rem;
@@ -135,6 +138,7 @@ body{
     width: 100%;
     height: auto;
     min-height: 80vh;
+    background-image: url(../img/4d3uKwt812GoqIOoWCaUcKG.jpg);
 }
 
 #container{
@@ -161,7 +165,8 @@ ol{
 
 .topUsers,
 .topTeams{
-    background-color: #DBF0FA;
+    /* background-color: #edf7fb; */
+    background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(140,203,233,1) 100%);
     width: auto;
     height: auto;
     max-height: 300px;
@@ -204,6 +209,14 @@ ol{
     color: #9146ff;
 }
 
+.socialMediaLinkedIn i{
+    color: #0077B5;
+}
+
+.socialMediaGithub i{
+    color: #333;
+}
+
 .socialMediaInstagram i{
     color: #fff;
     background: radial-gradient(
@@ -225,4 +238,12 @@ ol{
 .socialMediaTiktok i{
     color: #000;
     filter: drop-shadow(-3px -2px #00f2ea) drop-shadow(3px 2px #ff0050);
+}
+
+/* form */
+form{
+    background-color: #fff;
+    margin: 5em;
+    padding: 5em;
+    border-radius: 10px;
 }

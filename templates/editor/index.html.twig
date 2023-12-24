@@ -10,7 +10,6 @@
         {% for editor in editors %}
             <li>
                 <a href="{{ path('details_editor', {'id': editor.id}) }}">{{ editor }}</a>
-                <a target="_blank" href="{{editor.linkToOfficialPage}}" class="linkToEditor">lien vers la page officielle</a>
             </li>
         {% endfor %}
     </ul>

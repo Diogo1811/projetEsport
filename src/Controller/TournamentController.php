@@ -82,16 +82,27 @@ class TournamentController extends AbstractController
 
             // we get the id of the game of the tournament since the api doesn't allow the add of the game it's not in the tounamentType so not in the $form
             $gameId = $request->request->get('game');
-
+            
             // find the object game thanks to his id
             $game = $gameRepository->findOneBy(['id' => $gameId]);
-
+            
             // condition to check if the var $game is not empty
             if ($game) {
-
+                
                 // we set the game to the tournament in my database
                 $tournament->setGame($game);
+                
+            }
 
+            // we get the number minimum of players in a roster since the api doesn't allow the add of the game it's not in the tounamentType so not in the $form
+            $numberOfPlayer = $request->request->get('numberPlayer');
+
+            // condition to check if the var $numberOfPlayer is not empty
+            if ($numberOfPlayer) {
+                
+                // we set the number of players in a participing roster to the tournament in my database
+                $tournament->setNumberPlayer($numberOfPlayer);
+                
             }
 
             // we set the name of the tournament in my database
@@ -200,20 +211,42 @@ class TournamentController extends AbstractController
             // find the team in the database thanks to his id
             $participant = $teamRepository->find($participantId);
 
+            $playerActuallyInRosters = [];
+
             // loop to check every roster linked to the team
             foreach ($participant->getRosters() as $roster) {
 
+                
                 // if the team has a roster with the same game as the tournament
                 if ($roster->getGame()->getName() == $tournament->getGame()->getName()) {
+
+                    foreach ($roster->getPlayerRosters() as $playerRoster) {
+
+                        // dd($playerRoster->getPlayingEndDate());
+
+                        if (!$playerRoster->getPlayingEndDate()) {
+                            $playerActuallyInRosters[] = $playerRoster;
+                        }
+                        
+                    }
+                    if (count($playerActuallyInRosters) < $tournament->getNumberPlayer()) {
+
+                        // this message is displayed if the team has no roster with the same game as the tournament
+                        $this->addFlash('error', $participant." n'as pas assez de joueurs dans son roster pour ".$tournament->getGame()->getName()." qui est le jeu sur lequel se déroule ce tournoi! Il faut ".$tournament->getNumberPlayer()." joueurs pour s'inscrire!");
+                    }else{
+
+                        // We use the function created in the ApiController to add a participant to a tournament
+                        $apiController->addRosterToTournament($tournamentDetails['url'], $participant->getName());
+    
+                        // Success message to inform the user that the participant as been added
+                        $this->addFlash('success', $participant." a été ajouter au tournoi !");
+    
+                        // return to the page to refresh and show the team added
+                        return $this->redirectToRoute('details_tournament', ['name' => $tournament->getName(), "url" => $tournamentUrl]);
+                    }
                     
-                    // We use the function created in the ApiController to add a participant to a tournament
-                    $apiController->addRosterToTournament($tournamentDetails['url'], $participant->getName());
-
-                    // Success message to inform the user that the participant as been added
-                    $this->addFlash('success', $participant." a été ajouter au tournoi !");
-
-                    // return to the page to refresh and show the team added
-                    return $this->redirectToRoute('details_tournament', ['name' => $tournament->getName(), "url" => $tournamentUrl]);
+                    
+                    
                     
                 }
             }

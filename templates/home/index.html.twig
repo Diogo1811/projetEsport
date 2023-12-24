@@ -19,7 +19,8 @@
     
             {# This is the description of the home page with a link to register if it'a a vistitor #}
             <p>
-                Un site pour les amateurs d’esport et pour ceux qui en font la découverte. Ici vous pourrez trouver des renseignements sur ce qu’est l’esport mais aussi sur chaque équipe, chaque jeu ou encore chaque tournoi existant.
+                Venez découvrir vos équipes <strong>d'esport</strong> préférées! <br>
+                Suivez les résultats des tournois de vos <strong>jeux vidéos</strong> favoris!
                 
                 {% if not app.user %}
                     
@@ -44,11 +45,18 @@
     
         <section>
 
-            <h2>Qu'est-ce que l'esport ?</h2>
+            <h2>PASSION GAMING</h2>
 
             <p class="esportDescription">
-                L'esport désigne la compétiton entre des professionels du jeux vidéo. Ces compétitions peuvent être aussi bien en LAN (c'est-à-dire que les joueurs sont tous au même endroit et partagent la même connexion) qu'en ligne.L'esport a gagné énormément en popularité au fil des années, il attire un public mondial qui suit les compétitions à travers des plateformes de diffusion en direct sur Internet, comme Twitch. Les tournois majeurs peuvent offrir des prix conséquents, et les équipes esportives professionnelles sont devenues une réalité avec des sponsors, des contrats de joueurs et des ligues organisées. L'esport est ainsi devenu un phénomène culturel et une industrie à part entière, rassemblant des communautés de joueurs passionnées à travers le monde. Ce phénomène prend encore plus d'ampleur avec l'arrivée massive d'équipes lancées par des influenceurs qui ouvrent l'esport a leur communauté. On a par exemple en France l'exemple de la Karmine Corp lancée par un streamer Twitch, Kameto, et qui aujourd'hui est l'une des équipes les plus solides au monde aussi financièrement qu'au niveau du palmares.
+
+                Passioné par <strong class="keywords">Valorant</strong>, <strong class="keywords">League of Legends</strong>, <strong class="keywords">CS2</strong> et plein d'autres... Retrouve tes joueurs favoris et suis leur progression. <br>
+                Créé un compte! Créé ton roster et deviens un joueur d'esport! 
+
             </p>
+
+            {% if not app.user %}
+                <a href="{{ path('app_register') }}" class="buttonBlue">Commence ton aventure gaming!</a>
+            {% endif %}
 
             <article id="tournament-list">
                 <h2>Tournois</h2>
@@ -57,7 +65,7 @@
                     {% for tournament in tournaments %}
     
                         {# {{ dump(tournament.start_at) }} #}
-                        {% if tournament.start_at and tournament.start_at %}
+                        {# {% if tournament.start_at and tournament.start_at %} #}
 
                             {# {{ dump(tournament) }} #}
                             
@@ -74,7 +82,7 @@
                                
 
                             </li>
-                        {% endif %}
+                        {# {% endif %} #}
     
                         
                     {% endfor %}

@@ -4,18 +4,24 @@
     justify-content: space-between;
     align-items: center;
     margin: 20px 0;
+    padding: 2em;
 }
 
 .homeContent h2{
     text-align: center;
+    padding-bottom: 2em;
 }
 
 .homeContent section{
     max-width: 60%;
+    padding: 2em;
+    text-align: center;
 }
 
 .esportDescription{
-    text-align: justify;
+    text-align: center;
+    font-size: 2em;
+    padding-bottom: 2em;
 }
 
 /**********Background pic ******************************/
@@ -24,7 +30,6 @@
     Super propriété background permet de combiner background-image, repeat et position
     */
     background: url(../img/homeBackground.jpg) no-repeat center;
-    height: 250px;
     background-attachment: fixed;
     /* 
     Permet de définir si l'image de fond défile par rapport au document ou si elle reste fixée au fond
@@ -35,6 +40,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    height: 100vh;
     
 }
 
@@ -46,11 +52,19 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 2em;
+}
+
+.backgroundPicText h1{
+    padding-bottom: 1em;
+    font-size: 3em;
+    color: #DBF0FA;
+
 }
 
 .backgroundPicText p {
-    width: 90%;
-    text-align: justify;
+    font-size: 2em;
+    text-align: center;
 }
 
 
@@ -102,4 +116,18 @@
 .tournamentListHome {
     /* display: none; */
     list-style: none;
+}
+
+.keywords{
+    color: #4090d3;
+}
+
+.buttonBlue{
+    text-decoration: none;
+    background-color: #DBF0FA;
+    text-align: center;
+    padding: 1em;
+    color: #666;
+    border-radius: 50%;
+    font-weight: bold;
 }

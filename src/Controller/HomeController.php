@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Controller\ApiController;
+use App\Repository\GameRepository;
 use App\Repository\TeamRepository;
 use App\Repository\UserRepository;
 use App\Repository\TournamentRepository;
@@ -15,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class HomeController extends AbstractController
 {
     #[Route('/home', name: 'app_home')]
-    public function index(UserRepository $userRepository, TeamRepository $teamRepository, ApiController $apiController, TournamentRepository $tournamentRepository): Response
+    public function index(UserRepository $userRepository, TeamRepository $teamRepository, ApiController $apiController, TournamentRepository $tournamentRepository, GameRepository $gameRepository): Response
     {
 
         // We get the tournaments in my database
@@ -24,6 +25,7 @@ class HomeController extends AbstractController
         $users = $userRepository->findBy([],["siteCoins" => "DESC"], 10);
         $teams = $teamRepository->findAll();
         $tournaments = [];
+        $games = $apiController->getApiGames($gameRepository);
         $i = 0;
         while ($i < count($allTournaments)) {
             foreach ($allTournaments[$i] as $tournament) {

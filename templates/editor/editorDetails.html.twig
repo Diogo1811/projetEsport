@@ -32,12 +32,16 @@
             </p>
             
             {# Editor's Country #}
-            <div id="editorCountry">
+            <section id="editorCountry">
                 
                 {# Since I can't make a good sentence I will put this not in an sentence but in a title followed by the country's flag and name #}
                 <h6>Siège social : </h6>
 
-                <p>{{ editor.city }},</p>
+                {% if editor.city %}
+                
+                    <p>{{ editor.city }},</p>
+                    
+                {% endif %}
                 {# figure for country's flag #}
                 <figure>
                     
@@ -62,9 +66,18 @@
                     </a>
                         
                 </figure>
+                {% if editor.linkToOfficialPage %}
+                    
+                    <article class="editorLinkOfficialPage">
+
+                        <p><a href="{{ editor.linkToOfficialPage }}">lien vers la page officielle</a></p>
+
+                    </article>
+                {% endif %}
 
 
-                <div class="editorSocialMedia">
+
+                <article class="editorSocialMedia">
 
                     {% if editor.socialMediaAccounts|length > 1 %}
                             
@@ -101,9 +114,9 @@
 
                     </ul>
 
-                </div>
+                </article>
                     
-            </div>
+            </section>
                 
         </article>
         
