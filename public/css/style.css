@@ -138,13 +138,13 @@ body{
     width: 100%;
     height: auto;
     min-height: 80vh;
-    background-image: url(../img/4d3uKwt812GoqIOoWCaUcKG.jpg);
+    background: radial-gradient(circle, rgba(130,143,160,1) 1%, rgba(118,134,157,1) 73%, rgba(24,40,84,1) 100%);
 }
 
 #container{
     width: 100%;
     margin: 0;
-    padding: 10px;
+    /* padding: 10px; */
     height: auto;
     min-height: 80vh;
 }

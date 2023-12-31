@@ -112,11 +112,15 @@ class ApiController extends AbstractController
             }
             
         } catch (\Exception $e) {
+
             return new Response($e->getMessage(), 500);
+
         }
+
     }
 
-    public function getApiGames(GameRepository $gameRepository){
+    public function getApiGames(array $games){
+
         // Twitch token link
         $accessTokenUrl = 'https://id.twitch.tv/oauth2/token';
 
@@ -126,9 +130,8 @@ class ApiController extends AbstractController
         // Create a Guzzle client
         $client = new Client();
 
-        $games = $gameRepository->findAll();
 
-        // dd($games->getName());
+        // dd($games);
 
         // Forward the request to the external API
         try {
@@ -142,10 +145,14 @@ class ApiController extends AbstractController
                     'grant_type' => 'client_credentials',
                    
                 ],
+
             ]);
+
             $accessTokenData = json_decode($accessTokenResponse->getBody(), true);
+
             //this is the access token needed for the api
             $accessToken = $accessTokenData['access_token'];
+
             // dd($accessToken);
 
             $apiGames = [];
@@ -164,57 +171,51 @@ class ApiController extends AbstractController
                     ],
     
                     // here we are looking for the infos on the game by it's name
-                    'body' => 'fields cover.url, name; where name = "'.$game->getName().'";',
+                    'body' => 'fields cover.url, name; where name = "'.$game.'";',
                 ]);
     
                 $data = json_decode($response->getBody(), true);
                 $apiGames[] = $data[0];
+                // dd($apiGames);
             }
-            dd($apiGames);
+            // dd($apiGames);
 
-            if ($data) {
+            if ($apiGames) {
 
-                foreach ($games as $game) {
+                
                     
-                    for ($i=0; $i < count($data); $i++) { 
+                for ($i=0; $i < count($apiGames); $i++) { 
 
-                        if ($data[$i]['name'] == $game->getName()) {
+                
 
-                            dd('ici');
-                        
-                        }
-    
-                        //str_replace to modify the quality of the received picture
-                        str_replace('thumb', '1080p', $data[$i]['cover']['url']);
-                        dd($data);
+                    //str_replace to modify the quality of the received picture
+                    $newUrl = str_replace('thumb', '1080p', $apiGames[$i]['cover']['url']);
+
+                    // we change the cover url and put the one with a better quality
+                    $apiGames[$i]['cover']['url'] = $newUrl;
                     
-                    }
-                    # code...
                 }
+                // dd($apiGames);
+                
+                
+                return $apiGames;
+
+            }else {
+
+                $this->addFlash('error', "Pas de données récupérées dans l'api");
+
+                return $this->redirectToRoute('app_home');
+            }
+
                 
 
                
         
-                return $this->render('game/gameDetails.html.twig', [
-
-                    //modified url to have a better picture for the game's cover
-                    'urlCover' => $urlCover,
-
-                    //this gives me all the info on the game
-                    'infos' => $data[0],
-
-                ]);
-
-            }else{
-
-                return $this->render('game/gameDetails.html.twig', [
-
-                   
-                ]);
-            }
             
         } catch (\Exception $e) {
+
             return new Response($e->getMessage(), 500);
+
         }
     }
 

@@ -5,6 +5,8 @@
     
 {% block body %}
     {# {% set now %} #}
+
+    {{ dump(tournaments) }}
     
 
     
@@ -19,13 +21,13 @@
     
             {# This is the description of the home page with a link to register if it'a a vistitor #}
             <p>
-                Venez découvrir vos équipes <strong>d'esport</strong> préférées! <br>
-                Suivez les résultats des tournois de vos <strong>jeux vidéos</strong> favoris!
+                Viens découvrir tes équipes <strong>d'esport</strong> préférées! <br>
+                Suis les résultats des tournois de tes <strong>jeux vidéos</strong> favoris!
                 
                 {% if not app.user %}
                     
                     {# Link to register for someone who isn't logged in #}
-                    <a href="{{ path('app_register') }}">Inscrivez vous</a> pour faire des prédictions sur des matchs et inscrire votre nom parmi les meilleurs et, si vous le souhaitez, suivre votre équipe favorite.
+                    <a href="{{ path('app_register') }}">Inscris-toi</a> pour faire des prédictions sur des matchs, inscrire ton nom parmi les meilleurs et suivre ton équipe favorite.
                 
                 {% endif %} 
     
@@ -43,7 +45,7 @@
 
         </aside>
     
-        <section>
+        <section class="informationsContained">
 
             <h2>PASSION GAMING</h2>
 
@@ -60,33 +62,44 @@
 
             <article id="tournament-list">
                 <h2>Tournois</h2>
-                <ul>
 
+                <section class="tournamentsToDisplay">
                     {% for tournament in tournaments %}
-    
-                        {# {{ dump(tournament.start_at) }} #}
-                        {# {% if tournament.start_at and tournament.start_at %} #}
 
-                            {# {{ dump(tournament) }} #}
+                        <article>
                             
-                            <li class="tournamentListHome">
-
-                                <p class="tournamentNameHome">
-                                    <a href="{{ path('details_tournament', {'name': tournament.name, 'url': tournament.url}) }}">{{ tournament.name }}</a>
-                                    <i class="fa fa-angle-right"></i>
-                                </p>
-
-                                <p class="tournamentDetailsHome">
-                                    Ce tournoi commence le {{ tournament.start_at|date_fr('l d F y')}} !
-                                </p>
-                               
-
-                            </li>
-                        {# {% endif %} #}
+                            {# {{ dump(tournament.start_at) }} #}
+                            {# {% if tournament.start_at and tournament.start_at %} #}
+        
+                                {# {{ dump(tournament) }} #}
+                                
+                                <figure class="tournamentFigures">
+        
+                                    <img src="{{ tournament.urlGame }}" alt="Image du jeu {{ tournament.game }}" class="tournamentGameCover">
+                                    <figcaption class="tournamentName">
+                                        <a href="{{ path('details_tournament', {'name': tournament.0.name, 'url': tournament.0.url}) }}">{{ tournament.0.name }}</a>
+                                        <i class="fa fa-angle-right"></i>
+                                        
+                                    </figcaption>
+                                    
+                                    
+        
+                                </figure>
+        
+                                <article class="tournamentDetailsHome">
+                                    <p>Ce tournoi commence le {{ tournament.0.start_at|date_fr('l d F y')}} !</p>
+                                </article>
+                            {# {% endif %} #}
+                        
+                        </article>
+    
     
                         
                     {% endfor %}
-                </ul>
+
+                </section>
+               
+               
 
             </article>
 
