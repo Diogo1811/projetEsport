@@ -17,7 +17,7 @@ class AmountExtension extends AbstractExtension
     }
 
     // Function to transform english days and months into french days and months. The first parameter will be a string with the format that we want for the date the second one will be the actual date
-    function formaterDateFr($date, $format){
+    public function formaterDateFr($date, $format){
 
         // We check if the data entered is a dateTime
         if ($date instanceof \DateTime) {

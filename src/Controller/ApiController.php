@@ -246,7 +246,6 @@ class ApiController extends AbstractController
 
 /************************************************* API TOURNAMENT ****************************************************/
     
-    // #[Route('/tournament/tournamentsList', name: 'get_challonge_api')]
     public function getTournaments()
     {
 

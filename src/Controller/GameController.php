@@ -43,6 +43,7 @@ class GameController extends AbstractController
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
+            
             $game = $form->getData();
 
             $game->setIsVerified(false);
