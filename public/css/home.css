@@ -75,6 +75,10 @@
     margin: 0 auto;
 }
 
+#tournament-list h2{
+    margin-top: 2em;
+}
+
 .tournamentsToDisplay{
     display: flex;
     flex-wrap: wrap;
