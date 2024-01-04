@@ -47,52 +47,52 @@ class CountryController extends AbstractController
         ]);
     }
 
-    //add a country in the data base
-    #[Route('/moderator/country/newcountry', name: 'new_country')]
-    //modify a country in the data base
-    #[Route('/moderator/country/{id}/editcountry', name: 'edit_country')]
-    public function newEditCountry(Country $country = null, Request $request, EntityManagerInterface $entityManager): Response
-    {
-        if (!$country) {
-            $country = new Country();
-            $edit = "";
-        }else {
-            $edit = $country;
-        }
+    // //add a country in the data base
+    // #[Route('/moderator/country/newcountry', name: 'new_country')]
+    // //modify a country in the data base
+    // #[Route('/moderator/country/{id}/editcountry', name: 'edit_country')]
+    // public function newEditCountry(Country $country = null, Request $request, EntityManagerInterface $entityManager): Response
+    // {
+    //     if (!$country) {
+    //         $country = new Country();
+    //         $edit = "";
+    //     }else {
+    //         $edit = $country;
+    //     }
 
-        $form = $this->createForm(CountryType::class, $country);
+    //     $form = $this->createForm(CountryType::class, $country);
 
-        $form->handleRequest($request);
+    //     $form->handleRequest($request);
         
-        if ($form->isSubmitted() && $form->isValid()) {
+    //     if ($form->isSubmitted() && $form->isValid()) {
 
-            $country = $form->getData();
+    //         $country = $form->getData();
 
-            // tell Doctrine you want to (eventually) save the country (no queries yet)
-            $entityManager->persist($country);
+    //         // tell Doctrine you want to (eventually) save the country (no queries yet)
+    //         $entityManager->persist($country);
 
-            // actually executes the queries (i.e. the INSERT query)
-            $entityManager->flush();
+    //         // actually executes the queries (i.e. the INSERT query)
+    //         $entityManager->flush();
 
-            return $this->redirectToRoute('app_country');
-        }
+    //         return $this->redirectToRoute('app_country');
+    //     }
 
-        return $this->render('country/countryForm.html.twig', [
-            'form' => $form,
-            'edit' => $edit
-        ]);
+    //     return $this->render('country/countryForm.html.twig', [
+    //         'form' => $form,
+    //         'edit' => $edit
+    //     ]);
 
-    }
+    // }
 
-    //function to delete a country
-    #[Route('/moderator/country/{id}/deleteCountry', name: 'delete_country')]
-    public function countryDelete(Country $country, EntityManagerInterface $entityManager): Response
-    {
-        $entityManager->remove($country);
-        $entityManager->flush();
+    // //function to delete a country
+    // #[Route('/moderator/country/{id}/deleteCountry', name: 'delete_country')]
+    // public function countryDelete(Country $country, EntityManagerInterface $entityManager): Response
+    // {
+    //     $entityManager->remove($country);
+    //     $entityManager->flush();
 
-        return $this->redirectToRoute('app_country');
-    }
+    //     return $this->redirectToRoute('app_country');
+    // }
 
     //function to show the details of a country (Teams, players and/or editors)
     #[Route('/country/{id}', name: 'details_country')]

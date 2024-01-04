@@ -9,6 +9,8 @@ body{
     margin: 0;
     padding: 0;
     position: relative;
+    background: radial-gradient(circle, rgba(130,143,160,1) 1%, rgba(118,134,157,1) 73%, rgba(24,40,84,1) 100%);
+
 }
 
 .red{
@@ -56,6 +58,7 @@ body{
 #siteName{
     margin: 0;
     font-weight: 600;
+    color: #DBF0FA;
 }
 
 .navBar{
@@ -82,7 +85,7 @@ body{
 
 /* this is how the header's a will behave themselves when a user passes over it */
 #siteHeader a:hover{
-    color: blue;
+    color: #fff;
     font-size: larger;
 }
 
@@ -138,7 +141,6 @@ body{
     width: 100%;
     height: auto;
     min-height: 80vh;
-    background: radial-gradient(circle, rgba(130,143,160,1) 1%, rgba(118,134,157,1) 73%, rgba(24,40,84,1) 100%);
 }
 
 #container{
@@ -165,13 +167,18 @@ ol{
 
 .topUsers,
 .topTeams{
-    /* background-color: #edf7fb; */
     background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(140,203,233,1) 100%);
     width: auto;
     height: auto;
     max-height: 300px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.topUsers a,
+.topTeams a{
+    color: #333;
+    text-decoration: none;
 }
 
 .topUsers ol,

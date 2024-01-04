@@ -6,7 +6,7 @@
 {% block body %}
     {# {% set now %} #}
 
-    {{ dump(tournaments) }}
+    {# {{ dump(tournaments) }} #}
     
 
     
@@ -52,7 +52,7 @@
             <p class="esportDescription">
 
                 Passioné par <strong class="keywords">Valorant</strong>, <strong class="keywords">League of Legends</strong>, <strong class="keywords">CS2</strong> et plein d'autres... Retrouve tes joueurs favoris et suis leur progression. <br>
-                Créé un compte! Créé ton roster et deviens un joueur d'esport! 
+                {{ app.user ? "" : "Créé un compte! Créé ton roster et deviens un joueur d'esport! " }}
 
             </p>
 

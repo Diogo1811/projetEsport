@@ -44,7 +44,7 @@ class ApiController extends AbstractController
             $accessToken = $accessTokenData['access_token'];
             // dd($accessToken);
 
-            // Api 4 games call 
+            // Api for games call 
             $response = $client->request('POST', $externalApiUrl, [
                 'headers' => [
                     // Add any required headers here
@@ -159,7 +159,7 @@ class ApiController extends AbstractController
 
             foreach ($games as $game) {
                 
-                // Api 4 games call 
+                // Api for games call 
                 $response = $client->request('POST', $externalApiUrl, [
                     'headers' => [
     
