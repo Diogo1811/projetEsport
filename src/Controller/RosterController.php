@@ -92,9 +92,12 @@ class RosterController extends AbstractController
                 'rosterId' => $roster->getId(),
                 'edit' => $edit
             ]);
+
         }else {
-            $this->addFlash('error', 'bein essayé !');
+
+            $this->addFlash('error', 'bien essayé !');
             return $this->redirectToRoute('app_home');
+
         }
     }
 

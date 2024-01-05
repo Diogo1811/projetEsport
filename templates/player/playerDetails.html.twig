@@ -131,12 +131,20 @@
                         {% if socialMediaAccount == 'X' or socialMediaAccount == 'Twitter' %}
             
                             {# link to the player's twitter account #}
-                            <li class="socialMediaTwitter"><a target="_blank" href="{{ socialMediaAccount.linktoSocialMedia }}"><i class="fa-brands fa-x-twitter"></i></a></li> 
+                            <li class="socialMediaTwitter">
+
+                                <a target="_blank" href="{{ socialMediaAccount.linktoSocialMedia }}"><i class="fa-brands fa-x-twitter"></i></a>
+                                
+                            </li> 
             
                         {% else %}
             
                             {# link to the player's others social media accounts #}
-                            <li class="socialMedia{{socialMediaAccount|capitalize}}"><a target="_blank" href="{{ socialMediaAccount.linktoSocialMedia }}"><i class="fa-brands fa-{{socialMediaAccount|lower}}"></i></a></li>  
+                            <li class="socialMedia{{socialMediaAccount|capitalize}}">
+
+                                <a target="_blank" href="{{ socialMediaAccount.linktoSocialMedia }}"><i class="fa-brands fa-{{socialMediaAccount|lower}}"></i></a>
+
+                            </li>  
             
                         {% endif %}
                         

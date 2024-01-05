@@ -76,4 +76,29 @@ class UserController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    #[Route('/user/{id}/deleteUser', name: 'delete_user')]
+    public function userDelete(User $user, EntityManagerInterface $entityManager): Response
+    {
+
+        if ($this->getUser()->getId() == $user->getId()) {
+           
+            $this->redirectToRoute('app_logout');
+
+            // prepare the request
+            $entityManager->remove($user);
+    
+            // execute the request
+            $entityManager->flush();
+    
+            // send the user to the list of users
+            return $this->redirectToRoute('app_home');
+
+        }else {
+
+            $this->addFlash('error', 'bien essayé !');
+            return $this->redirectToRoute('app_home');
+
+        }
+    }
 }

@@ -77,7 +77,7 @@ class HomeController extends AbstractController
 
     
                 if ($tournaments[$i]['game'] === $detailsGame['name']) {
-                    $tournaments[$i] += ['urlGame' => $detailsGame['cover']['url']];
+                    $tournaments[$i] += ['urlCoverGame' => $detailsGame['cover']['url']];
                 }
             }
             

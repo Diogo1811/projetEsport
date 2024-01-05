@@ -75,7 +75,7 @@
                                 
                                 <figure class="tournamentFigures">
         
-                                    <img src="{{ tournament.urlGame }}" alt="Image du jeu {{ tournament.game }}" class="tournamentGameCover">
+                                    <img src="{{ tournament.urlCoverGame }}" alt="Image du jeu {{ tournament.game }}" class="tournamentGameCover">
                                     <figcaption class="tournamentName">
                                         <a href="{{ path('details_tournament', {'name': tournament.0.name, 'url': tournament.0.url}) }}">{{ tournament.0.name }}</a>
                                         <i class="fa fa-angle-right"></i>
