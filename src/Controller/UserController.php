@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class UserController extends AbstractController
 {
@@ -77,13 +78,13 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/user/{id}/deleteUser', name: 'delete_user')]
-    public function userDelete(User $user, EntityManagerInterface $entityManager): Response
+    #[Route('/user/{id}/deleteuser', name: 'delete_user')]
+    public function userDelete(User $user, EntityManagerInterface $entityManager, TokenStorageInterface $tokenStorage): Response
     {
 
         if ($this->getUser()->getId() == $user->getId()) {
            
-            $this->redirectToRoute('app_logout');
+            $tokenStorage->setToken(null);
 
             // prepare the request
             $entityManager->remove($user);

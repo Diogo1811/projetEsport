@@ -17,7 +17,7 @@
         <article class="backgroundPicText">
 
             {# This is the title of the home page #}
-            <h1>Bienvenue sur Esport Xpertise {{ app.user == '' ? '' : app.user }} </h1>
+            <h1>Bienvenue sur Esport Xpertise {{ app.user ? app.user : '' }} </h1>
     
             {# This is the description of the home page with a link to register if it'a a vistitor #}
             <p>
