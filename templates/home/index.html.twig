@@ -39,7 +39,7 @@
 
     <div class="homeContent">
 
-        <aside class="topUsers">
+        <aside class="topUsers responsiveHide">
 
             {% include "topUsersList.html.twig" %}
 
@@ -61,51 +61,48 @@
             {% endif %}
 
             <article id="tournament-list">
+
                 <h2>Tournois</h2>
 
                 <section class="tournamentsToDisplay">
+
                     {% for tournament in tournaments %}
 
-                        <article>
-                            
-                            {# {{ dump(tournament.start_at) }} #}
-                            {# {% if tournament.start_at and tournament.start_at %} #}
-        
-                                {# {{ dump(tournament) }} #}
+                        
+                        {{ dump(tournament) }}
                                 
-                                <figure class="tournamentFigures">
-        
+                        {% if not tournament.0.completed_at %}
+                            
+                            <figure class="tournamentFigures">
+
+                                <a href="{{ path('details_tournament', {'name': tournament.0.name, 'url': tournament.0.url}) }}">
+    
                                     <img src="{{ tournament.urlCoverGame }}" alt="Image du jeu {{ tournament.game }}" class="tournamentGameCover">
+
                                     <figcaption class="tournamentName">
-                                        <a href="{{ path('details_tournament', {'name': tournament.0.name, 'url': tournament.0.url}) }}">{{ tournament.0.name }}</a>
-                                        <i class="fa fa-angle-right"></i>
+
+                                    {{ tournament.0.name }}
                                         
                                     </figcaption>
-                                    
-                                    
-        
-                                </figure>
-        
-                                <article class="tournamentDetailsHome">
-                                    <p>Ce tournoi commence le {{ tournament.0.start_at|date_fr('l d F y')}} !</p>
-                                </article>
-                            {# {% endif %} #}
-                        
-                        </article>
+
+                                </a>
+                                
+                                
     
+                            </figure>
     
+                        {% endif %}
+                            
                         
                     {% endfor %}
 
-                </section>
-               
-               
+                </section>          
 
             </article>
 
         </section>
     
-        <aside class="topTeams">
+        <aside class="topTeams responsiveHide">
 
             {% include "topTeamsList.html.twig" %}
 

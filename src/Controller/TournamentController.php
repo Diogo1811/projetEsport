@@ -282,7 +282,7 @@ class TournamentController extends AbstractController
             'participants' => $tournamentParticipants,
             
             // teams participating in the tournament
-            'participantsApi' => $tournamentParticipantsAPI,
+            'apiParticipants' => $tournamentParticipantsAPI,
 
             // list of tournament's matches
             'matches' => $tournamentMatches
@@ -354,9 +354,24 @@ class TournamentController extends AbstractController
 
         return $this->render('match/addScore.html.twig', [
 
-            
             // add a participant form
             'form' => $form,
         ]);
+    }
+
+    // start tournament  function
+    #[Route('/moderator/tournament/start/{url}', name: 'start_tournament')]
+    public function startTournament(ApiController $apiController, Request $request){
+
+        // We get the tournament's url to search the tournament in the api
+        $tournamentUrl = $request->attributes->get('url');
+
+        // we find in the api the match we want to update
+        $tournament = $apiController->findTournamentByUrl($tournamentUrl);
+        
+        // We call the function on the api controller to start the tournament
+        $apiController->startATournament($tournamentUrl);
+        
+        return $this->redirectToRoute('details_tournament', ['name' => $tournament['name'], "url" => $tournamentUrl]);
     }
 }

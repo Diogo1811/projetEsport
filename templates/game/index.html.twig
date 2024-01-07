@@ -3,14 +3,33 @@
 {% block title %}Esport Xpertise - liste des jeux ayant une competition d'esport{% endblock %}
 
 {% block body %}
+
+    {# {{ dump(games) }} #}
     <h1>Liste de jeux</h1>
 
-        <ul>
-            {% for game in games %}
-                <li>
-                    <a href="{{ path('details_game', {'name': game}) }}">{{ game }}</a>
+    <article id="gameList">
 
-                </li>
-            {% endfor %}
-        </ul>
+        {% for game in games %}
+    
+            {% if game.isVerified %}
+                
+                <figure>
+    
+                    <a href="{{ path('details_game', {'name': game }) }}">
+    
+                        <img src="{{ game.cover }}" alt="Couverture du jeu {{ game }}">
+    
+                    </a>
+    
+                </figure>
+    
+                
+    
+            {% endif %}
+    
+        {% endfor %}
+
+    </article>
+       
+        
 {% endblock %}

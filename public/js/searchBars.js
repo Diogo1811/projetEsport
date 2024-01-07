@@ -16,8 +16,11 @@ window.addEventListener("load", (event) => {
 
     // Function that will show the search responses
     async function showHint(srch) {
+
+        // recupère toutes les balises enfants de textHint 
+        const child = textHint.childNodes;
     
-        while(textHint.childNodes.length > 0) {
+        while(child.length > 0) {
             textHint.classList.remove('hide');
             labelForResult.classList.remove('hide');
             textHint.removeChild(child[0]);
@@ -58,7 +61,7 @@ window.addEventListener("load", (event) => {
     // la function est appelé à chaque fois qu'une touche est 'up' après avoir appuyé dessus
     searchBar.addEventListener("keyup", (e) => {
         
-        if (searchBar.value.length > 3) {
+        if (searchBar.value.length > 2) {
             
             showHint(searchBar.value)
         }else{
@@ -68,16 +71,5 @@ window.addEventListener("load", (event) => {
 
     });
 
-    // recupère toutes les balises enfants de textHint 
-    const child = textHint.childNodes;
 
-    // ferme le dropdown menu de la bar de recherche et la vide quand on clique dans la page 
-    // window.addEventListener("click", function() {
-    //     if(textHint.classList.contains("dropDownMenuHint")) {
-    //         while(child.length > 0) {
-    //             textHint.removeChild(child[0]);
-    //         }      
-    //         textHint.classList.remove("dropDownMenuHint");
-    //     }
-    // });
 });

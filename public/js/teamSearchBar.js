@@ -15,8 +15,12 @@ window.addEventListener("load", (event) => {
 
     // Function that will show the search responses
     async function showHint(srch) {
+
+        // recupère toutes les balises enfants de textHint 
+        const child = textHint.childNodes;
+
     
-        while(textHint.childNodes.length > 0) {
+        while(child.length > 0) {
             textHint.classList.remove('hide');
             labelForResult.classList.remove('hide');
             textHint.removeChild(child[0]);
@@ -65,7 +69,5 @@ window.addEventListener("load", (event) => {
 
     });
 
-    // recupère toutes les balises enfants de textHint 
-    const child = textHint.childNodes;
-
+    
 });

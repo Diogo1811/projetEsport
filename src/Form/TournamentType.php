@@ -48,6 +48,7 @@ class TournamentType extends AbstractType
             // tournament's description input
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
+                'required' => false, 
                 'attr' => [
                     'class' => 'form-control'
                 ]
@@ -270,7 +271,7 @@ class TournamentType extends AbstractType
                 'label' => 'Combien de participants maximum possède le tournoi ?',
             ])
             // tournament's start date
-            ->add('start_at', DateTimeType::class, [
+            ->add('start_at', DateType::class, [
                 'label' => 'Date de début du tournoi',
                 'widget' => 'single_text',
                 'required' => false,

@@ -74,6 +74,17 @@ class ApiController extends AbstractController
                 //str_replace to modify the quality of the received picture
                 $urlCover = str_replace('thumb', '1080p', $data[0]['cover']['url']);
 
+                if (!$game->getCover()) {
+
+                    $game->setCover($urlCover);
+
+                    // tell Doctrine you want to (eventually) save the game (no queries yet)
+                    $entityManager->persist($game);
+
+                    // actually executes the queries (i.e. the INSERT query)
+                    $entityManager->flush();
+                }
+
                 // we create an empty array to put the urls insilate later on
                 $urlScreenshots = [];
 
@@ -314,6 +325,29 @@ class ApiController extends AbstractController
                 'api_key' => 'ywlAxaVHioEqzgZ0uwqzNzU2rpceht45ydKf88fe',
             ],
             'body' => $data
+        ]);
+
+        return;
+        
+    }
+
+    public function startATournament($url)
+    {
+
+        // This allows me to add a new tournament
+        $apiChallonge = 'https://api.challonge.com/v1/tournaments/'.$url.'/start.json';
+
+        // Create a Guzzle client
+        $client = new Client();
+
+        // Api tournament call and creation of the tournament
+        $client->request('POST', $apiChallonge, [
+            'headers' => [
+                'Content-Type' => 'application/json'
+            ],
+            'query' => [
+                'api_key' => 'ywlAxaVHioEqzgZ0uwqzNzU2rpceht45ydKf88fe',
+            ]
         ]);
 
         return;

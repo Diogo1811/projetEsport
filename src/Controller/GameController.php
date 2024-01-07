@@ -16,12 +16,16 @@ class GameController extends AbstractController
 {
     //Function to show the list of every game in the dataBase 
     #[Route('/game', name: 'app_game')]
-    public function index(GameRepository $gameRepository): Response
+    public function index(GameRepository $gameRepository, ApiController $apiController): Response
     {
 
         $games = $gameRepository->findBy([], ['name' => 'ASC']);
+
+        $apiGames = $apiController->getApiGames($games);
+
         return $this->render('game/index.html.twig', [
             'games' => $games,
+            'apiGames' => $apiGames
         ]);
     }
 

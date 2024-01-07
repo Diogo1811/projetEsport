@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="description" content="{% block meta_description %}{% endblock %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
         {# Script for tarte au citron a cookie manager #}
         <script src="/tarteaucitron/tarteaucitron.js"></script>
@@ -95,33 +96,24 @@
     <body>
         <header id="siteHeader">
 
-            {# site's logo with link to home page #}
-            <figure class="logoSite">
+            <article>
 
-                <a href="{{ path('app_home') }}"><img src="{{ asset('img/LogoSite.jpg') }}" alt="Logo du site"></a>
-                
-            </figure>
-
-            {# Name for this site #}
-            <h2 id="siteName">Esport Xpertise</h2>
-
-            <nav>
-                <ul class="navBar">
-
-                    {# link to homePage #}
-                    <li><a href="{{ path('app_home') }}">Accueil</a></li>
-
-                    {# link to list of games #}
-                    <li><a href="{{ path('app_game') }}">Jeux</a></li>
-
-                    {# link to list of teams #}
-                    <li><a href="{{ path('app_team') }}">Équipes</a></li>
-
-                    {# link to list of players #}
-                    <li><a href="{{ path('app_player') }}">Joueurs</a></li>
+                {# site's logo with link to home page #}
+                <figure class="logoSite">
+    
+                    <a href="{{ path('app_home') }}"><img src="{{ asset('img/LogoSite.jpg') }}" alt="Logo du site"></a>
                     
-                    {# link to list of countries #}
-                    <li><a href="{{ path('app_tournament') }}">Tournois</a></li>
+                </figure>
+    
+                {# Name for this site #}
+                <h2 id="siteName">Esport Xpertise</h2>
+    
+                <button id="menuButton"><i class="fa-solid fa-bars"></i></button>
+            
+            </article>
+
+            <nav id="menuNav" class="responsiveHide">
+                <ul id="navBar">
 
                     {% if app.user %}
 
@@ -146,6 +138,22 @@
                         <li><a href="{{ path('app_login') }}">Connexion</a></li>
 
                     {% endif %}
+
+                    {# link to homePage #}
+                    <li><a href="{{ path('app_home') }}">Accueil</a></li>
+
+                    {# link to list of games #}
+                    <li><a href="{{ path('app_game') }}">Jeux</a></li>
+
+                    {# link to list of teams #}
+                    <li><a href="{{ path('app_team') }}">Équipes</a></li>
+
+                    {# link to list of players #}
+                    <li><a href="{{ path('app_player') }}">Joueurs</a></li>
+                    
+                    {# link to list of countries #}
+                    <li><a href="{{ path('app_tournament') }}">Tournois</a></li>
+
                     
                     {% if is_granted('ROLE_MODERATOR') %}
 
@@ -215,7 +223,7 @@
         <footer id="siteFooter">
 
             {# site's logo with link to home page #}
-            <figure class="logoSite">
+            <figure class="logoSite responsiveHide">
                 <a href="{{ path('app_home') }}"><img src="{{ asset('img/LogoSite.jpg') }}" alt="Logo du site"></a>
             </figure>
 
@@ -245,7 +253,7 @@
             {# links to my js files #}
             
             {# link to home js #}
-            <script src="{{ asset('js/home.js') }}"></script>
+            {# <script src="{{ asset('js/home.js') }}"></script> #}
 
             {# link to teamSearchBar js #}
             <script src="{{ asset('js/teamSearchBar.js') }}"></script>
@@ -256,8 +264,8 @@
             {# link to searchBars js #}
             <script src="{{ asset('js/searchBars.js') }}"></script>
 
-            {# link to favorite js #}
-            <script src="{{ asset('js/favorite.js') }}"></script>
+            {# link to responsive js #}
+            <script src="{{ asset('js/responsive.js') }}"></script>
             
             {# link to gameDetails js #}
             <script src="{{ asset('js/gameDetails.js') }}"></script>
@@ -275,18 +283,7 @@
             {# link to collectionType for social medias js #}
             <script src="{{ asset('js/collectionTypeSocialMedia.js') }}"></script>
 
-            {# link to api games js #}
-            <script src="{{ asset('js/apiGames.js') }}"></script>
         {% endblock %}
 
     </body>
 </html>
-
-
-{# password tests #}
-{# martin : Martinmartin123! Ancien !!!!!! #}
-{# martin : Azertyuiop123! Nouveau !!!!!! #}
-{# martine : Martinemartine123! #}
-{# frfrfrfrf : Azertyuiop123! #}
-{# bruce : Azertyuiop123! #}
-{# mnop : Azertyuiop123! #}

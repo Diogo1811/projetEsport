@@ -6,11 +6,30 @@
 
     {% set now = 'now'|date() %}
 
-    {# {{ dump(tournament) }}
-    {{ dump(tournamentDetails) }}
-    {{ dump(participantsApi) }}
-    {{ dump(matches) }} #}
+    {# {{ dump(tournament) }} #}
+    {# {{ dump(tournamentDetails) }} #}
+    {# {{ dump(apiParticipants) }} #}
+    {# {{ dump(participants) }} #}
+    {# {{ dump(matches) }} #}
     <h1>{{ tournament }}</h1>
+
+    {% if not tournamentDetails.started_at %}
+        <h2>Équipes inscrites</h2>
+
+        <ul>
+            {% for participant in participants %}
+    
+                <li>
+
+                    {{participant}}
+                    
+                </li>
+                
+            {% endfor %}
+
+        </ul>
+        
+    {% endif %}
 
     <p>il s'agit d'un tournoi sur le jeu {{ tournament.game }}</p>
 
@@ -69,7 +88,7 @@
                             <td>
 
                                 {# loop to get every participant of the tournament #}
-                                {% for participantApi in participantsApi %}
+                                {% for participantApi in apiParticipants %}
                             
                                     {# get the participant with the id of the first player of th match #}
                                     {% if participantApi.id == match.player1_id %}
@@ -93,7 +112,7 @@
                             <td>
 
                                 {# loop to get every participant of the tournament  #}
-                                {% for participantApi in participantsApi %}
+                                {% for participantApi in apiParticipants %}
 
                                     {# get the participant with the id of the second player of the match #}
                                     {% if participantApi.id == match.player2_id %}
@@ -170,7 +189,7 @@
                                     {% if match.player1_id %}
                                     
                                         {# loop to get every participant of the tournament #}
-                                        {% for participantApi in participantsApi %}
+                                        {% for participantApi in apiParticipants %}
                                 
                                             {# get the participant with the id of the first player of the match #}
                                             {% if participantApi.id == match.player1_id %}
@@ -191,7 +210,7 @@
                                             {% if match.id == nextRound.player1_prereq_match_id %}
 
                                                 {# loop to get every participant of the tournament #}
-                                                {% for participantApi in participantsApi %}
+                                                {% for participantApi in apiParticipants %}
                                             
                                                     {# get the participant with the id of the first player of the match  #}
                                                     {% if participantApi.id == match.player1_id %}
@@ -229,7 +248,7 @@
 
                                     {% if match.player2_id %}
                                     
-                                        {% for participantApi in participantsApi %}
+                                        {% for participantApi in apiParticipants %}
                                 
                             
                                 
@@ -245,7 +264,7 @@
                                         {% for match in matches %}
                                             {% if match.id == nextRound.player2_prereq_match_id %}
 
-                                                {% for participantApi in participantsApi %}
+                                                {% for participantApi in apiParticipants %}
                                             
                                                     {# {{ dump(participantApi) }} #}
                                                 
@@ -292,7 +311,7 @@
                             <td colspan="3">
                         
 
-                                {% for participantApi in participantsApi %}
+                                {% for participantApi in apiParticipants %}
 
                                     {% if participantApi.id ==  match.winner_id %}
 
@@ -311,16 +330,18 @@
         </table>
     {% endif %}
 
-    <section id="videos">
+    {# <section id="videos">
         <div class="video">
-            {# <iframe src="https://clips.twitch.tv/embed?clip=AgitatedBumblingMangetoutPRChase-5bRk_q5aWFG-hFr-&parent=www.example.com" frameborder="0" allowfullscreen="true" scrolling="no" height="378" width="620"></iframe> #}
+            <iframe src="https://clips.twitch.tv/embed?clip=AgitatedBumblingMangetoutPRChase-5bRk_q5aWFG-hFr-&parent=www.example.com" frameborder="0" allowfullscreen="true" scrolling="no" height="378" width="620"></iframe>
             <iframe width="1904" height="742" src="https://www.youtube.com/embed/IdlrYNIBBb0" title="😲 Girona est incroyable…" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
               
         </div>
 
-    </section>
+    </section>#}
 
+    {% set numberParticipants = apiParticipants|length %}
 
+    {{ dump(numberParticipants) }}
 
 
     {% if is_granted('ROLE_MODERATOR') and not tournamentDetails.started_at %}
@@ -335,6 +356,11 @@
 
             {{ form_end(form) }}
 
+            {% if numberParticipants > 1 %}
+                
+                <a href="{{ path('start_tournament', {'url': tournamentDetails.url}) }}"><input type="button" value="Démarrer le tournois"></a>
+
+            {% endif %}
         </article>
         
 

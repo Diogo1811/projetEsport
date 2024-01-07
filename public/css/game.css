@@ -108,3 +108,24 @@
     gap: 20px;
     padding: 0;
 }
+
+
+
+/*****************************************************************GAMES LIST **********************************************************************************************/
+#gameList {
+    padding: 2em;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+#gameList figure{
+    width: calc(24% - 10px);
+    /* width: 24%; */
+    margin: 0;
+}
+
+#gameList img{
+    width: 100%;
+}
