@@ -3,10 +3,10 @@
 {% block title %}{{game}}{% endblock %}
 
 {% block body %}
-{{ dump(game) }}
+{# {{ dump(game) }} #}
 
     {% if infos is defined %}   
-        {{ dump(infos) }}
+        {# {{ dump(infos) }} #}
         <figure class="gameCover">
 
             {# link to the cover of the game the image is in the api#}
@@ -19,8 +19,11 @@
             </figcaption>
 
         </figure>
+
         <div class="swiper">
+
             <div class="swiper-wrapper">
+
                 {# loop to search all the sceenshots on the api database for the game #}
                 {% for key, urlScreenshot in urlScreenshots %}
 
@@ -32,7 +35,9 @@
 
                         
                     </figure>
+
                 {% endfor %}
+
             </div>
 
 
@@ -42,6 +47,7 @@
 
             <!-- If we need navigation buttons -->
             <div class="swiper-button-prev"></div>
+            
             <div class="swiper-button-next"></div>
  
         </div>

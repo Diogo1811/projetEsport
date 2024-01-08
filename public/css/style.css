@@ -122,13 +122,18 @@ body{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 2em;
 }
 
-#siteFooter p,
-#siteFooter a{
+#siteFooter p{
+    width: 60%;
     margin: 0;
     color: #fff;
     font-size: 1.5em;
+}
+
+#siteFooter a{
+    color: #fff;
 }
 
 .socialMedia{
@@ -183,6 +188,7 @@ ol{
 .topUsers,
 .topTeams{
     background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(140,203,233,1) 100%);
+    min-width: 400px;
     width: auto;
     height: auto;
     min-height: 50vh;
@@ -296,6 +302,7 @@ form{
     /************************************HEADER *******************************************/
 
     #siteHeader{
+        display: flex;
         flex-direction: column;
         gap: 20px;
         padding: 0;
@@ -318,13 +325,14 @@ form{
         width: 100px;
         height: 40px;
         border-radius: 10px;
-        background-image: url(../img/4d3uKwt812GoqIOoWCaUcKG.jpg);
+        background: radial-gradient(circle, rgba(130,143,160,1) 1%, rgba(118,134,157,1) 73%, rgba(24,40,84,1) 100%);
         color: #fff;
     }
 
     #menuNav{
         width: 100%;
         height: auto;
+        background: radial-gradient(circle, rgba(130,143,160,1) 1%, rgba(118,134,157,1) 73%, rgba(24,40,84,1) 100%);
     }
 
     #navBar{
@@ -336,10 +344,14 @@ form{
         
     }
 
+    #navBar a{
+        font-size: .79em;
+        
+    }
+
     #siteHeader a:hover{
         font-size: large;
     }
-
 
     /*************************************FOOTER ************************************************/
     #siteFooter {

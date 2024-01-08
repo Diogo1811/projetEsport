@@ -49,6 +49,9 @@ class Player
     #[ORM\OneToMany(mappedBy: 'player', cascade: ["persist"], targetEntity: SocialMediaAccount::class)]
     private Collection $socialMediaAccounts;
 
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $picture = null;
+
     public function __construct()
     {
         $this->playerRosters = new ArrayCollection();
@@ -220,5 +223,17 @@ class Player
     public function __toString()
     {
         return ucfirst($this->getNickname());
+    }
+
+    public function getPicture(): ?string
+    {
+        return $this->picture;
+    }
+
+    public function setPicture(string $picture): static
+    {
+        $this->picture = $picture;
+
+        return $this;
     }
 }

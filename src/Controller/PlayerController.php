@@ -30,7 +30,7 @@ class PlayerController extends AbstractController
     #[Route('/userTeam/player/newplayer', name: 'new_player')]
     //modify a player in the data base
     #[Route('/userTeam/player/{id}/editplayer', name: 'edit_player')]
-    public function newEditPlayer(Player $player = null, Request $request, EntityManagerInterface $entityManager): Response
+    public function newEditPlayer(Player $player = null, Request $request, EntityManagerInterface $entityManager, FileUploaderLogo $fileUploader): Response
     {
         // if the player is set at the start it means we are in a modify player and not in an add
         if (!$player) {
@@ -55,6 +55,25 @@ class PlayerController extends AbstractController
 
                 if ($country) {
                     $player->setCountry($country);
+                }
+
+                // set the var picture
+                $picture = $form->get('picture')->getData(); 
+                
+                // if there's a picture
+                if ($picture) {
+        
+                    // we upload the picture
+                    $pictureName = $fileUploader->upload($picture);
+        
+                    //and we set the picture for the player
+                    $player->setpicture($pictureName);
+                    
+                    // if there's no picture added 
+                }else{
+
+                    // A default picture is added to the player
+                    $player->setpicture('defaultPicture.jpg');
                 }
 
                 // tell Doctrine you want to (eventually) save the player (no queries yet)

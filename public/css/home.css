@@ -72,7 +72,7 @@
 }
 
 
-/************Accordeon **********************************/
+/************Tournaments **********************************/
 #tournament-list {
     width: 700px;
     margin: 0 auto;
@@ -100,6 +100,15 @@
     position: absolute;
     bottom: 0;
     width: 100%;
+    background-color: rgba(0,0,0,0.8);
+    height: 50px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    border-radius: 10px;
+    color: #fff;
 }
 
 .tournamentGameCover {
@@ -123,7 +132,7 @@
     border-radius: 10px;
 }
 
-.active {
+/* .active {
     color: blue;
     font-weight: bold;
 }
@@ -133,9 +142,9 @@
 }
 
 .tournamentListHome {
-    /* display: none; */
+    /* display: none;
     list-style: none;
-}
+}*/
 
 .keywords{
     color: #fff;
@@ -149,6 +158,7 @@
     color: #666;
     border-radius: 50%;
     font-weight: bold;
+    font-size: 1.5em;
 }
 
 /************************************************* RESPONSIVE ************************************************************/

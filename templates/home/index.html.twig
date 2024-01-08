@@ -57,7 +57,13 @@
             </p>
 
             {% if not app.user %}
+
                 <a href="{{ path('app_register') }}" class="buttonBlue">Commence ton aventure gaming!</a>
+
+            {% elseif is_granted('ROLE_TEAM') and not is_granted('ROLE_MODERATOR') and app.user.team is null %}
+                        
+                <a href="{{ path('new_team') }}" class="buttonBlue">Crée ton équipe ici</a>
+
             {% endif %}
 
             <article id="tournament-list">
@@ -69,7 +75,7 @@
                     {% for tournament in tournaments %}
 
                         
-                        {{ dump(tournament) }}
+                        {# {{ dump(tournament) }} #}
                                 
                         {% if not tournament.0.completed_at %}
                             
@@ -96,7 +102,7 @@
                         
                     {% endfor %}
 
-                </section>          
+                </section>   
 
             </article>
 
@@ -110,13 +116,7 @@
 
     </div>
     
-    {% if is_granted('ROLE_TEAM') and not is_granted('ROLE_MODERATOR') and app.user.team is null %}
-
-        <h2>Tu dois créer ton équipe ici</h2>
-        
-        <a href="{{ path('new_team') }}">Créez votre équipe ici</a>
     
-    {% endif %}
 
     {# This is where my backgroud picture will be #}
     <section class="backgroundPic"></section>

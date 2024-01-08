@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class TeamController extends AbstractController
 {
@@ -49,8 +50,8 @@ class TeamController extends AbstractController
         
         }else {
             
-            // On an edit a user who doesn't have a team or has one but it's not the one in the edit will be send off
-            if(!$this->getUser()->getTeam() || $this->getUser()->getTeam() != $team) {
+            // On an edit a user who doesn't have a team and has one but it's not the one in the edit and is not at least a moderator will be send off
+            if(!$this->getUser()->getTeam() && $this->getUser()->getTeam() != $team && !$this->IsGranted('ROLE_MODERATOR')) {
 
                 $this->addFlash('error', 'bien essayé !');
 

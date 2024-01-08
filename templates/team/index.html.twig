@@ -3,20 +3,35 @@
 {% block title %}Esport Xpertise - liste des équipes participant à des tournois d'esport{% endblock %}
 
 {% block body %}
-    <h1>Liste d'équipes</h1>
 
-        <ul id="teamsList">
-            {% for team in teams %}
-                <li>
-                    <figure class="teamLogo">
-                        <img src="{{ asset('upload/logo/' ~ team.logo) }}" alt="Logo de {{ team }}">
-                        <figcaption>
-                            <a href="{{ path('details_team', {'id': team.id}) }}">{{ team }}</a>
-                        </figcaption>
-                    </figure>
+    <section id="teamsContainer">
 
-                </li>
-            {% endfor %}
-        </ul>
+        <h1>Liste d'équipes</h1>
+    
+            <ul id="teamsList">
+                {% for team in teams %}
+                    <li>
+    
+                        <figure class="teamLogo">
+    
+                            <a href="{{ path('details_team', {'id': team.id}) }}">
+    
+                                <img src="{{ asset('upload/logo/' ~ team.logo) }}" alt="Logo de {{ team }}">
+    
+                                <figcaption class="teamName">
+    
+                                    {{ team }}
+    
+                                </figcaption>
+    
+                            </a>
+    
+                        </figure>
+    
+                    </li>
+                {% endfor %}
+            </ul>
+
+    </section>
 {% endblock %}
 

@@ -33,3 +33,8 @@ services:
     App\Service\FileUploaderLogo:
         arguments:
             $targetDirectory: 'upload/logo'
+    
+    # This one is for the player's picture
+    App\Service\FileUploaderPicture:
+        arguments:
+            $targetDirectory: 'upload/picture'

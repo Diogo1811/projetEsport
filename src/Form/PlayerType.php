@@ -10,8 +10,10 @@ use App\Form\SocialMediaAccountType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -68,6 +70,27 @@ class PlayerType extends AbstractType
             ->add('birthDate', DateType::class, [
                 'label' => 'Date de naissance',
                 'widget' => 'single_text',
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('picture', FileType::class, [
+                'label' => "Logo de l'équipe (champ non obligatoire)",
+                // unmapped means that this field is not associated to any entity property
+                'mapped' => false,
+                // I added the require false because I don't want the user to be forced to add a picture
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                            'image/jpg',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez inserer une image du type jpeg, png ou jpg',
+                    ])
+                ],
                 'attr' => [
                     'class' => 'form-control'
                 ]
