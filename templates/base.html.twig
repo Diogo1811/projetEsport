@@ -176,9 +176,6 @@
                                 {# Link to create a new country #}
                                 <li><a href="{{ path('new_tournament') }}" class="dropdown-item">Tournoi</a></li>
 
-                                {# Link to create a new match #}
-                                <li><a href="{{ path('app_home') }}" class="dropdown-item">Match</a></li>
-
                                 {# Link to create a new team #}
                                 <li><a href="{{ path('new_team') }}" class="dropdown-item">Equipe</a></li>
 
@@ -189,7 +186,13 @@
                                 <li><a href="{{ path('new_editor') }}" class="dropdown-item">Editeur</a></li>
 
                             </ul>
+
                         </div>
+
+                    {% elseif is_granted('ROLE_TEAM') and not is_granted('ROLE_MODERATOR') and app.user.team is null %}
+
+                        <a href="{{ path('new_team') }}" class="buttonBlue">Crée ton équipe</a>
+
                     {% endif %}
                     
                 </ul>

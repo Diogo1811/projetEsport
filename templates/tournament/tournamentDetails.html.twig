@@ -14,6 +14,7 @@
     <h1>{{ tournament }}</h1>
 
     {% if not tournamentDetails.started_at %}
+
         <h2>Équipes inscrites</h2>
 
         <ul>
@@ -341,26 +342,33 @@
 
     {% set numberParticipants = apiParticipants|length %}
 
-    {{ dump(numberParticipants) }}
+    {# {{ dump(numberParticipants) }} #}
 
-
+    {# if the user is at least a moderator and the tournament isn't started #}
     {% if is_granted('ROLE_MODERATOR') and not tournamentDetails.started_at %}
 
         <article class="addTeamForm">
 
             <h2>Ajouter une équipe au tournoi</h2>
 
+            {# this form only contains de validation button #}
             {{ form_start(form) }}
 
+                {# search bar for teams in my data base #}
                 {% include "searchBarTeam.html.twig" %}
 
             {{ form_end(form) }}
 
+            {# if there's more than one participant i allow the tournament to be started #}
             {% if numberParticipants > 1 %}
                 
-                <a href="{{ path('start_tournament', {'url': tournamentDetails.url}) }}"><input type="button" value="Démarrer le tournois"></a>
+                {# button to start a tournament #}
+                <a href="{{ path('start_tournament', {'url': tournamentDetails.url}) }}">
+                    <input type="button" value="Démarrer le tournois" class="btn btn-success">
+                </a>
 
             {% endif %}
+
         </article>
         
 

@@ -46,3 +46,18 @@
     text-align: center;
     width: 20%;
 }
+
+/*******************************************Tournament list *********************************************************/
+.tournamentsList {
+    list-style: none;
+}
+.tournamentsList a{
+    text-decoration: none;
+    color: #DBF0FA;
+    font-size: 2em;
+}
+
+.tournamentsList a:hover{
+
+    color: rgb(9, 9, 49);
+}

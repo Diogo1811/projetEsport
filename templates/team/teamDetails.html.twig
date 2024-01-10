@@ -97,11 +97,11 @@
                         
                         <input type="radio" name="slide" class="rosterRadio" id="{{playerRoster.id}}">
 
-                        <label for="{{playerRoster.id}}" class="card" style="background-image: url('asset(upload/picture/ ~ playerRoster.player.picture')}});">
+                        <label for="{{playerRoster.id}}" class="card" style="background-image: url('{{asset('upload/pictures/' ~ playerRoster.player.picture)}}')">
 
                             <div class="row">
 
-                                <div class="icon">{{slideNumber}}</div>
+                                {# <div class="icon">{{slideNumber}}</div> #}
 
                                 <figure class="description">
 
@@ -111,7 +111,11 @@
 
                                         <h4>{{playerRoster.player}}</h4>
 
-                                        <p>role</p>
+                                        {% if playerRoster.role %}
+
+                                            <p>{{playerRoster.role}}</p>
+                                            
+                                        {% endif %}
 
                                     </figcaption>
 

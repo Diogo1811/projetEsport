@@ -137,7 +137,6 @@ class TournamentController extends AbstractController
     #[Route('/tournament/{name}/{url}', name: 'details_tournament')]
     public function tournamentDetails(Tournament $tournament, ApiController $apiController, UserRepository $userRepository, Request $request, TeamRepository $teamRepository): Response
     {
-
         // We get the tournament's url to search the tournament in the api
         $tournamentUrl = $request->attributes->get('url');
 
@@ -167,30 +166,6 @@ class TournamentController extends AbstractController
             $tournamentParticipants[] = $teamInTournament;
 
         }
-
-        // $idPlayers = [];
-
-        // foreach ($dataMatches as $keys => $match) {
-        //     // dd($key);
-        //     foreach ($match as $key => $value) {
-
-        //         $idPlayers[] = $value['player1_id'];
-        //         $idPlayers[] = $value['player2_id'];
-
-        //     }
-        // }
-
-
-        // $players = [];
-
-        // dd($idPlayers);
-        // foreach ($idPlayers as $idPlayer) {
-
-        //     if ($idPlayer) {
-        //         $players[] = $this->findParticipantById($url, $idPlayer);
-        //     }
-
-        // }
 
         // get 10 users and sort them by the site coins that they have
         $users = $userRepository->findBy([],["siteCoins" => "DESC"], 10);
@@ -244,10 +219,7 @@ class TournamentController extends AbstractController
                         // return to the page to refresh and show the team added
                         return $this->redirectToRoute('details_tournament', ['name' => $tournament->getName(), "url" => $tournamentUrl]);
                     }
-                    
-                    
-                    
-                    
+                            
                 }
             }
 
