@@ -94,8 +94,17 @@
                     {% set slideNumber = slideNumber + 1 %}
     
                     {% if not playerRoster.playingEndDate %}
+
+                        {% if loop.first %}
+
+                            <input type="radio" name="slide" class="rosterRadio" id="{{playerRoster.id}}" checked>
+
+                        {% else %}
+
+                            <input type="radio" name="slide" class="rosterRadio" id="{{playerRoster.id}}">
+
+                        {% endif %}
                         
-                        <input type="radio" name="slide" class="rosterRadio" id="{{playerRoster.id}}">
 
                         <label for="{{playerRoster.id}}" class="card" style="background-image: url('{{asset('upload/pictures/' ~ playerRoster.player.picture)}}')">
 
