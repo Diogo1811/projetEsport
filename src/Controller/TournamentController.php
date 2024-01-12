@@ -54,7 +54,9 @@ class TournamentController extends AbstractController
         return $this->render('tournament/index.html.twig', [
 
             // we send the array to the template
-            'tournaments' => $tournaments
+            'tournaments' => $tournaments,
+
+            'tournamentsDB' => $dataBaseTournaments
 
         ]);
     }

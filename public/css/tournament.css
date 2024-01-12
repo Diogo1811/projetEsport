@@ -19,6 +19,9 @@
     border-radius: 10px;
     border-collapse: unset; */
     width: 900px;
+    background-color: #fff;
+    border-radius: 10px;
+    align-self: center;
 }
 
 .tournamentTableColumnTitle th{
@@ -47,17 +50,83 @@
     width: 20%;
 }
 
-/*******************************************Tournament list *********************************************************/
-.tournamentsList {
+#tournamentContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    padding: 2em;
+}
+
+#participantsList{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+#participantsList li{
+    width: 20%;
     list-style: none;
 }
-.tournamentsList a{
+
+.participantLogo{
+    width: 100%;
+    position: relative;
+}
+
+.participantLogo img{
+    width: 100%;
+}
+
+#searchTeamInput,
+#textTeamHint{
+    margin-bottom: 2em;
+}
+/*******************************************Tournament list *********************************************************/
+
+
+#tournamentsList{
+    margin-top: 2em;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-around;
+    padding: 2em;
+}
+
+#tournamentsList li{
+    width: 30%;
+    list-style: none;
+}
+
+#tournamentsList figure{
+    width: 100%;
+    position: relative;
+}
+
+#tournamentsList figure img{
+    width: 100%;
+}
+
+#tournamentsList figcaption{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(0,0,0,0.8);
+    text-align: center;
+    padding: 1em;
+}
+
+#tournamentsList figcaption a{
     text-decoration: none;
-    color: #DBF0FA;
+    color: #fff;
+    font-weight: bold;
     font-size: 2em;
 }
 
-.tournamentsList a:hover{
-
-    color: rgb(9, 9, 49);
+/*****Form****/
+#textGameHint,
+#numberPlayer,
+#searchGameInput{
+    margin-bottom: 1em;
 }

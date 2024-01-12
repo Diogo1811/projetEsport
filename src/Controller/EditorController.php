@@ -65,7 +65,8 @@ class EditorController extends AbstractController
 
         return $this->render('editor/editorForm.html.twig', [
             'form' => $form,
-            'edit' => $edit
+            'edit' => $edit,
+            'editorId' => $editor->getId(),
         ]);
 
     }

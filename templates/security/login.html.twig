@@ -3,25 +3,33 @@
 {% block title %}Connexion !{% endblock %}
 
 {% block body %}
-<form method="post">
+<form method="post" id="loginForm">
     
     <h1>Connecte-toi !</h1>
     <label for="inputUsername">Pseudo</label>
     <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
     <label for="inputPassword">Mot de Passe</label>
     <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-    <label>
-        <input type="checkbox" name="_remember_me">
-        Se souvenir de moi
-    </label>
+
+    <div class="loginFormRemember">
+
+        <label>
+
+            <input type="checkbox" name="_remember_me">
+            Se souvenir de moi
+
+        </label>
+        
+        <p>Mot de passe oublié ? <a href="{{ path('app_forgot_password_request') }}">Modifier mon mot de passe.</a></p>
+
+    </div>
 
     <input type="hidden" name="_csrf_token"
            value="{{ csrf_token('authenticate') }}"
     >
 
-    <p>Mot de passe oublié ? <a href="{{ path('app_forgot_password_request') }}">Modifier mon mot de passe.</a></p>
 
-    <button class="btn btn-lg btn-primary" type="submit">
+    <button class="btn btn-lg btn-primary" type="submit" id="loginButton">
         Se connecter
     </button>
     <p>Vous n'avez pas de compte ? <a href="{{ path('app_register') }}">Inscrivez-vous ici !</a></p>

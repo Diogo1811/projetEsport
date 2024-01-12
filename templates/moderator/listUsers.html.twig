@@ -14,43 +14,67 @@
         </p>
     {% endfor %}
 
-    <ul>
+    <ul id="listUsers">
+
         {% for user in users %}
+
             {# if the user is the admin I don't want to display him #}
             {% if 'ROLE_ADMIN' not in user.roles %}
                 
             <li>
-                <a href="{{ path('app_user', {'id': user.id}) }}">{{ user }}</a>
 
-                {# if the user isn't the admin the add moderator button doesn't show  #}
-                {% if is_granted('ROLE_ADMIN') %}
+                <figure>
 
-                    {# if the user isn't already a moderator we display the add moderator button else we display the remove moderator button #}
-                    {% if 'ROLE_MODERATOR' not in user.roles %}
-                        <a href="{{ path('app_moderator', {'id': user.id}) }}"><input type="button" class="btn btn-primary" value="En faire un modérateur"></a>
-                    {% else %}
-                        <a href="{{ path('app_moderator', {'id': user.id}) }}"><input type="button" class="btn btn-danger" value="Lui retirer les droits de modération"></a>
+                    <img src="{{ asset('upload/avatar/' ~ user.profilePicture) }}" alt="photo de profile de {{ user }}">
+
+                    <figcaption>
+                        
+                        <a href="{{ path('app_user', {'id': user.id}) }}">{{ user }}</a>
+
+                    </figcaption>
+
+                </figure>
+
+                <div class="moderatorButtons">
+                    
+                    {# if the user isn't the admin the add moderator button doesn't show  #}
+                    {% if is_granted('ROLE_ADMIN') %}
+    
+                        {# if the user isn't already a moderator we display the add moderator button else we display the remove moderator button #}
+                        {% if 'ROLE_MODERATOR' not in user.roles %}
+
+                            <a href="{{ path('app_moderator', {'id': user.id}) }}"><input type="button" class="btn btn-primary" value="En faire un modérateur"></a>
+
+                        {% else %}
+
+                            <a href="{{ path('app_moderator', {'id': user.id}) }}"><input type="button" class="btn btn-danger" value="Retirer les droits de modération"></a>
+
+                        {% endif %}
+                    
                     {% endif %}
-                
-                {% endif %}
 
-                {# if the user is banned we display an unban button #}
-                {% if user.isBanned %}
+                    {# if the user is banned we display an unban button #}
+                    {% if user.isBanned %}
+    
+                        {# unban button #}
+                        <a href="{{ path('app_ban', {'id': user.id}) }}"><input type="button" class="btn btn-success" value="débloquer l'utilisateur"></a>
+    
+                    {# else we display the ban button #}
+                    {% else %}
+    
+                        {# ban button #}
+                        <a href="{{ path('app_ban', {'id': user.id}) }}"><input type="button" class="btn btn-danger" value="bloquer l'utilisateur"></a>
+                    
+                    {% endif %}
+                </div>
 
-                    {# unban button #}
-                    <a href="{{ path('app_ban', {'id': user.id}) }}"><input type="button" class="btn btn-success" value="débloquer l'utilisateur"></a>
-
-                {# else we display the ban button #}
-                {% else %}
-
-                    {# ban button #}
-                    <a href="{{ path('app_ban', {'id': user.id}) }}"><input type="button" class="btn btn-danger" value="bloquer l'utilisateur"></a>
-                
-                {% endif %}
 
             </li>
+
             {% endif %}
+
         {% endfor %}
 
     </ul>
+
 {% endblock %}

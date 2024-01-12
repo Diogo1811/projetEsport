@@ -3,13 +3,6 @@
 {% block title %}{{user}}{% endblock %}
 
 {% block body %}
-    {# this is the message send by the controller #}
-    {% for flash_error in app.flashes('error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
-    {% for flash_success in app.flashes('success') %}
-        <div class="alert alert-success" role="alert">{{ flash_success }}</div>
-    {% endfor %}
 
     <figure class="profilePicture">
         <img src="{{ asset('upload/avatar/' ~ user.profilePicture) }}" alt="photo de profil de {{user}}">
@@ -18,9 +11,30 @@
         </figcaption>
     </figure>
 
+    <section id="userPage">
 
-    <a href="{{ path('edit_user', {'id': user.id}) }}"><input type="button" class="btn btn-warning" value="Modifier le compte"></a>
-    <a href="{{ path('delete_user', {'id': user.id}) }}"><input type="button" class="btn btn-danger" value="Supprimer le compte"></a>
+        <figure class="favoriteTeamLogo">
+        
+            <a href="{{ path('details_team', {'id': user.team.id}) }}">
+    
+                <img src="{{ asset('upload/logo/' ~ user.team.logo) }}" alt="Logo de {{ user.team }}">
+    
+                <figcaption class="teamName">
+    
+                    {{ user.team }}
+    
+                </figcaption>
+    
+            </a>
+    
+        </figure>
+    
+    
+        
+        <a href="{{ path('edit_user', {'id': user.id}) }}"><input type="button" class="btn btn-warning" value="Modifier le compte"></a>
+        <a href="{{ path('delete_user', {'id': user.id}) }}"><input type="button" class="btn btn-danger" value="Supprimer le compte"></a>
+        
+    </section>
 
 
 

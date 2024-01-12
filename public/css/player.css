@@ -76,3 +76,43 @@
 #countryBoxes label {
   margin-right: 20px;
 }
+
+/****************************************Player List ************************************************/
+#playersList{
+  margin-top: 2em;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-around;
+  padding: 2em;
+}
+
+#playersList li{
+  width: 30%;
+  list-style: none;
+}
+
+#playersList figure{
+  width: 100%;
+  position: relative;
+}
+
+#playersList figure img{
+  width: 100%;
+}
+
+#playersList figcaption{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(0,0,0,0.8);
+  text-align: center;
+  padding: 1em;
+}
+
+#playersList figcaption a{
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  font-size: 2em;
+}

@@ -9,12 +9,28 @@
         {# {{ dump(tournaments) }} #}
         {% for tournament in tournaments %}
 
-            <li>
+            {% for tournamentDB in tournamentsDB %}
+            
+                {% if tournament.name == tournamentDB.name %}
+                    
+                    <li>
+                        <figure>
 
-                <a href="{{ path('details_tournament', {'name': tournament.name, 'url': tournament.url}) }}">{{ tournament.name }}</a>
-                {# {{ tournament.start_at|date_fr('l j F Y') }} #}
-                
-            </li>
+                            <img src="{{ tournamentDB.game.cover }}" alt="couverture du jeu {{ tournamentDB.game }}">
+        
+                            <figcaption>
+                                
+                                <a href="{{ path('details_tournament', {'name': tournament.name, 'url': tournament.url}) }}">{{ tournament.name }}</a>
+        
+                            </figcaption>
+        
+                        </figure>                      
+                        
+                    </li>
+                {% endif %}
+
+            {% endfor %}
+
 
         {% endfor %}
     </ul>

@@ -54,7 +54,7 @@
     {# <p>Son siège sociale : <a href="{{ path('details_country', {'id': team.country.id}) }}">{{ team.country }}</a></p> #}
 
     {# creation date of the team #}
-    <p>Date de création : {{ team.creationDate|date_fr('j F Y')}}</p>
+    <p class="creationdate">Date de création : {{ team.creationDate|date_fr('j F Y')}}</p>
 
     {# <div class="wrapper">
         <div class="container">
@@ -83,7 +83,7 @@
 
     {# loop to search every roster  #}
     {% for roster in team.rosters %}
-        <h6>Roster actuel pour {{ roster.game }} :</h6>
+        <h2 class="rosterTitle">Roster actuel pour {{ roster.game }} :</h2>
 
         <section class="wrapper">
 
@@ -97,11 +97,11 @@
 
                         {% if loop.first %}
 
-                            <input type="radio" name="slide" class="rosterRadio" id="{{playerRoster.id}}" checked>
+                            <input type="radio" name="{{roster.game}}" class="rosterRadio" id="{{playerRoster.id}}" checked>
 
                         {% else %}
 
-                            <input type="radio" name="slide" class="rosterRadio" id="{{playerRoster.id}}">
+                            <input type="radio" name="{{roster.game}}" class="rosterRadio" id="{{playerRoster.id}}">
 
                         {% endif %}
                         
@@ -118,7 +118,7 @@
 
                                     <figcaption >
 
-                                        <h4>{{playerRoster.player}}</h4>
+                                        <h4><a href="{{ path('details_player', {'id': playerRoster.player.id}) }}">{{playerRoster.player}}</a></h4>
 
                                         {% if playerRoster.role %}
 
@@ -142,14 +142,24 @@
 
         </section>
 
+        {% set oldPlayer = 0 %}
 
-        {% if roster.playerRosters|length > 1 %}
+        {% for playerRoster in roster.playerRosters %}
 
-            <h6>Anciens joueurs du roster {{ roster.game }} :</h6>
+            {% if playerRoster.playingEndDate %}
 
-        {% elseif roster.playerRosters|length > 0 %}
+                {% set oldPlayer = oldPlayer + 1 %}
+                
+            {% endif %}
             
-            <h6>Ancien joueur du roster {{ roster.game }} :</h6>
+        {% endfor %}
+        {% if oldPlayer > 1 %}
+
+            <h3>Anciens joueurs du roster {{ roster.game }} :</h3>
+
+        {% elseif oldPlayer > 0 %}
+            
+            <h3>Ancien joueur du roster {{ roster.game }} :</h3>
 
         {% else %}
 
@@ -174,11 +184,22 @@
         </ul>
 
 
-        {# link to modify a roster #}
-        <a href="{{ path('edit_roster', {'idRoster': roster.id, 'id': team.id}) }}" class="btn btn-warning">Modifier un roster</a>
+        <div class="rosterButtons">
 
-        {# Link to delete a roster #}
-        <a href="{{ path('delete_roster', {'id': roster.id}) }}" class="btn btn-danger">Supprimer un roster</a>
+            {% if is_granted('ROLE_MODERATOR')%}
+    
+                {# link to modify a roster #}
+                <a href="{{ path('edit_roster', {'idRoster': roster.id, 'id': team.id}) }}" class="btn btn-warning">Modifier un roster</a>
+            
+            {% endif %}
+    
+            {% if is_granted('ROLE_ADMIN') %}
+                {# Link to delete a roster #}
+                <a href="{{ path('delete_roster', {'id': roster.id}) }}" class="btn btn-danger">Supprimer un roster</a>
+            
+            {% endif %}
+        </div>
+
 
     {% endfor %}
 
@@ -186,17 +207,27 @@
     {# Allowing modifications only to moderators and admin #}
     {% if is_granted("ROLE_MODERATOR") or is_granted("ROLE_TEAM") and app.user.team and app.user.team.id == team.id %}
 
-        {# link to add a new roster #}
-        <a href="{{ path('new_roster', {'id': team.id}) }}" class="btn btn-warning">Ajouter un roster</a>
+        <div class="addRosterOrPlayer">
+       
+            {# link to add a new roster #}
+            <a href="{{ path('new_roster', {'id': team.id}) }}" class="btn btn-success">Ajouter un roster</a>
+    
+            {# link to add a new player #}
+            <a href="{{ path('new_player') }}" class="btn btn-success">Ajouter un joueur</a>
 
-        {# link to add a new player #}
-        <a href="{{ path('new_player') }}" class="btn btn-warning">Ajouter un joueur</a>
+        </div>
         
-        {# link to modify a team #}
-        <a href="{{ path('edit_team', {'id': team.id}) }}" class="btn btn-warning">Modifier {{ team }}</a>
-
-        {# link to delete a team #}
-        <a href="{{ path('delete_team', {'id': team.id}) }}" class="btn btn-danger">Supprimer {{ team }}</a>
+        <div class="modifyDeleteButton">
+            
+            {# link to modify a team #}
+            <a href="{{ path('edit_team', {'id': team.id}) }}" class="btn btn-warning">Modifier {{ team }}</a>
+    
+            {% if is_granted("ROLE_ADMIN") %}
+                
+                {# link to delete a team #}
+                <a href="{{ path('delete_team', {'id': team.id}) }}" class="btn btn-danger">Supprimer {{ team }}</a>
+            {% endif %}
+        </div>
     {% endif %}
 
 

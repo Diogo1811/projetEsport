@@ -96,9 +96,13 @@ body{
     font-size: larger;
 }
 
-.dropdown-menu{
+#dropDownList{
     background-image: url(../img/4d3uKwt812GoqIOoWCaUcKG.jpg);
     min-width: 9rem;
+}
+
+#dropDownList a:hover{
+    color: #333;
 }
 
 .userProfilePicture{

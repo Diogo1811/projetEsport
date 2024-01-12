@@ -20,7 +20,7 @@ class PlayerController extends AbstractController
     #[Route('/player', name: 'app_player')]
     public function index(PlayerRepository $playerRepository): Response
     {
-        $players = $playerRepository->findBy([], ['lastName' => 'ASC']);
+        $players = $playerRepository->findBy([], ['nickname' => 'ASC']);
         return $this->render('player/index.html.twig', [
             'players' => $players,
         ]);
