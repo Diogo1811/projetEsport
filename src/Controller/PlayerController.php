@@ -10,6 +10,8 @@ use App\Repository\TeamRepository;
 use App\Repository\UserRepository;
 use App\Repository\PlayerRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,11 +20,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class PlayerController extends AbstractController
 {
     #[Route('/player', name: 'app_player')]
-    public function index(PlayerRepository $playerRepository): Response
+    public function index(PlayerRepository $playerRepository, Request $request, PaginatorInterface $paginator): Response
     {
-        $players = $playerRepository->findBy([], ['nickname' => 'ASC']);
+        // $players = $playerRepository->findBy([], ['nickname' => 'ASC']);
+
+        $players = $paginator->paginate(
+            $playerRepository->paginationQuery(),
+            $request->query->get('page', 1),
+            6
+        );
+
         return $this->render('player/index.html.twig', [
-            'players' => $players,
+            'players' => $players
         ]);
     }
 

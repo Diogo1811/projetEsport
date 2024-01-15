@@ -45,4 +45,12 @@ class PlayerRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+   public function paginationQuery()
+   {
+       return $this->createQueryBuilder('p')
+           ->orderBy('p.nickname', 'ASC')
+           ->getQuery()
+       ;
+   }
 }

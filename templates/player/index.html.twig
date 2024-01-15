@@ -5,17 +5,19 @@
 {% block body %}
     <h1>Liste joueurs</h1>
 
-        <ul id="playersList">
-            {% for player in players %}
-                <li> 
-                    <figure>
-                        <img src="{{ asset('upload/pictures/' ~ player.picture) }}" alt="photo de {{player}}">
-                        <figcaption>
-                            <a href="{{ path('details_player', {'id': player.id}) }}">{{ player }}</a>
-                        </figcaption>
-                    </figure>
-                    
-                </li>
-            {% endfor %}
-        </ul>
+    <ul id="playersList">
+        {% for player in players %}
+            <li> 
+                <figure>
+                    <img src="{{ asset('upload/pictures/' ~ player.picture) }}" alt="photo de {{player}}">
+                    <figcaption>
+                        <a href="{{ path('details_player', {'id': player.id}) }}">{{ player }}</a>
+                    </figcaption>
+                </figure>
+                
+            </li>
+        {% endfor %}
+    </ul>
+
+    {{ knp_pagination_render(players) }}
 {% endblock %}

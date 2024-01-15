@@ -7,7 +7,7 @@
     {# set the age of the player by searching for the difference between today and his birth date. to only have the  #}
     {% set age = date().diff(date(player.birthDate)).y %}
 
-    {{ dump(player) }} 
+    {# {{ dump(player) }}  #}
     <h1>{{player}}</h1>
 
     <section class="playerDetailsContainer">
@@ -58,7 +58,9 @@
 
                     {# if the player has earnings it shows a sentence with how much #}
                     {% if player.earning %}
+                    
                         {{ player.gender == 'Homme' ? ' Il ' : ' Elle ' }}  a actuellement {{ player.earning|number_format(2, ',', ' ') }} euros de gains dans sa carrière.
+                    
                     {% endif %}
                 </p>
 
@@ -180,5 +182,43 @@
             
         {% endif %}
 
+    </div>
+
+    <div class="wrapperPlayer">
+        <div class="left">
+            <figure>
+                <img src="{{ asset('upload/pictures/' ~ player.picture) }}" alt="photo de {{ player }}">
+            </figure>
+            <h1>{{ player }}</h1>
+            <p>{{player}}</p>
+        </div>
+        <div class="right">
+            <div class="info">
+                <h2>Information</h2>
+                <div class="info_data">
+                    <div class="data">
+                        <h3>Email</h3>
+                        <p>test</p>
+                    </div>
+                    <div class="data">
+                        <h3>Phone</h3>
+                        <p>0000</p>
+                    </div>
+                </div>
+            </div>
+            <div class="projects">
+                <h2>Projects</h2>
+                <div class="projects_data">
+                    <div class="data">
+                        <h3>Recent</h3>
+                        <p>test</p>
+                    </div>
+                    <div class="data">
+                        <h3>Most Viewed</h3>
+                        <p>0000</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

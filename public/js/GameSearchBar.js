@@ -63,7 +63,7 @@ window.addEventListener("load", (event) => {
     const searchBar = document.getElementById("searchGameInput");
 
     // la function est appelé à chaque fois qu'une touche est 'up' après avoir appuyé dessus
-    searchBar.addEventListener("input", (e) => {
+    searchBar.addEventListener("keyup", (e) => {
 
         showHint(searchBar.value)
 

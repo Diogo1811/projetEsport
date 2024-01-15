@@ -43,6 +43,67 @@
   margin-right: 5px;
 }
 
+/**********************************************TEST*************************************************/
+.wrapperPlayer{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 450px;
+  display: flex;
+  box-shadow: 0 1px 20px 0 rgba(69,90,100,0.08);
+  
+}
+
+.left{
+  width: 35%;
+  background: linear-gradient(to right, #01a9ac, #01dbdf);
+  padding: 30px 25px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  text-align: center;
+  color: #fff;
+
+}
+
+.left figure,
+.left figure img{
+  width: 100%;
+}
+
+.left figure img{
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.left h1{
+  margin-bottom: 10px;
+}
+
+.left p{
+  font-size: 12px;
+}
+
+.right{
+  width: 65%;
+  background: #fff;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding: 30px 25px;
+}
+
+.infos,
+.projects{
+  margin-bottom: 25px;
+}
+
+.infos h2,
+.projects h2{
+  margin-bottom: 15px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
 /**************** Social Medias  ***************************/
 #playerSocialMedia {
   width: 100%;

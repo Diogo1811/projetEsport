@@ -84,6 +84,8 @@ class TournamentController extends AbstractController
 
             // we get the id of the game of the tournament since the api doesn't allow the add of the game it's not in the tounamentType so not in the $form
             $gameId = $request->request->get('game');
+
+            filter_var($gameId, FILTER_SANITIZE_NUMBER_INT);
             
             // find the object game thanks to his id
             $game = $gameRepository->findOneBy(['id' => $gameId]);
@@ -94,17 +96,27 @@ class TournamentController extends AbstractController
                 // we set the game to the tournament in my database
                 $tournament->setGame($game);
                 
+            }else {
+
+                $this->addFlash('error', 'Veuillez entrer un jeu pour le tournoi !');
+                return $this->redirectToRoute('new_tournament');
             }
 
             // we get the number minimum of players in a roster since the api doesn't allow the add of the game it's not in the tounamentType so not in the $form
             $numberOfPlayer = $request->request->get('numberPlayer');
 
+            filter_var($numberOfPlayer, FILTER_SANITIZE_NUMBER_INT);
+
             // condition to check if the var $numberOfPlayer is not empty
-            if ($numberOfPlayer) {
+            if ($numberOfPlayer > 0) {
                 
                 // we set the number of players in a participing roster to the tournament in my database
                 $tournament->setNumberPlayer($numberOfPlayer);
                 
+            }else {
+
+                $this->addFlash('error', 'Le nombre de joueur ne peut pas être nul ou négatif !');
+                return $this->redirectToRoute('new_tournament');
             }
 
             // we set the name of the tournament in my database
@@ -125,6 +137,7 @@ class TournamentController extends AbstractController
 
             // redirection to the list of tournaments
             return $this->redirectToRoute('app_tournament');
+            
         }
 
         return $this->render('tournament/tournamentForm.html.twig', [
